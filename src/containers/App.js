@@ -1,41 +1,35 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux'
-import { selectReddit, fetchPostsIfNeeded, invalidateReddit } from '../actions'
+import * as redditActions from '../actions';
 import Picker from '../components/Picker'
 import Posts from '../components/Posts'
 
 class App extends Component {
-  static propTypes = {
-    selectedReddit: PropTypes.string.isRequired,
-    posts: PropTypes.array.isRequired,
-    isFetching: PropTypes.bool.isRequired,
-    lastUpdated: PropTypes.number,
-    dispatch: PropTypes.func.isRequired
-  }
 
   componentDidMount() {
-    const { dispatch, selectedReddit } = this.props
-    dispatch(fetchPostsIfNeeded(selectedReddit))
+    const { selectedReddit } = this.props
+    this.props.actions.fetchPostsIfNeeded(selectedReddit)
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.selectedReddit !== this.props.selectedReddit) {
-      const { dispatch, selectedReddit } = nextProps
-      dispatch(fetchPostsIfNeeded(selectedReddit))
+      const { selectedReddit } = nextProps
+      this.props.actions.fetchPostsIfNeeded(selectedReddit)
     }
   }
 
   handleChange = nextReddit => {
-    this.props.dispatch(selectReddit(nextReddit))
+    this.props.actions.selectReddit(nextReddit)
   }
 
   handleRefreshClick = e => {
     e.preventDefault()
 
-    const { dispatch, selectedReddit } = this.props
-    dispatch(invalidateReddit(selectedReddit))
-    dispatch(fetchPostsIfNeeded(selectedReddit))
+    const { selectedReddit } = this.props
+    this.props.actions.invalidateReddit(selectedReddit)
+    this.props.actions.fetchPostsIfNeeded(selectedReddit)
   }
 
   render() {
@@ -89,4 +83,17 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps)(App)
+function mapDispatchToProps(dispatch) {
+	return {
+		actions: bindActionCreators(redditActions, dispatch)
+	}
+}
+
+App.propTypes = {
+    selectedReddit: PropTypes.string.isRequired,
+    posts: PropTypes.array.isRequired,
+    isFetching: PropTypes.bool.isRequired,
+    lastUpdated: PropTypes.number
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)
