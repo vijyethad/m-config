@@ -1,5 +1,20 @@
 body {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    background: #eef1f3;
+}
+
+.modal-label {
+    display: block;
+    text-align: left;
+}
+
+.modal-form {
+    width: 300px;
+    text-align: center;
+}
+
+.ReactModal__Overlay.ReactModal__Overlay--after-open {
+    z-index: 9999;
 }
