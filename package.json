@@ -2,7 +2,7 @@
   "name": "m-config",
   "version": "0.1.0",
   "private": true,
-  "homepage" : "http://vijyethad.github.io/m-config",
+  "homepage": "http://vijyethad.github.io/m-config",
   "dependencies": {
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
@@ -12,11 +12,14 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "devDependencies": {
     "bootstrap": "^3.3.7",
     "fuse.js": "^3.2.0",
+    "gh-pages": "^1.0.0",
     "react-bootstrap": "^0.31.5",
     "react-bootstrap-table": "^4.1.1",
     "react-redux": "^5.0.6",
