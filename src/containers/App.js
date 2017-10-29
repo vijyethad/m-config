@@ -15,6 +15,7 @@ class App extends Component {
 			value: '',
 			tableName: '',
 			tableDescription: '',
+			fieldCount: '',
 			showCreateTableModal: false,
 			showUpdateTableModal: false
 		}
@@ -22,6 +23,8 @@ class App extends Component {
 		this.closeCreateTableModal = this.closeCreateTableModal.bind(this)
 		this.closeUpdateTableModal = this.closeUpdateTableModal.bind(this)
 		this.openUpdateTableModal = this.openUpdateTableModal.bind(this)
+		this.handleInputChange = this.handleInputChange.bind(this)
+		this.submitNewTableDetails = this.submitNewTableDetails.bind(this)
 	}
 
 	componentDidMount() {
@@ -54,9 +57,15 @@ class App extends Component {
 		});
 	}
 
+	submitNewTableDetails() {
+		this.props.actions.createNewTable(this.state.tableName, this.state.tableDescription, this.state.fieldCount);
+	}
+
 	render() {
 		const {tableList} = this.props;
 		const tableListItems = tableList &&  tableList.mXRefResponse ? tableList.mXRefResponse.TblValues.TblValuesData : [];
+
+		console.log(this.props.createTable.isTableCreated);
 
 		return (
 			<div className="App">
@@ -91,11 +100,22 @@ class App extends Component {
 									value={this.state.tableDescription}
 									onChange={this.handleInputChange}/>
 							</label>
+							<br/>
+							<label className="modal-label">
+								Field Count:
+								<input
+									name="fieldCount"
+									type="number"
+									placeholder="Enter nunber of fields..."
+									className="form-control"
+									value={this.state.fieldCount}
+									onChange={this.handleInputChange}/>
+							</label>
 						</form>
 					</Modal.Body>
 					<Modal.Footer>
 						<Button onClick={this.closeCreateTableModal}>Cancel</Button>
-						<Button
+						<Button onClick={this.submitNewTableDetails}
 							bsStyle="primary"
 						>
 							Create new Table
@@ -126,7 +146,8 @@ class App extends Component {
 
 function mapStateToProps(state, props) {
 	return {
-		tableList: state.tableList
+		tableList: state.tableList,
+		createTable: state.createTable
 	};
 }
 
