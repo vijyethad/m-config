@@ -3,6 +3,10 @@ import {
   RECIEVE_CREATE_TABLE_RESPONSE
 } from '../actions/TableActions'
 
+const initialState = {
+  isTableCreated: false
+}
+
 export const tableList = (state={}, action) => {
   switch (action.type) {
     case RECIEVE_TABLE_LIST:
@@ -15,7 +19,7 @@ export const tableList = (state={}, action) => {
   }
 }
 
-export const createTable = (state={}, action) => {
+export const createTable = (state=initialState, action) => {
   switch (action.type) {
     case RECIEVE_CREATE_TABLE_RESPONSE:
       return {

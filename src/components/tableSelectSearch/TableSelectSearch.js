@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {Button, Col} from 'react-bootstrap';
+import React, { Component } from 'react';
+import { Button, Col } from 'react-bootstrap';
 import SelectSearch from 'react-select-search';
 import './TableSelectSearch.css';
 
@@ -11,6 +11,7 @@ class TableSelectSearch extends Component {
 		this.onItemHighlight = this.onItemHighlight.bind(this)
 		this.onItemBlur = this.onItemBlur.bind(this)
 		this.onItemFocus = this.onItemFocus.bind(this)
+		this.setCreateTableModalStateHandler = this.setCreateTableModalStateHandler.bind(this)
 		this.state = {
 			selectedOptions: 0
 		}
@@ -37,6 +38,10 @@ class TableSelectSearch extends Component {
 
 	onItemFocus(value, state, props) {
 		console.log('Focus', value);
+	}
+
+	setCreateTableModalStateHandler() {
+		this.props.setCreateTableModalState(true);
 	}
 
 	render() {
@@ -74,7 +79,7 @@ class TableSelectSearch extends Component {
 						<Button bsStyle="danger" disabled={this.state.selectedOptions === 0}>Delete</Button>
 						<Button
 							bsStyle="primary"
-							onClick={this.props.onClickCreateModal}
+							onClick={this.setCreateTableModalStateHandler}
 						>
 							+ Create new Table
 						</Button>

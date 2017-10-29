@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {Button, Modal} from 'react-bootstrap';
+import React, { Component } from 'react';
+import { Button, Modal } from 'react-bootstrap';
 
 export default class CreateTableModal extends Component {
 	constructor(props) {
@@ -12,6 +12,7 @@ export default class CreateTableModal extends Component {
 		}
 		this.handleInputChange = this.handleInputChange.bind(this)
 		this.submitNewTableDetails = this.submitNewTableDetails.bind(this)
+		this.setCreateTableModalStateHandler = this.setCreateTableModalStateHandler.bind(this)
 	}
 
 	handleInputChange(event) {
@@ -21,6 +22,15 @@ export default class CreateTableModal extends Component {
 
 		this.setState({
 			[name]: value
+		});
+	}
+
+	setCreateTableModalStateHandler() {
+		this.props.setCreateTableModalState(false);
+		this.setState({
+			tableName: '',
+			tableDescription: '',
+			fieldCount: ''
 		});
 	}
 
@@ -50,7 +60,7 @@ export default class CreateTableModal extends Component {
 
 	render() {
 		return (
-				<Modal show={this.props.showCreateTableModal} onHide={this.props.closeCreateTableModal}>
+				<Modal show={this.props.shouldShowCreateTableModal} onHide={this.setCreateTableModalStateHandler}>
 					<Modal.Header closeButton>
 						<Modal.Title>Create New Table</Modal.Title>
 					</Modal.Header>
@@ -64,7 +74,7 @@ export default class CreateTableModal extends Component {
 						</form>
 					</Modal.Body>
 					<Modal.Footer>
-						<Button onClick={this.props.closeCreateTableModal}>Cancel</Button>
+						<Button onClick={this.setCreateTableModalStateHandler}>Cancel</Button>
 						<Button onClick={this.submitNewTableDetails}
 							bsStyle="primary"
 						>

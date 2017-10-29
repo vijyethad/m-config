@@ -1,9 +1,10 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import * as tableActions from '../actions/TableActions';
+import * as modalActions from '../actions/ModalActions';
 import './App.css';
-import {Button, Modal} from 'react-bootstrap';
+import { Button, Modal } from 'react-bootstrap';
 import Header from '../components/header/Header';
 import UpdateTable from '../components/updateTable/UpdateTable';
 import CreateTableModal from '../components/createTable/CreateTableModal';
@@ -16,22 +17,12 @@ class App extends Component {
 			showCreateTableModal: false,
 			showUpdateTableModal: false
 		}
-		this.openCreateTableModal = this.openCreateTableModal.bind(this)
-		this.closeCreateTableModal = this.closeCreateTableModal.bind(this)
 		this.closeUpdateTableModal = this.closeUpdateTableModal.bind(this)
 		this.openUpdateTableModal = this.openUpdateTableModal.bind(this)
 	}
 
 	componentDidMount() {
-		this.props.actions.fetchTableList();
-	}
-
-	closeCreateTableModal() {
-		this.setState({showCreateTableModal: false});
-	}
-
-	openCreateTableModal() {
-		this.setState({showCreateTableModal: true});
+		this.props.tableActions.fetchTableList();
 	}
 
 	closeUpdateTableModal() {
@@ -46,22 +37,24 @@ class App extends Component {
 		const {tableList} = this.props;
 		const tableListItems = tableList &&  tableList.mXRefResponse ? tableList.mXRefResponse.TblValues.TblValuesData : [];
 
-		console.log(this.props.createTable.isTableCreated);
+		console.log('isTableCreated: ' + this.props.createTable.isTableCreated);
+		console.log('shouldShowCreateTableModal: ' + this.props.modalState.shouldShowCreateTableModal);
 
 		return (
 			<div className="App">
 				<Header/>
 				<TableSelectSearch
-					onClickCreateModal={this.openCreateTableModal}
 					onClickUpdateModal={this.openUpdateTableModal}
+					setCreateTableModalState={this.props.modalActions.setCreateTableModalState}
 					items={tableListItems}
 				/>
-			<CreateTableModal
-					showCreateTableModal={this.state.showCreateTableModal}
-					closeCreateTableModal={this.closeCreateTableModal}
-					createNewTable={this.props.actions.createNewTable}
-			/>
-			{this.props.createTable && this.props.createTable.isTableCreated ? <div></div> : <div></div>}
+				<CreateTableModal
+						shouldShowCreateTableModal={this.props.modalState.shouldShowCreateTableModal}
+						createNewTable={this.props.tableActions.createNewTable}
+						setCreateTableModalState={this.props.modalActions.setCreateTableModalState}
+						isTableCreated={this.props.createTable.isTableCreated}
+				/>
+				{this.props.createTable && this.props.createTable.isTableCreated ? <div></div> : <div></div>}
 
 				<Modal show={this.state.showUpdateTableModal} onHide={this.closeUpdateTableModal}>
 					<Modal.Header closeButton>
@@ -87,13 +80,15 @@ class App extends Component {
 function mapStateToProps(state, props) {
 	return {
 		tableList: state.tableList,
-		createTable: state.createTable
+		createTable: state.createTable,
+		modalState: state.modalState
 	};
 }
 
 function mapDispatchToProps(dispatch) {
 	return {
-		actions: bindActionCreators(tableActions, dispatch)
+		tableActions: bindActionCreators(tableActions, dispatch),
+		modalActions: bindActionCreators(modalActions, dispatch)
 	}
 }
 

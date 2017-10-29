@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
+import React, { Component } from 'react';
+import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 
 const products = [];
 
@@ -19,7 +19,7 @@ addProducts(5);
 
 function onAfterInsertRow(row) {
 	let newRowStr = '';
-	
+
 	for (const prop in row) {
 		newRowStr += prop + ': ' + row[prop] + ' \n';
 	}
