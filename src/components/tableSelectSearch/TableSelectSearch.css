@@ -48,9 +48,10 @@ input[type=search] {
     right: 0;
     background: #ffffff;
     overflow: auto;
-    padding-top: 60px;
+    /*padding-top: 60px;*/
     text-align: left;
     padding-left: 26px;
+    margin-top: 58px;
     /*border-bottom: 4px solid #cac6c4;*/
     /* border-top: 5px solid #e47168; */
     /*box-shadow: 0 9px 25px rgba(0,0,0,.15);*/

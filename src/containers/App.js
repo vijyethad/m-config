@@ -1,21 +1,18 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import * as tableActions from '../actions';
+import * as tableActions from '../actions/TableActions';
 import './App.css';
 import {Button, Modal} from 'react-bootstrap';
 import Header from '../components/header/Header';
 import UpdateTable from '../components/updateTable/UpdateTable';
+import CreateTableModal from '../components/createTable/CreateTableModal';
 import TableSelectSearch from '../components/tableSelectSearch/TableSelectSearch';
 
 class App extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			value: '',
-			tableName: '',
-			tableDescription: '',
-			fieldCount: '',
 			showCreateTableModal: false,
 			showUpdateTableModal: false
 		}
@@ -23,8 +20,6 @@ class App extends Component {
 		this.closeCreateTableModal = this.closeCreateTableModal.bind(this)
 		this.closeUpdateTableModal = this.closeUpdateTableModal.bind(this)
 		this.openUpdateTableModal = this.openUpdateTableModal.bind(this)
-		this.handleInputChange = this.handleInputChange.bind(this)
-		this.submitNewTableDetails = this.submitNewTableDetails.bind(this)
 	}
 
 	componentDidMount() {
@@ -47,20 +42,6 @@ class App extends Component {
 		this.setState({showUpdateTableModal: true});
 	}
 
-	handleInputChange(event) {
-		const target = event.target;
-		const value = target.type === 'checkbox' ? target.checked : target.value;
-		const name = target.name;
-
-		this.setState({
-			[name]: value
-		});
-	}
-
-	submitNewTableDetails() {
-		this.props.actions.createNewTable(this.state.tableName, this.state.tableDescription, this.state.fieldCount);
-	}
-
 	render() {
 		const {tableList} = this.props;
 		const tableListItems = tableList &&  tableList.mXRefResponse ? tableList.mXRefResponse.TblValues.TblValuesData : [];
@@ -75,53 +56,12 @@ class App extends Component {
 					onClickUpdateModal={this.openUpdateTableModal}
 					items={tableListItems}
 				/>
-				<Modal show={this.state.showCreateTableModal} onHide={this.closeCreateTableModal}>
-					<Modal.Header closeButton>
-						<Modal.Title>Create New Table</Modal.Title>
-					</Modal.Header>
-					<Modal.Body>
-						<form className="modal-form">
-							<label className="modal-label">
-								Table Name:
-								<input
-									name="tableName"
-									type="text"
-									className="form-control"
-									value={this.state.tableName}
-									onChange={this.handleInputChange}/>
-							</label>
-							<br/>
-							<label className="modal-label">
-								Table Description:
-								<input
-									name="tableDescription"
-									type="text"
-									className="form-control"
-									value={this.state.tableDescription}
-									onChange={this.handleInputChange}/>
-							</label>
-							<br/>
-							<label className="modal-label">
-								Field Count:
-								<input
-									name="fieldCount"
-									type="number"
-									placeholder="Enter nunber of fields..."
-									className="form-control"
-									value={this.state.fieldCount}
-									onChange={this.handleInputChange}/>
-							</label>
-						</form>
-					</Modal.Body>
-					<Modal.Footer>
-						<Button onClick={this.closeCreateTableModal}>Cancel</Button>
-						<Button onClick={this.submitNewTableDetails}
-							bsStyle="primary"
-						>
-							Create new Table
-						</Button>
-					</Modal.Footer>
-				</Modal>
+			<CreateTableModal
+					showCreateTableModal={this.state.showCreateTableModal}
+					closeCreateTableModal={this.closeCreateTableModal}
+					createNewTable={this.props.actions.createNewTable}
+			/>
+			{this.props.createTable && this.props.createTable.isTableCreated ? <div></div> : <div></div>}
 
 				<Modal show={this.state.showUpdateTableModal} onHide={this.closeUpdateTableModal}>
 					<Modal.Header closeButton>
@@ -156,6 +96,5 @@ function mapDispatchToProps(dispatch) {
 		actions: bindActionCreators(tableActions, dispatch)
 	}
 }
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
