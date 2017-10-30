@@ -1,3 +1,4 @@
+import { setCreateTableModalState } from './ModalActions'
 export const RECIEVE_TABLE_LIST = 'RECIEVE_TABLE_LIST'
 export const RECIEVE_CREATE_TABLE_RESPONSE = 'RECIEVE_CREATE_TABLE_RESPONSE'
 
@@ -59,5 +60,10 @@ export const createNewTable = (tableName, tableDescription, fieldCount) => dispa
     )
   })
     .then(response => response.json())
-    .then(json => dispatch(recieveCreateTableResponse(json)))
+    .then(json => {
+      if(json.mXRefResponse.TblList.EXECUTION_STATUS) {
+        dispatch(setCreateTableModalState(false))
+      }
+        dispatch(recieveCreateTableResponse(json))
+    })
 }

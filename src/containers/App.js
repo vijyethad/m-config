@@ -8,6 +8,7 @@ import { Button, Modal } from 'react-bootstrap';
 import Header from '../components/header/Header';
 import UpdateTable from '../components/updateTable/UpdateTable';
 import CreateTableModal from '../components/createTable/CreateTableModal';
+import EnterFieldInfoModal from '../components/createTable/EnterFieldInfoModal';
 import TableSelectSearch from '../components/tableSelectSearch/TableSelectSearch';
 
 class App extends Component {
@@ -54,7 +55,7 @@ class App extends Component {
 						setCreateTableModalState={this.props.modalActions.setCreateTableModalState}
 						isTableCreated={this.props.createTable.isTableCreated}
 				/>
-				{this.props.createTable && this.props.createTable.isTableCreated ? <div></div> : <div></div>}
+				{this.props.createTable.isTableCreated ? <div></div> : <EnterFieldInfoModal />}
 
 				<Modal show={this.state.showUpdateTableModal} onHide={this.closeUpdateTableModal}>
 					<Modal.Header closeButton>

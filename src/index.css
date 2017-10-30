@@ -18,3 +18,15 @@ body {
 .ReactModal__Overlay.ReactModal__Overlay--after-open {
     z-index: 9999;
 }
+
+.input-group.four-input {
+    width: 22%;
+    border-right-width: 1px;
+    display: -webkit-box;
+    padding-top: 25px;
+}
+
+.four-input-label {
+  margin-top: 5px;
+  margin-right: 10px;
+}
