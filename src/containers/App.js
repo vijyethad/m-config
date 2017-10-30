@@ -21,26 +21,26 @@ class App extends Component {
 		this.closeUpdateTableModal = this.closeUpdateTableModal.bind(this)
 		this.openUpdateTableModal = this.openUpdateTableModal.bind(this)
 	}
-
+	
 	componentDidMount() {
 		this.props.tableActions.fetchTableList();
 	}
-
+	
 	closeUpdateTableModal() {
 		this.setState({showUpdateTableModal: false});
 	}
-
+	
 	openUpdateTableModal() {
 		this.setState({showUpdateTableModal: true});
 	}
-
+	
 	render() {
 		const {tableList} = this.props;
 		const tableListItems = tableList &&  tableList.mXRefResponse ? tableList.mXRefResponse.TblValues.TblValuesData : [];
-
+		
 		console.log('isTableCreated: ' + this.props.createTable.isTableCreated);
 		console.log('shouldShowCreateTableModal: ' + this.props.modalState.shouldShowCreateTableModal);
-
+		
 		return (
 			<div className="App">
 				<Header/>
@@ -50,13 +50,13 @@ class App extends Component {
 					items={tableListItems}
 				/>
 				<CreateTableModal
-						shouldShowCreateTableModal={this.props.modalState.shouldShowCreateTableModal}
-						createNewTable={this.props.tableActions.createNewTable}
-						setCreateTableModalState={this.props.modalActions.setCreateTableModalState}
-						isTableCreated={this.props.createTable.isTableCreated}
+					shouldShowCreateTableModal={this.props.modalState.shouldShowCreateTableModal}
+					createNewTable={this.props.tableActions.createNewTable}
+					setCreateTableModalState={this.props.modalActions.setCreateTableModalState}
+					isTableCreated={this.props.createTable.isTableCreated}
 				/>
 				{this.props.createTable.isTableCreated ? <div></div> : <EnterFieldInfoModal />}
-
+				
 				<Modal show={this.state.showUpdateTableModal} onHide={this.closeUpdateTableModal}>
 					<Modal.Header closeButton>
 						<Modal.Title>Update Table</Modal.Title>

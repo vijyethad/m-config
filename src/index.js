@@ -11,17 +11,17 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
 const middleware = [ thunk ]
 if (process.env.NODE_ENV !== 'production') {
-  middleware.push(createLogger())
+	middleware.push(createLogger())
 }
 
 const store = createStore(
-  reducer,
-  applyMiddleware(...middleware)
+	reducer,
+	applyMiddleware(...middleware)
 )
 
 render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
-  document.getElementById('root')
+    <Provider store={store}>
+        <App />
+    </Provider>,
+	document.getElementById('root')
 )

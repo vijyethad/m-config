@@ -16,38 +16,38 @@ class TableSelectSearch extends Component {
 			selectedOptions: 0
 		}
 	}
-
+	
 	onItemMount(value) {
 		console.log('Mount', value);
 	}
-
+	
 	onItemChange(value, state, props) {
 		console.log('Change', value);
 		this.setState({
 			selectedOptions: value.length
 		});
 	}
-
+	
 	onItemHighlight(value, state, props) {
 		console.log('Highlight', value);
 	}
-
+	
 	onItemBlur(value, state, props) {
 		console.log('Blur', value);
 	}
-
+	
 	onItemFocus(value, state, props) {
 		console.log('Focus', value);
 	}
-
+	
 	setCreateTableModalStateHandler() {
 		this.props.setCreateTableModalState(true);
 	}
-
+	
 	render() {
 		const tableList = [];
 		this.props.items.map(item => tableList.push({name: item.RecordInfo, value: item.RecordInfo}))
-
+		
 		return (
 			<div className="toolbar">
 				<br />

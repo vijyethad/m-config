@@ -19,7 +19,6 @@ addProducts(5);
 
 function onAfterInsertRow(row) {
 	let newRowStr = '';
-
 	for (const prop in row) {
 		newRowStr += prop + ': ' + row[prop] + ' \n';
 	}

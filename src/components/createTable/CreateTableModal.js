@@ -19,7 +19,6 @@ export default class CreateTableModal extends Component {
 		const target = event.target;
 		const value = target.type === 'checkbox' ? target.checked : target.value;
 		const name = target.name;
-
 		this.setState({
 			[name]: value
 		});
@@ -60,28 +59,28 @@ export default class CreateTableModal extends Component {
 
 	render() {
 		return (
-				<Modal show={this.props.shouldShowCreateTableModal} onHide={this.setCreateTableModalStateHandler}>
-					<Modal.Header closeButton>
-						<Modal.Title>Create New Table</Modal.Title>
-					</Modal.Header>
-					<Modal.Body>
-						<form className="modal-form">
-							{this.renderInput("Table Name:", "tableName", "text", this.state.tableName)}
-							<br/>
-							{this.renderInput("Table Description:", "tableDescription", "text", this.state.tableDescription)}
-							<br/>
-							{this.renderInput("Field Count:", "fieldCount", "number", this.state.fieldCount, "Enter nunber of fields...")}
-						</form>
-					</Modal.Body>
-					<Modal.Footer>
-						<Button onClick={this.setCreateTableModalStateHandler}>Cancel</Button>
-						<Button onClick={this.submitNewTableDetails}
-							bsStyle="primary"
-						>
-							Create new Table
-						</Button>
-					</Modal.Footer>
-				</Modal>
+			<Modal show={this.props.shouldShowCreateTableModal} onHide={this.setCreateTableModalStateHandler}>
+				<Modal.Header closeButton>
+					<Modal.Title>Create New Table</Modal.Title>
+				</Modal.Header>
+				<Modal.Body>
+					<form className="modal-form">
+						{this.renderInput("Table Name:", "tableName", "text", this.state.tableName)}
+						<br/>
+						{this.renderInput("Table Description:", "tableDescription", "text", this.state.tableDescription)}
+						<br/>
+						{this.renderInput("Field Count:", "fieldCount", "number", this.state.fieldCount, "Enter nunber of fields...")}
+					</form>
+				</Modal.Body>
+				<Modal.Footer>
+					<Button onClick={this.setCreateTableModalStateHandler}>Cancel</Button>
+					<Button onClick={this.submitNewTableDetails}
+					        bsStyle="primary"
+					>
+						Create new Table
+					</Button>
+				</Modal.Footer>
+			</Modal>
 		);
 	}
 }
