@@ -21,29 +21,30 @@ class App extends Component {
 		this.closeUpdateTableModal = this.closeUpdateTableModal.bind(this)
 		this.openUpdateTableModal = this.openUpdateTableModal.bind(this)
 	}
-	
+
 	componentDidMount() {
 		this.props.tableActions.fetchTableList();
 	}
-	
+
 	closeUpdateTableModal() {
 		this.setState({showUpdateTableModal: false});
 	}
-	
+
 	openUpdateTableModal() {
 		this.setState({showUpdateTableModal: true});
 	}
-	
+
 	render() {
 		const {tableList} = this.props;
 		const tableListItems = tableList &&  tableList.mXRefResponse ? tableList.mXRefResponse.TblValues.TblValuesData : [];
-		
+
 		console.log('isTableCreated: ' + this.props.createTable.isTableCreated);
 		console.log('shouldShowCreateTableModal: ' + this.props.modalState.shouldShowCreateTableModal);
-		
+
 		return (
 			<div className="App">
 				<Header/>
+				{this.props.insertTableFields.isFieldsInfoInserted ? <p className="alert alert-success">Your table and fields are created successfully!</p> : null}
 				<TableSelectSearch
 					onClickUpdateModal={this.openUpdateTableModal}
 					setCreateTableModalState={this.props.modalActions.setCreateTableModalState}
@@ -55,8 +56,15 @@ class App extends Component {
 					setCreateTableModalState={this.props.modalActions.setCreateTableModalState}
 					isTableCreated={this.props.createTable.isTableCreated}
 				/>
-				{this.props.createTable.isTableCreated ? <div></div> : <EnterFieldInfoModal />}
-				
+				{
+					!this.props.createTable.isTableCreated ? <div></div> :
+					<EnterFieldInfoModal
+						shouldShowFieldInfoModal={this.props.modalState.shouldShowFieldInfoModal}
+						setFieldInfoModalState={this.props.modalActions.setFieldInfoModalState}
+						insertTableFieldsData={this.props.tableActions.insertTableFieldsData}
+					/>
+				}
+
 				<Modal show={this.state.showUpdateTableModal} onHide={this.closeUpdateTableModal}>
 					<Modal.Header closeButton>
 						<Modal.Title>Update Table</Modal.Title>
@@ -82,7 +90,8 @@ function mapStateToProps(state, props) {
 	return {
 		tableList: state.tableList,
 		createTable: state.createTable,
-		modalState: state.modalState
+		modalState: state.modalState,
+		insertTableFields: state.insertTableFields
 	};
 }
 

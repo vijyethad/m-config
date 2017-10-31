@@ -1,9 +1,11 @@
 import {
-	SET_CREATE_TABLE_MODAL_STATE
+	SET_CREATE_TABLE_MODAL_STATE,
+	SET_FIELD_INFO_MODAL_STATE
 } from '../actions/ModalActions'
 
 const initialState = {
-	shouldShowCreateTableModal: false
+	shouldShowCreateTableModal: false,
+	shouldShowFieldInfoModal: true
 }
 
 export const modalState = (state=initialState, action) => {
@@ -12,6 +14,11 @@ export const modalState = (state=initialState, action) => {
 			return {
 				...state,
 				shouldShowCreateTableModal: action.shouldShowCreateTableModal
+			}
+		case SET_FIELD_INFO_MODAL_STATE:
+			return {
+				...state,
+				shouldShowFieldInfoModal: action.shouldShowFieldInfoModal
 			}
 		default:
 			return state

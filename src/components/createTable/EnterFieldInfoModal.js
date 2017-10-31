@@ -4,33 +4,34 @@ import { Button, Modal } from 'react-bootstrap';
 export default class EnterFieldInfoModal extends Component {
 	constructor() {
 		super();
+		this.setFieldInfoModalStateHandler = this.setFieldInfoModalStateHandler.bind(this);
 		this.state = {
-			fieldDetails: [],
+			tableFieldsData: [],
 		};
 	}
 
 	componentDidMount() {
 		let stateCopies = []
-		for(var i=0; i < 5; i++) {
+		for(var i=0; i < 2; i++) {
 			stateCopies.push([{ fieldName: '', fieldType: '', fieldDescription: '', fieldKeyFlag: '' }])
 		}
-		this.setState({ fieldDetails: this.state.fieldDetails.concat(stateCopies) });
+		this.setState({ tableFieldsData: this.state.tableFieldsData.concat(stateCopies) });
 	}
 
 	handleShareholderNameChange = (index) => (event) => {
 		const target = event.target;
 		const value = target.value;
 		const name = target.name;
-		const newFieldDetails = this.state.fieldDetails.map((fieldDetails, sidx) => {
-			if (index !== sidx) return fieldDetails;
-			return { ...fieldDetails, [name]: value };
+		const newFieldDetails = this.state.tableFieldsData.map((tableFieldsData, sidx) => {
+			if (index !== sidx) return tableFieldsData;
+			return { ...tableFieldsData, [name]: value };
 		});
-		this.setState({ fieldDetails: newFieldDetails });
+		this.setState({ tableFieldsData: newFieldDetails });
 	}
 
 	handleSubmit = (event) => {
-		const { fieldDetails } = this.state;
-		console.log(fieldDetails);
+		const { tableFieldsData } = this.state;
+		this.props.insertTableFieldsData('table name', tableFieldsData)
 	}
 
 	renderInput(inputName, inputPlaceholder, inputValue, index) {
@@ -46,28 +47,32 @@ export default class EnterFieldInfoModal extends Component {
 		)
 	}
 
+	setFieldInfoModalStateHandler() {
+		this.props.setFieldInfoModalState(false);
+	}
+
 	render() {
 		return (
-			<Modal show={true} onHide={this.setCreateTableModalStateHandler}>
+			<Modal show={this.props.shouldShowFieldInfoModal} onHide={this.setFieldInfoModalStateHandler}>
 				<Modal.Header closeButton>
 					<Modal.Title>Enter Fields Information</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
 					<form>
 						<p className="alert alert-success">Your table is created successfully!</p>
-						{this.state.fieldDetails.map((fieldDetails, index) => (
+						{this.state.tableFieldsData.map((tableFieldsData, index) => (
 							<div className="input-group four-input" key={index}>
 								<div className="four-input-label"><strong>Field {index+1}:</strong></div>
-								{this.renderInput("fieldName", "Field Name", fieldDetails.fieldName, index)}
-								{this.renderInput("fieldType", "Field Type", fieldDetails.fieldType, index)}
-								{this.renderInput("fieldDescription", "Field Description", fieldDetails.fieldDescription, index)}
-								{this.renderInput("fieldKeyFlag", "Field Key Flag", fieldDetails.fieldKeyFlag, index)}
+								{this.renderInput("fieldName", "Field Name", tableFieldsData.fieldName, index)}
+								{this.renderInput("fieldType", "Field Type", tableFieldsData.fieldType, index)}
+								{this.renderInput("fieldDescription", "Field Description", tableFieldsData.fieldDescription, index)}
+								{this.renderInput("fieldKeyFlag", "Field Key Flag", tableFieldsData.fieldKeyFlag, index)}
 							</div>
 						))}
 					</form>
 				</Modal.Body>
 				<Modal.Footer>
-					<Button onClick={this.setCreateTableModalStateHandler}>Cancel</Button>
+					<Button onClick={this.setFieldInfoModalStateHandler}>Cancel</Button>
 					<Button onClick={this.handleSubmit}
 					        bsStyle="primary"
 					>
