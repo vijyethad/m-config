@@ -2,6 +2,13 @@ import { setCreateTableModalState, setFieldInfoModalState } from './ModalActions
 export const RECIEVE_TABLE_LIST = 'RECIEVE_TABLE_LIST'
 export const RECIEVE_CREATE_TABLE_RESPONSE = 'RECIEVE_CREATE_TABLE_RESPONSE'
 export const RECIEVE_INSERT_TABLE_FIELDS_RESPONSE = 'RECIEVE_INSERT_TABLE_FIELDS_RESPONSE'
+export const SET_SELECTED_OPTIONS = 'SET_SELECTED_OPTIONS'
+export const RECIEVE_DELETE_TABLES_RESPONSE = 'RECIEVE_DELETE_TABLES_RESPONSE'
+
+export const setSelectedOptions = selectedOptions => ({
+	type: SET_SELECTED_OPTIONS,
+	selectedOptions
+})
 
 export const recieveTableList = json => ({
 	type: RECIEVE_TABLE_LIST,
@@ -112,4 +119,38 @@ export const insertTableFieldsData = (tableName, tableFieldsData) => dispatch =>
 			}
 			dispatch(recieveInsertTableFieldsResponse(json))
 		})
+}
+
+export const recieveDeleteTablesResponse = json => ({
+	type: RECIEVE_DELETE_TABLES_RESPONSE,
+	deleteTablesResponse: json
+})
+
+export const deleteTables = (tablesList) => dispatch => {
+	const TblListData = [];
+	tablesList.map(tableName => TblListData.push({
+			"TBL_NAME": tableName.value,
+			"TABLE_REC_NO": null
+		})
+	)
+
+	return fetch(`http://mxref-proxy.cloudhub.io/delete/`, {
+		method: 'post',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(
+			{
+			  "mXRefRequest": {
+			    "TblValues": {
+			      "ACTION": "Delete",
+			      "ENTITY": "Table",
+			      "TblListData": TblListData
+			    }
+			  }
+			}
+		)
+	})
+		.then(response => response.json())
+		.then(json => dispatch(recieveDeleteTablesResponse(json)))
 }

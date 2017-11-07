@@ -105,7 +105,6 @@ input[type=search] {
 .list-heading-hr {
     position: absolute;
     margin-top: 70px;
-    z-index: 999;
     width: 85.4%;
     margin-left: 0%;
     /*margin-left: 2%;*/

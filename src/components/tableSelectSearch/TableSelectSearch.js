@@ -1,53 +1,54 @@
 import React, { Component } from 'react';
 import { Button, Col } from 'react-bootstrap';
 import SelectSearch from 'react-select-search';
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css'
 import './TableSelectSearch.css';
 
 class TableSelectSearch extends Component {
 	constructor(props) {
 		super(props);
-		this.onItemMount = this.onItemMount.bind(this)
 		this.onItemChange = this.onItemChange.bind(this)
-		this.onItemHighlight = this.onItemHighlight.bind(this)
-		this.onItemBlur = this.onItemBlur.bind(this)
-		this.onItemFocus = this.onItemFocus.bind(this)
 		this.setCreateTableModalStateHandler = this.setCreateTableModalStateHandler.bind(this)
+		this.deleteTableHandler = this.deleteTableHandler.bind(this)
+		this.onDeleteClick = this.onDeleteClick.bind(this)
 		this.state = {
 			selectedOptions: 0
 		}
 	}
-	
-	onItemMount(value) {
-		console.log('Mount', value);
-	}
-	
+
 	onItemChange(value, state, props) {
 		console.log('Change', value);
 		this.setState({
 			selectedOptions: value.length
 		});
+		this.props.setSelectedOptions(value)
 	}
-	
-	onItemHighlight(value, state, props) {
-		console.log('Highlight', value);
-	}
-	
-	onItemBlur(value, state, props) {
-		console.log('Blur', value);
-	}
-	
-	onItemFocus(value, state, props) {
-		console.log('Focus', value);
-	}
-	
+
 	setCreateTableModalStateHandler() {
 		this.props.setCreateTableModalState(true);
 	}
-	
+
+	onDeleteClick = () => {
+		confirmAlert({
+			title: 'Confirm to submit',
+			childrenElement: () =>
+				<div>Are you sure to delete the tables {this.props.selectedOptions.map(option => <li>{option.value}</li>)}</div>,
+			confirmLabel: 'Confirm',
+			cancelLabel: 'Cancel',
+			onConfirm: () => this.deleteTableHandler(),
+			onCancel: () => console.log('User canceled delete operation'),
+		})
+	}
+
+	deleteTableHandler() {
+		this.props.deleteTables(this.props.selectedOptions);
+	}
+
 	render() {
 		const tableList = [];
 		this.props.items.map(item => tableList.push({name: item.RecordInfo, value: item.RecordInfo}))
-		
+
 		return (
 			<div className="toolbar">
 				<br />
@@ -60,11 +61,7 @@ class TableSelectSearch extends Component {
 						multiple
 						height={500}
 						placeholder="Filter the tables"
-						onMount={this.onItemMount}
 						onChange={this.onItemChange}
-						onHighlight={this.onItemHighlight}
-						onBlur={this.onItemBlur}
-						onFocus={this.onItemFocus}
 					/>
 				</Col>
 				<Col md={4}>
@@ -76,7 +73,13 @@ class TableSelectSearch extends Component {
 						>
 							Update
 						</Button>
-						<Button bsStyle="danger" disabled={this.state.selectedOptions === 0}>Delete</Button>
+						<Button
+							bsStyle="danger"
+							disabled={this.state.selectedOptions === 0}
+							onClick={this.onDeleteClick}
+						>
+							Delete
+						</Button>
 						<Button
 							bsStyle="primary"
 							onClick={this.setCreateTableModalStateHandler}

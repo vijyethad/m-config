@@ -1,7 +1,9 @@
 import {
 	RECIEVE_TABLE_LIST,
 	RECIEVE_CREATE_TABLE_RESPONSE,
-	RECIEVE_INSERT_TABLE_FIELDS_RESPONSE
+	RECIEVE_INSERT_TABLE_FIELDS_RESPONSE,
+	SET_SELECTED_OPTIONS,
+	RECIEVE_DELETE_TABLES_RESPONSE
 } from '../actions/TableActions'
 
 export const tableList = (state={}, action) => {
@@ -10,6 +12,16 @@ export const tableList = (state={}, action) => {
 			return {
 				...state,
 				...action.tableList
+			}
+		case SET_SELECTED_OPTIONS:
+			return {
+				...state,
+				selectedOptions: action.selectedOptions
+			}
+		case RECIEVE_DELETE_TABLES_RESPONSE:
+			return {
+				...state,
+				deleteTablesResponse: action.deleteTablesResponse
 			}
 		default:
 			return state

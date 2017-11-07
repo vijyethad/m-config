@@ -26,6 +26,11 @@ class App extends Component {
 		this.props.tableActions.fetchTableList();
 	}
 
+	componentWillReceiveProps(nextProps) {
+		const isTableDeleted = nextProps.tableList.deleteTablesResponse && nextProps.tableList.deleteTablesResponse.mXRefResponse.TblValues.EXECUTION_STATUS ? nextProps.tableList.deleteTablesResponse.mXRefResponse.TblValues.EXECUTION_STATUS : ''
+		if(isTableDeleted === "false") window.location.reload();
+	}
+
 	closeUpdateTableModal() {
 		this.setState({showUpdateTableModal: false});
 	}
@@ -36,7 +41,7 @@ class App extends Component {
 
 	render() {
 		const {tableList} = this.props;
-		const tableListItems = tableList &&  tableList.mXRefResponse ? tableList.mXRefResponse.TblValues.TblValuesData : [];
+		const tableListItems = tableList && tableList.mXRefResponse ? tableList.mXRefResponse.TblValues.TblValuesData : [];
 
 		console.log('isTableCreated: ' + this.props.createTable.isTableCreated);
 		console.log('shouldShowCreateTableModal: ' + this.props.modalState.shouldShowCreateTableModal);
@@ -48,6 +53,9 @@ class App extends Component {
 				<TableSelectSearch
 					onClickUpdateModal={this.openUpdateTableModal}
 					setCreateTableModalState={this.props.modalActions.setCreateTableModalState}
+					setSelectedOptions={this.props.tableActions.setSelectedOptions}
+					selectedOptions={this.props.tableList.selectedOptions}
+					deleteTables={this.props.tableActions.deleteTables}
 					items={tableListItems}
 				/>
 				<CreateTableModal
