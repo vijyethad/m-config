@@ -5,7 +5,7 @@ import {
 
 const initialState = {
 	shouldShowCreateTableModal: false,
-	shouldShowFieldInfoModal: true
+	shouldShowFieldInfoModal: false
 }
 
 export const modalState = (state=initialState, action) => {

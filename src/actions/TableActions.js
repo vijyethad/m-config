@@ -37,7 +37,9 @@ export const fetchTableList = () => dispatch => {
 
 export const recieveCreateTableResponse = json => ({
 	type: RECIEVE_CREATE_TABLE_RESPONSE,
-	isTableCreated: json.mXRefResponse.TblList.EXECUTION_STATUS
+	isTableCreated: json.mXRefResponse.TblList.EXECUTION_STATUS,
+	tableName: json.mXRefResponse.TblList.TBL_NAME,
+	fieldCount: json.mXRefResponse.TblList.FLD_COUNT
 })
 
 export const createNewTable = (tableName, tableDescription, fieldCount) => dispatch => {
@@ -71,6 +73,7 @@ export const createNewTable = (tableName, tableDescription, fieldCount) => dispa
 		.then(json => {
 			if(json.mXRefResponse.TblList.EXECUTION_STATUS) {
 				dispatch(setCreateTableModalState(false))
+				dispatch(setFieldInfoModalState(true))
 			}
 			dispatch(recieveCreateTableResponse(json))
 		})

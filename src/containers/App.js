@@ -28,7 +28,8 @@ class App extends Component {
 
 	componentWillReceiveProps(nextProps) {
 		const isTableDeleted = nextProps.tableList.deleteTablesResponse && nextProps.tableList.deleteTablesResponse.mXRefResponse.TblValues.EXECUTION_STATUS ? nextProps.tableList.deleteTablesResponse.mXRefResponse.TblValues.EXECUTION_STATUS : ''
-		if(isTableDeleted === "false") window.location.reload();
+		const isFieldsInfoInserted = nextProps.insertTableFields.isFieldsInfoInserted
+		if(isTableDeleted === "false" || isFieldsInfoInserted === "true") window.location.reload();
 	}
 
 	closeUpdateTableModal() {
@@ -45,6 +46,7 @@ class App extends Component {
 
 		console.log('isTableCreated: ' + this.props.createTable.isTableCreated);
 		console.log('shouldShowCreateTableModal: ' + this.props.modalState.shouldShowCreateTableModal);
+		console.log('isFieldsInfoInserted: ' + this.props.insertTableFields.isFieldsInfoInserted);
 
 		return (
 			<div className="App">
@@ -70,6 +72,8 @@ class App extends Component {
 						shouldShowFieldInfoModal={this.props.modalState.shouldShowFieldInfoModal}
 						setFieldInfoModalState={this.props.modalActions.setFieldInfoModalState}
 						insertTableFieldsData={this.props.tableActions.insertTableFieldsData}
+						tableName={this.props.createTable.tableName}
+						fieldCount={this.props.createTable.fieldCount}
 					/>
 				}
 

@@ -33,7 +33,9 @@ export const createTable = (state={isTableCreated: false}, action) => {
 		case RECIEVE_CREATE_TABLE_RESPONSE:
 			return {
 				...state,
-				isTableCreated: action.isTableCreated
+				isTableCreated: action.isTableCreated,
+				tableName: action.tableName,
+				fieldCount: action.fieldCount
 			}
 		default:
 			return state

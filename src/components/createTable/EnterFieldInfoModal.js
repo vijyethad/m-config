@@ -12,7 +12,7 @@ export default class EnterFieldInfoModal extends Component {
 
 	componentDidMount() {
 		let stateCopies = []
-		for(var i=0; i < 2; i++) {
+		for(var i=0; i < Number(this.props.fieldCount); i++) {
 			stateCopies.push([{ fieldName: '', fieldType: '', fieldDescription: '', fieldKeyFlag: '' }])
 		}
 		this.setState({ tableFieldsData: this.state.tableFieldsData.concat(stateCopies) });
@@ -31,7 +31,7 @@ export default class EnterFieldInfoModal extends Component {
 
 	handleSubmit = (event) => {
 		const { tableFieldsData } = this.state;
-		this.props.insertTableFieldsData('table name', tableFieldsData)
+		this.props.insertTableFieldsData(this.props.tableName, tableFieldsData)
 	}
 
 	renderInput(inputName, inputPlaceholder, inputValue, index) {
