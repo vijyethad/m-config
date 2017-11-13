@@ -5,7 +5,6 @@ import * as tableActions from '../actions/TableActions';
 import * as modalActions from '../actions/ModalActions';
 import './App.css';
 import { Button, Modal } from 'react-bootstrap';
-import Header from '../components/header/Header';
 import UpdateTable from '../components/updateTable/UpdateTable';
 import CreateTableModal from '../components/createTable/CreateTableModal';
 import EnterFieldInfoModal from '../components/createTable/EnterFieldInfoModal';
@@ -54,7 +53,6 @@ class App extends Component {
 		
 		return (
 			<div className="App">
-				<Header/>
 				{this.props.insertTableFields.isFieldsInfoInserted ? <p className="alert alert-success">Your table and fields are created successfully!</p> : null}
 				<TableSelectSearch
 					onClickUpdateModal={this.openUpdateTableModal}

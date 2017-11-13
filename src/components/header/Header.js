@@ -4,7 +4,7 @@ import './header.css';
 
 export default function Header() {
 	return (
-		<div>
+		<div className="header">
 			<Col md={3}>
 				<div className="cts-logo"/>
 			</Col>

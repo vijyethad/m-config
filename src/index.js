@@ -4,8 +4,10 @@ import { createStore, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
 import { createLogger } from 'redux-logger'
+import { BrowserRouter, Route } from 'react-router-dom'
 import reducer from './reducers'
 import App from './containers/App'
+import Header from './components/header/Header';
 import './index.css';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
@@ -20,8 +22,13 @@ const store = createStore(
 )
 
 render(
-    <Provider store={store}>
-        <App />
-    </Provider>,
+	<Provider store={store}>
+		<BrowserRouter>
+			<div>
+				<Route exact path='/' component={Header} />
+				<Route exact path='/' component={App} />
+			</div>
+		</BrowserRouter>
+	</Provider>,
 	document.getElementById('root')
 )
