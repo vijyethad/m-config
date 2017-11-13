@@ -9,7 +9,7 @@ export default class EnterFieldInfoModal extends Component {
 			tableFieldsData: [],
 		};
 	}
-
+	
 	componentDidMount() {
 		let stateCopies = []
 		for(var i=0; i < Number(this.props.fieldCount); i++) {
@@ -17,7 +17,7 @@ export default class EnterFieldInfoModal extends Component {
 		}
 		this.setState({ tableFieldsData: this.state.tableFieldsData.concat(stateCopies) });
 	}
-
+	
 	handleShareholderNameChange = (index) => (event) => {
 		const target = event.target;
 		const value = target.value;
@@ -28,7 +28,7 @@ export default class EnterFieldInfoModal extends Component {
 		});
 		this.setState({ tableFieldsData: newFieldDetails });
 	}
-
+	
 	handleSubmit = (event) => {
 		const { tableFieldsData } = this.state;
 		this.props.insertTableFieldsData(this.props.tableName, tableFieldsData)
@@ -38,7 +38,7 @@ export default class EnterFieldInfoModal extends Component {
 		this.props.setFieldInfoModalState(false);
 		this.props.recieveCreateTableResponse(false, '', '')
 	}
-
+	
 	renderInput(inputName, inputPlaceholder, inputValue, index) {
 		return(
 			<input
@@ -51,11 +51,11 @@ export default class EnterFieldInfoModal extends Component {
 			/>
 		)
 	}
-
+	
 	setFieldInfoModalStateHandler() {
 		this.props.setFieldInfoModalState(false);
 	}
-
+	
 	render() {
 		return (
 			<div>

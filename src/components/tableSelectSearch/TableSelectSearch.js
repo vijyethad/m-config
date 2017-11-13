@@ -16,7 +16,7 @@ class TableSelectSearch extends Component {
 			selectedOptions: 0
 		}
 	}
-
+	
 	onItemChange(value, state, props) {
 		console.log('Change', value);
 		this.setState({
@@ -24,11 +24,11 @@ class TableSelectSearch extends Component {
 		});
 		this.props.setSelectedOptions(value)
 	}
-
+	
 	setCreateTableModalStateHandler() {
 		this.props.setCreateTableModalState(true);
 	}
-
+	
 	onDeleteClick = () => {
 		confirmAlert({
 			title: 'Confirm to submit',
@@ -40,15 +40,15 @@ class TableSelectSearch extends Component {
 			onCancel: () => console.log('User canceled delete operation'),
 		})
 	}
-
+	
 	deleteTableHandler() {
 		this.props.deleteTables(this.props.selectedOptions);
 	}
-
+	
 	render() {
 		const tableList = [];
 		this.props.items.map(item => tableList.push({name: item.RecordInfo, value: item.RecordInfo}))
-
+		
 		return (
 			<div className="toolbar">
 				<br />

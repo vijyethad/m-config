@@ -21,37 +21,37 @@ class App extends Component {
 		this.closeUpdateTableModal = this.closeUpdateTableModal.bind(this)
 		this.openUpdateTableModal = this.openUpdateTableModal.bind(this)
 	}
-
+	
 	componentDidMount() {
 		this.props.tableActions.fetchTableList();
 		if(this.props.createTable.isTableCreated) {
 			this.props.modalActions.setFieldInfoModalState(true)
 		}
 	}
-
+	
 	componentWillReceiveProps(nextProps) {
 		const isTableDeleted = nextProps.tableList.deleteTablesResponse && nextProps.tableList.deleteTablesResponse.mXRefResponse.TblValues.EXECUTION_STATUS ? nextProps.tableList.deleteTablesResponse.mXRefResponse.TblValues.EXECUTION_STATUS : ''
 		const isFieldsInfoInserted = nextProps.insertTableFields.isFieldsInfoInserted
 		if(isTableDeleted === "false" || isFieldsInfoInserted === "true") window.location.reload();
 	}
-
+	
 	closeUpdateTableModal() {
 		this.setState({showUpdateTableModal: false});
 	}
-
+	
 	openUpdateTableModal() {
 		this.setState({showUpdateTableModal: true});
 	}
-
+	
 	render() {
 		const {tableList} = this.props;
 		const tableListItems = tableList && tableList.mXRefResponse ? tableList.mXRefResponse.TblValues.TblValuesData : [];
-
+		
 		console.log('isTableCreated: ' + this.props.createTable.isTableCreated);
 		console.log('shouldShowCreateTableModal: ' + this.props.modalState.shouldShowCreateTableModal);
 		console.log('isFieldsInfoInserted: ' + this.props.insertTableFields.isFieldsInfoInserted);
 		console.log('shouldShowFieldInfoModal: ' + this.props.modalState.shouldShowFieldInfoModal);
-
+		
 		return (
 			<div className="App">
 				<Header/>
@@ -72,16 +72,16 @@ class App extends Component {
 				/>
 				{
 					!this.props.createTable.isTableCreated ? <div></div> :
-					<EnterFieldInfoModal
-						shouldShowFieldInfoModal={this.props.modalState.shouldShowFieldInfoModal}
-						setFieldInfoModalState={this.props.modalActions.setFieldInfoModalState}
-						insertTableFieldsData={this.props.tableActions.insertTableFieldsData}
-						tableName={this.props.createTable.tableName}
-						fieldCount={this.props.createTable.fieldCount}
-						recieveCreateTableResponse={this.props.tableActions.recieveCreateTableResponse}
-					/>
+						<EnterFieldInfoModal
+							shouldShowFieldInfoModal={this.props.modalState.shouldShowFieldInfoModal}
+							setFieldInfoModalState={this.props.modalActions.setFieldInfoModalState}
+							insertTableFieldsData={this.props.tableActions.insertTableFieldsData}
+							tableName={this.props.createTable.tableName}
+							fieldCount={this.props.createTable.fieldCount}
+							recieveCreateTableResponse={this.props.tableActions.recieveCreateTableResponse}
+						/>
 				}
-
+				
 				<Modal show={this.state.showUpdateTableModal} onHide={this.closeUpdateTableModal}>
 					<Modal.Header closeButton>
 						<Modal.Title>Update Table</Modal.Title>

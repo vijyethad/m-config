@@ -76,7 +76,7 @@ export const createNewTable = (tableName, tableDescription, fieldCount) => dispa
 				dispatch(setFieldInfoModalState(true))
 			}
 			dispatch(recieveCreateTableResponse(
-				json.mXRefResponse.TblList.EXECUTION_STATUS, 
+				json.mXRefResponse.TblList.EXECUTION_STATUS,
 				json.mXRefResponse.TblList.TBL_NAME,
 				json.mXRefResponse.TblList.FLD_COUNT
 			))
@@ -91,17 +91,17 @@ export const recieveInsertTableFieldsResponse = json => ({
 export const insertTableFieldsData = (tableName, tableFieldsData) => dispatch => {
 	const TblFieldsData = [];
 	tableFieldsData.map(fieldData => TblFieldsData.push({
-      "FLD_NAME": fieldData.fieldName,
-      "FLD_TYPE": fieldData.fieldType,
-      "FLD_DESCRIPTION": fieldData.fieldDescription,
-      "KEY_FLAG": fieldData.fieldKeyFlag,
-      "CRE_USER": "B2B",
-      "CRE_DTTM": "2017-07-15 04:34:33",
-      "UPD_USER": "B2B",
-      "UPD_DTTM": "2017-07-15 04:34:33"
+			"FLD_NAME": fieldData.fieldName,
+			"FLD_TYPE": fieldData.fieldType,
+			"FLD_DESCRIPTION": fieldData.fieldDescription,
+			"KEY_FLAG": fieldData.fieldKeyFlag,
+			"CRE_USER": "B2B",
+			"CRE_DTTM": "2017-07-15 04:34:33",
+			"UPD_USER": "B2B",
+			"UPD_DTTM": "2017-07-15 04:34:33"
 		})
 	)
-
+	
 	return fetch(`http://mxref-proxy.cloudhub.io/fields/`, {
 		method: 'post',
 		headers: {
@@ -109,13 +109,13 @@ export const insertTableFieldsData = (tableName, tableFieldsData) => dispatch =>
 		},
 		body: JSON.stringify(
 			{
-			  "mXRefRequest": {
-			    "TblFields": {
-			      "ACTION": "Create",
-			      "TBL_NAME": tableName,
-			      "TblFieldsData": TblFieldsData
-			    }
-			  }
+				"mXRefRequest": {
+					"TblFields": {
+						"ACTION": "Create",
+						"TBL_NAME": tableName,
+						"TblFieldsData": TblFieldsData
+					}
+				}
 			}
 		)
 	})
@@ -140,7 +140,7 @@ export const deleteTables = (tablesList) => dispatch => {
 			"TABLE_REC_NO": null
 		})
 	)
-
+	
 	return fetch(`http://mxref-proxy.cloudhub.io/delete/`, {
 		method: 'post',
 		headers: {
@@ -148,13 +148,13 @@ export const deleteTables = (tablesList) => dispatch => {
 		},
 		body: JSON.stringify(
 			{
-			  "mXRefRequest": {
-			    "TblValues": {
-			      "ACTION": "Delete",
-			      "ENTITY": "Table",
-			      "TblListData": TblListData
-			    }
-			  }
+				"mXRefRequest": {
+					"TblValues": {
+						"ACTION": "Delete",
+						"ENTITY": "Table",
+						"TblListData": TblListData
+					}
+				}
 			}
 		)
 	})

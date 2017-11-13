@@ -14,7 +14,7 @@ export default class CreateTableModal extends Component {
 		this.submitNewTableDetails = this.submitNewTableDetails.bind(this)
 		this.setCreateTableModalStateHandler = this.setCreateTableModalStateHandler.bind(this)
 	}
-
+	
 	handleInputChange(event) {
 		const target = event.target;
 		const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -23,7 +23,7 @@ export default class CreateTableModal extends Component {
 			[name]: value
 		});
 	}
-
+	
 	setCreateTableModalStateHandler() {
 		this.props.setCreateTableModalState(false);
 		this.setState({
@@ -32,7 +32,7 @@ export default class CreateTableModal extends Component {
 			fieldCount: ''
 		});
 	}
-
+	
 	renderInput(fieldLabel, inputName, inputType, inputValue, placeholder) {
 		return(
 			<label className="modal-label">
@@ -47,7 +47,7 @@ export default class CreateTableModal extends Component {
 			</label>
 		)
 	}
-
+	
 	submitNewTableDetails() {
 		this.props.createNewTable(this.state.tableName, this.state.tableDescription, this.state.fieldCount);
 		this.setState({
@@ -56,7 +56,7 @@ export default class CreateTableModal extends Component {
 			fieldCount: ''
 		});
 	}
-
+	
 	render() {
 		return (
 			<Modal show={this.props.shouldShowCreateTableModal} onHide={this.setCreateTableModalStateHandler}>
