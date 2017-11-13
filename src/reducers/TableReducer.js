@@ -3,7 +3,8 @@ import {
 	RECIEVE_CREATE_TABLE_RESPONSE,
 	RECIEVE_INSERT_TABLE_FIELDS_RESPONSE,
 	SET_SELECTED_OPTIONS,
-	RECIEVE_DELETE_TABLES_RESPONSE
+	RECIEVE_DELETE_TABLES_RESPONSE,
+	INSERT_TABLE_VALUES_RESPONSE
 } from '../actions/TableActions'
 
 export const tableList = (state={}, action) => {
@@ -47,7 +48,20 @@ export const insertTableFields = (state={isFieldsInfoInserted: false}, action) =
 		case RECIEVE_INSERT_TABLE_FIELDS_RESPONSE:
 			return {
 				...state,
-				isFieldsInfoInserted: action.isFieldsInfoInserted
+				isFieldsInfoInserted: action.isFieldsInfoInserted,
+				fieldsInfo: action.fieldsInfo
+			}
+		default:
+			return state
+	}
+}
+
+export const insertTableValues = (state={isValuesInserted: false}, action) => {
+	switch (action.type) {
+		case INSERT_TABLE_VALUES_RESPONSE:
+			return {
+				...state,
+				isValuesInserted: action.isValuesInserted
 			}
 		default:
 			return state

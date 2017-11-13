@@ -32,6 +32,8 @@ class App extends Component {
 		const isTableDeleted = nextProps.tableList.deleteTablesResponse && nextProps.tableList.deleteTablesResponse.mXRefResponse.TblValues.EXECUTION_STATUS ? nextProps.tableList.deleteTablesResponse.mXRefResponse.TblValues.EXECUTION_STATUS : ''
 		const isFieldsInfoInserted = nextProps.insertTableFields.isFieldsInfoInserted
 		if(isTableDeleted === "false" || isFieldsInfoInserted === "true") window.location.reload();
+		
+		if(nextProps.insertTableFields.isFieldsInfoInserted) this.props.history.push("/enterTableValues")
 	}
 	
 	closeUpdateTableModal() {
@@ -50,7 +52,7 @@ class App extends Component {
 		console.log('shouldShowCreateTableModal: ' + this.props.modalState.shouldShowCreateTableModal);
 		console.log('isFieldsInfoInserted: ' + this.props.insertTableFields.isFieldsInfoInserted);
 		console.log('shouldShowFieldInfoModal: ' + this.props.modalState.shouldShowFieldInfoModal);
-		
+
 		return (
 			<div className="App">
 				{this.props.insertTableFields.isFieldsInfoInserted ? <p className="alert alert-success">Your table and fields are created successfully!</p> : null}

@@ -8,6 +8,7 @@ import { BrowserRouter, Route } from 'react-router-dom'
 import reducer from './reducers'
 import App from './containers/App'
 import Header from './components/header/Header';
+import EnterTableValues from './components/createTable/EnterTableValues'
 import './index.css';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
@@ -27,6 +28,8 @@ render(
 			<div>
 				<Route exact path='/' component={Header} />
 				<Route exact path='/' component={App} />
+				<Route path='/enterTableValues' component={Header} />
+				<Route path='/enterTableValues' component={EnterTableValues} />
 			</div>
 		</BrowserRouter>
 	</Provider>,
