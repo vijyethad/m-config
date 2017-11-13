@@ -24,6 +24,9 @@ class App extends Component {
 
 	componentDidMount() {
 		this.props.tableActions.fetchTableList();
+		if(this.props.createTable.isTableCreated) {
+			this.props.modalActions.setFieldInfoModalState(true)
+		}
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -47,6 +50,7 @@ class App extends Component {
 		console.log('isTableCreated: ' + this.props.createTable.isTableCreated);
 		console.log('shouldShowCreateTableModal: ' + this.props.modalState.shouldShowCreateTableModal);
 		console.log('isFieldsInfoInserted: ' + this.props.insertTableFields.isFieldsInfoInserted);
+		console.log('shouldShowFieldInfoModal: ' + this.props.modalState.shouldShowFieldInfoModal);
 
 		return (
 			<div className="App">
@@ -74,6 +78,7 @@ class App extends Component {
 						insertTableFieldsData={this.props.tableActions.insertTableFieldsData}
 						tableName={this.props.createTable.tableName}
 						fieldCount={this.props.createTable.fieldCount}
+						recieveCreateTableResponse={this.props.tableActions.recieveCreateTableResponse}
 					/>
 				}
 

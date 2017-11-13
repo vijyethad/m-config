@@ -3,12 +3,7 @@ import {
 	SET_FIELD_INFO_MODAL_STATE
 } from '../actions/ModalActions'
 
-const initialState = {
-	shouldShowCreateTableModal: false,
-	shouldShowFieldInfoModal: false
-}
-
-export const modalState = (state=initialState, action) => {
+export const modalState = (state={shouldShowCreateTableModal: false, shouldShowFieldInfoModal: false}, action) => {
 	switch (action.type) {
 		case SET_CREATE_TABLE_MODAL_STATE:
 			return {
