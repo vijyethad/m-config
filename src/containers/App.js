@@ -53,6 +53,8 @@ class App extends Component {
 		console.log('isFieldsInfoInserted: ' + this.props.insertTableFields.isFieldsInfoInserted);
 		console.log('shouldShowFieldInfoModal: ' + this.props.modalState.shouldShowFieldInfoModal);
 		
+		console.log(this.props.location.pathname);
+		
 		return (
 			<div className="App">
 				{this.props.insertTableFields.isFieldsInfoInserted ? <p className="alert alert-success">Your table and fields are created successfully!</p> : null}

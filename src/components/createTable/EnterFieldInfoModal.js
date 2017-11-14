@@ -44,9 +44,7 @@ class EnterFieldInfoModal extends Component {
 		this.setState({
 			tableFieldsData: []
 		});
-		this.props.history.push("/")
-		// this.props.setFieldInfoModalState(false);
-		// this.props.recieveCreateTableResponse(false, '', '')
+		this.props.history.push("/m-config")
 	}
 	
 	handleSubmitandRoute() {
@@ -55,7 +53,7 @@ class EnterFieldInfoModal extends Component {
 		this.setState({
 			tableFieldsData: []
 		});
-		this.props.history.push("/enterTableValues")
+		this.props.history.push("/m-config/enterTableValues")
 	}
 	
 	renderInput(inputName, inputPlaceholder, inputValue, index) {
@@ -70,10 +68,6 @@ class EnterFieldInfoModal extends Component {
 			/>
 		)
 	}
-	
-	// setFieldInfoModalStateHandler() {
-	// 	this.props.setFieldInfoModalState(false);
-	// }
 	
 	render() {
 		return (

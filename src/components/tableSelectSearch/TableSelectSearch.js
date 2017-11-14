@@ -26,7 +26,7 @@ class TableSelectSearch extends Component {
 	}
 	
 	createTableRouteHandler() {
-		this.props.history.push("/createTable")
+		this.props.history.push("/m-config/createTable")
 	}
 	
 	onDeleteClick = () => {

@@ -69,7 +69,7 @@ class CreateTableModal extends Component {
 			tableDescription: '',
 			fieldCount: ''
 		});
-		this.props.history.push("/enterFieldsInfo")
+		this.props.history.push("/m-config/enterFieldsInfo")
 	}
 	
 	render() {

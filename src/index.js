@@ -30,14 +30,14 @@ render(
 		<BrowserRouter>
 		<ScrollToTop>
 			<div>
-				<Route exact path='/' component={Header} />
-				<Route exact path='/' component={App} />
-				<Route path='/createTable' component={Header} />
-				<Route path='/createTable' component={CreateTableModal} />
-				<Route path='/enterFieldsInfo' component={Header} />
-				<Route path='/enterFieldsInfo' component={EnterFieldInfoModal} />
-				<Route path='/enterTableValues' component={Header} />
-				<Route path='/enterTableValues' component={EnterTableValues} />
+				<Route exact path={process.env.PUBLIC_URL + '/'} component={Header} />
+				<Route exact path={process.env.PUBLIC_URL + '/'} component={App} />
+				<Route exact path={process.env.PUBLIC_URL + '/createTable'} component={Header} />
+				<Route path={process.env.PUBLIC_URL + '/createTable'} component={CreateTableModal} />
+				<Route exact path={process.env.PUBLIC_URL + '/enterFieldsInfo'} component={Header} />
+				<Route path={process.env.PUBLIC_URL + '/enterFieldsInfo'} component={EnterFieldInfoModal} />
+				<Route exact path={process.env.PUBLIC_URL + '/enterTableValues'} component={Header} />
+				<Route path={process.env.PUBLIC_URL + '/enterTableValues'} component={EnterTableValues} />
 			</div>
 		</ScrollToTop>
 		</BrowserRouter>

@@ -18,9 +18,9 @@ export default function Header(props) {
 						<Col>
 							<div className="no-pad">
 								{
-									props.location.pathname === '/' ?
+									props.location.pathname === '/m-config/' ?
 										<Breadcrumb>
-											<Breadcrumb.Item active href="/">
+											<Breadcrumb.Item active href="/m-config/">
 												Home
 											</Breadcrumb.Item>
 										</Breadcrumb>
@@ -28,12 +28,12 @@ export default function Header(props) {
 										null
 								}
 								{
-									props.location.pathname === '/createTable' ?
+									props.location.pathname === '/m-config/createTable' ?
 										<Breadcrumb>
-											<Breadcrumb.Item href="/">
+											<Breadcrumb.Item href="/m-config">
 												Home
 											</Breadcrumb.Item>
-											<Breadcrumb.Item active href="/createTable">
+											<Breadcrumb.Item active href="/m-config/createTable">
 												createTable
 											</Breadcrumb.Item>
 										</Breadcrumb>
@@ -41,15 +41,15 @@ export default function Header(props) {
 										null
 								}
 								{
-									props.location.pathname === '/enterFieldsInfo' ?
+									props.location.pathname === '/m-config/enterFieldsInfo' ?
 										<Breadcrumb>
-											<Breadcrumb.Item href="/">
+											<Breadcrumb.Item href="/m-config">
 												Home
 											</Breadcrumb.Item>
-											<Breadcrumb.Item href="/createTable">
+											<Breadcrumb.Item href="/m-config/createTable">
 												createTable
 											</Breadcrumb.Item>
-											<Breadcrumb.Item active href="/enterFieldsInfo">
+											<Breadcrumb.Item active href="/m-config/enterFieldsInfo">
 												enterFieldsInfo
 											</Breadcrumb.Item>
 										</Breadcrumb>
@@ -57,18 +57,18 @@ export default function Header(props) {
 										null
 								}
 								{
-									props.location.pathname === '/enterTableValues' ?
+									props.location.pathname === '/m-config/enterTableValues' ?
 										<Breadcrumb>
-											<Breadcrumb.Item href="/">
+											<Breadcrumb.Item href="/m-config">
 												Home
 											</Breadcrumb.Item>
-											<Breadcrumb.Item href="/createTable">
+											<Breadcrumb.Item href="/m-config/createTable">
 												createTable
 											</Breadcrumb.Item>
-											<Breadcrumb.Item href="/enterFieldsInfo">
+											<Breadcrumb.Item href="/m-config/enterFieldsInfo">
 												enterFieldsInfo
 											</Breadcrumb.Item>
-											<Breadcrumb.Item active href="/enterTableValues">
+											<Breadcrumb.Item active href="/m-config/enterTableValues">
 												enterTableValues
 											</Breadcrumb.Item>
 										</Breadcrumb>
