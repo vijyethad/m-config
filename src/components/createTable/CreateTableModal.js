@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import { Button, Modal } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as tableActions from '../../actions/TableActions';
+import * as modalActions from '../../actions/ModalActions';
 
-export default class CreateTableModal extends Component {
+class CreateTableModal extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -13,6 +17,7 @@ export default class CreateTableModal extends Component {
 		this.handleInputChange = this.handleInputChange.bind(this)
 		this.submitNewTableDetails = this.submitNewTableDetails.bind(this)
 		this.setCreateTableModalStateHandler = this.setCreateTableModalStateHandler.bind(this)
+		this.submitNewTableDetailsWithRoute = this.submitNewTableDetailsWithRoute.bind(this)
 	}
 	
 	handleInputChange(event) {
@@ -49,7 +54,7 @@ export default class CreateTableModal extends Component {
 	}
 	
 	submitNewTableDetails() {
-		this.props.createNewTable(this.state.tableName, this.state.tableDescription, this.state.fieldCount);
+		this.props.tableActions.createNewTable(this.state.tableName, this.state.tableDescription, this.state.fieldCount);
 		this.setState({
 			tableName: '',
 			tableDescription: '',
@@ -57,13 +62,24 @@ export default class CreateTableModal extends Component {
 		});
 	}
 	
+	submitNewTableDetailsWithRoute() {
+		this.props.tableActions.createNewTable(this.state.tableName, this.state.tableDescription, this.state.fieldCount);
+		this.setState({
+			tableName: '',
+			tableDescription: '',
+			fieldCount: ''
+		});
+		this.props.history.push("/enterFieldsInfo")
+	}
+	
 	render() {
+		const isButtonDisabled = this.state.tableName !== '' && this.state.tableDescription !== '' && this.state.fieldCount !== ''
+
 		return (
-			<Modal show={this.props.shouldShowCreateTableModal} onHide={this.setCreateTableModalStateHandler}>
-				<Modal.Header closeButton>
-					<Modal.Title>Create New Table</Modal.Title>
-				</Modal.Header>
-				<Modal.Body>
+			<div className="App">
+				{this.props.createTable.isTableCreated ? <p className="alert alert-success">Your table <strong>{this.props.createTable.tableName}</strong> is created successfully!</p> : null}
+				<h2>Create New Table</h2>
+				<div className="create-table">
 					<form className="modal-form">
 						{this.renderInput("Table Name:", "tableName", "text", this.state.tableName)}
 						<br/>
@@ -71,16 +87,34 @@ export default class CreateTableModal extends Component {
 						<br/>
 						{this.renderInput("Field Count:", "fieldCount", "number", this.state.fieldCount, "Enter nunber of fields...")}
 					</form>
-				</Modal.Body>
-				<Modal.Footer>
-					<Button onClick={this.setCreateTableModalStateHandler}>Cancel</Button>
-					<Button onClick={this.submitNewTableDetails}
-					        bsStyle="primary"
-					>
-						Create new Table
+					<br />
+					<Button onClick={this.submitNewTableDetails} disabled={!isButtonDisabled} bsStyle="primary">
+						Create Table
 					</Button>
-				</Modal.Footer>
-			</Modal>
+					<br /><br />
+					<Button onClick={this.submitNewTableDetailsWithRoute} disabled={!isButtonDisabled} bsStyle="info">
+						Create Table & Next Step
+					</Button>
+				</div>
+			</div>
 		);
 	}
 }
+
+function mapStateToProps(state, props) {
+	return {
+		tableList: state.tableList,
+		createTable: state.createTable,
+		modalState: state.modalState,
+		insertTableFields: state.insertTableFields
+	};
+}
+
+function mapDispatchToProps(dispatch) {
+	return {
+		tableActions: bindActionCreators(tableActions, dispatch),
+		modalActions: bindActionCreators(modalActions, dispatch)
+	}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreateTableModal);

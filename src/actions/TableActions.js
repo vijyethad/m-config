@@ -122,12 +122,7 @@ export const insertTableFieldsData = (tableName, tableFieldsData) => dispatch =>
 		)
 	})
 		.then(response => response.json())
-		.then(json => {
-			if(json.mXRefResponse.TblFields.EXECUTION_STATUS) {
-				dispatch(setFieldInfoModalState(false))
-			}
-			dispatch(recieveInsertTableFieldsResponse(json))
-		})
+		.then(json => dispatch(recieveInsertTableFieldsResponse(json)))
 }
 
 export const recieveDeleteTablesResponse = json => ({

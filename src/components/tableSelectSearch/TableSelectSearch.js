@@ -9,7 +9,7 @@ class TableSelectSearch extends Component {
 	constructor(props) {
 		super(props);
 		this.onItemChange = this.onItemChange.bind(this)
-		this.setCreateTableModalStateHandler = this.setCreateTableModalStateHandler.bind(this)
+		this.createTableRouteHandler = this.createTableRouteHandler.bind(this)
 		this.deleteTableHandler = this.deleteTableHandler.bind(this)
 		this.onDeleteClick = this.onDeleteClick.bind(this)
 		this.state = {
@@ -25,8 +25,8 @@ class TableSelectSearch extends Component {
 		this.props.setSelectedOptions(value)
 	}
 	
-	setCreateTableModalStateHandler() {
-		this.props.setCreateTableModalState(true);
+	createTableRouteHandler() {
+		this.props.history.push("/createTable")
 	}
 	
 	onDeleteClick = () => {
@@ -82,7 +82,7 @@ class TableSelectSearch extends Component {
 						</Button>
 						<Button
 							bsStyle="primary"
-							onClick={this.setCreateTableModalStateHandler}
+							onClick={this.createTableRouteHandler}
 						>
 							+ Create new Table
 						</Button>

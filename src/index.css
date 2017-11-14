@@ -37,6 +37,19 @@ body {
     padding-top: 30px;
 }
 
+.create-table {
+    text-align: -webkit-center;
+    width: 80%;
+    display: inline-block;
+    padding-top: 30px;
+}
+
+.enter-fields-info {
+  display: inline-block;
+  margin: auto;
+  padding: 20px;
+}
+
 .mega-menu-row.row {
     margin: auto;
     padding-top: 7px;

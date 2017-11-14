@@ -52,7 +52,7 @@ class App extends Component {
 		console.log('shouldShowCreateTableModal: ' + this.props.modalState.shouldShowCreateTableModal);
 		console.log('isFieldsInfoInserted: ' + this.props.insertTableFields.isFieldsInfoInserted);
 		console.log('shouldShowFieldInfoModal: ' + this.props.modalState.shouldShowFieldInfoModal);
-
+		
 		return (
 			<div className="App">
 				{this.props.insertTableFields.isFieldsInfoInserted ? <p className="alert alert-success">Your table and fields are created successfully!</p> : null}
@@ -63,12 +63,7 @@ class App extends Component {
 					selectedOptions={this.props.tableList.selectedOptions}
 					deleteTables={this.props.tableActions.deleteTables}
 					items={tableListItems}
-				/>
-				<CreateTableModal
-					shouldShowCreateTableModal={this.props.modalState.shouldShowCreateTableModal}
-					createNewTable={this.props.tableActions.createNewTable}
-					setCreateTableModalState={this.props.modalActions.setCreateTableModalState}
-					isTableCreated={this.props.createTable.isTableCreated}
+					history={this.props.history}
 				/>
 				{
 					!this.props.createTable.isTableCreated ? <div></div> :

@@ -38,6 +38,7 @@ class EnterTableValues extends Component {
 				{
 					this.props.insertTableFields.isFieldsInfoInserted && this.props.insertTableFields.fieldsInfo ?
 						<div>
+							<p className="alert alert-success">Your table <strong>{this.props.createTable.tableName}</strong> and its fields are created successfully!</p>
 							<h2>Enter values for table <strong>{this.props.insertTableFields.fieldsInfo.mXRefResponse.TblFields.TABLE_NAME}</strong></h2>
 							<div className="enter-table-values">
 								<BootstrapTable data={tableData} options={ options } keyField={this.props.insertTableFields.fieldsInfo.mXRefResponse.TblFields.FIELDS_INFO[0].split('$')[0]} insertRow={true}>
@@ -53,7 +54,7 @@ class EnterTableValues extends Component {
 							</div>
 						</div>
 						:
-						<p>Somethings broke!! Please go back to Home and create a new table.</p>
+						<p>Somethings broke!! Please go back to the home page and create a new table.</p>
 				}
 			</div>
 		);
@@ -63,7 +64,8 @@ class EnterTableValues extends Component {
 function mapStateToProps(state, props) {
 	return {
 		insertTableValues: state.insertTableValues,
-		insertTableFields: state.insertTableFields
+		insertTableFields: state.insertTableFields,
+		createTable: state.createTable
 	};
 }
 

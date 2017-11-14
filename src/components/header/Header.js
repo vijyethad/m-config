@@ -17,19 +17,56 @@ export default function Header(props) {
 					<Row className="mega-menu-row">
 						<Col>
 							<div className="no-pad">
-								{props.location.pathname === '/' ?
-									<Breadcrumb>
-										<Breadcrumb.Item active href="/">
-											Home
-										</Breadcrumb.Item>
-									</Breadcrumb>
-									:
-									null}
+								{
+									props.location.pathname === '/' ?
+										<Breadcrumb>
+											<Breadcrumb.Item active href="/">
+												Home
+											</Breadcrumb.Item>
+										</Breadcrumb>
+										:
+										null
+								}
+								{
+									props.location.pathname === '/createTable' ?
+										<Breadcrumb>
+											<Breadcrumb.Item href="/">
+												Home
+											</Breadcrumb.Item>
+											<Breadcrumb.Item active href="/createTable">
+												createTable
+											</Breadcrumb.Item>
+										</Breadcrumb>
+										:
+										null
+								}
+								{
+									props.location.pathname === '/enterFieldsInfo' ?
+										<Breadcrumb>
+											<Breadcrumb.Item href="/">
+												Home
+											</Breadcrumb.Item>
+											<Breadcrumb.Item href="/createTable">
+												createTable
+											</Breadcrumb.Item>
+											<Breadcrumb.Item active href="/enterFieldsInfo">
+												enterFieldsInfo
+											</Breadcrumb.Item>
+										</Breadcrumb>
+										:
+										null
+								}
 								{
 									props.location.pathname === '/enterTableValues' ?
 										<Breadcrumb>
 											<Breadcrumb.Item href="/">
 												Home
+											</Breadcrumb.Item>
+											<Breadcrumb.Item href="/createTable">
+												createTable
+											</Breadcrumb.Item>
+											<Breadcrumb.Item href="/enterFieldsInfo">
+												enterFieldsInfo
 											</Breadcrumb.Item>
 											<Breadcrumb.Item active href="/enterTableValues">
 												enterTableValues
