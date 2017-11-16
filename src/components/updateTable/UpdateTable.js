@@ -9,6 +9,7 @@ function addProducts(quantity) {
 		const id = startId + i;
 		products.push({
 			id: id,
+			id2: id,
 			name: 'Item name ' + id,
 			price: 2100 + i
 		});
@@ -47,9 +48,10 @@ export default class UpdateTable extends Component {
 		return (
 			<BootstrapTable data={products} insertRow={true} deleteRow={true} selectRow={selectRowProp}
 			                cellEdit={cellEditProp} search={true} options={options}>
-				<TableHeaderColumn dataField='id' isKey>Product ID</TableHeaderColumn>
-				<TableHeaderColumn dataField='name'>Product Name</TableHeaderColumn>
-				<TableHeaderColumn dataField='price'>Product Price</TableHeaderColumn>
+				<TableHeaderColumn hidden width={150} dataField='id' isKey>Product ID</TableHeaderColumn>
+				<TableHeaderColumn width={150} dataField='id2'>Product ID</TableHeaderColumn>
+				<TableHeaderColumn width={150} dataField='name'>Product Name</TableHeaderColumn>
+				<TableHeaderColumn width={150} dataField='price'>Product Price</TableHeaderColumn>
 			</BootstrapTable>
 		);
 	}
