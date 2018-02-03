@@ -73,7 +73,7 @@ export const createNewTable = (tableName, tableDescription, fieldCount) => dispa
 		.then(response => response.json())
 		.then(json => {
 			if(json.mXRefResponse.TblList.EXECUTION_STATUS) {
-				// dispatch(setCreateTableModalState(false))
+				
 			}
 			dispatch(recieveCreateTableResponse(
 				json.mXRefResponse.TblList.EXECUTION_STATUS,
