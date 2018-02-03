@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as tableActions from '../../actions/TableActions';
+import { Loader } from '../Loader';
 
 var newTableValues = []
 
@@ -13,12 +14,12 @@ class EnterTableValues extends Component {
 		super(props);
 		this.handleValuesSubmit = this.handleValuesSubmit.bind(this)
 	}
-	
+
 	onAfterInsertRow(row) {
 		newTableValues.push(row);
 		console.log(newTableValues);
 	}
-	
+
 	handleValuesSubmit() {
 		this.props.tableActions.insertTableValues(
 			newTableValues,
@@ -26,15 +27,16 @@ class EnterTableValues extends Component {
 			this.props.insertTableFields.fieldsInfo.mXRefResponse.TblFields.FIELDS_INFO
 		)
 	}
-	
+
 	render() {
 		const options = {
 			afterInsertRow: this.onAfterInsertRow   // A hook for after insert rows
 		}
 		const tableData = []
-		
+
 		return (
 			<div className="App">
+				{this.props.loading.isLoading ? <Loader /> : null}
 				{
 					this.props.insertTableFields.isFieldsInfoInserted && this.props.insertTableFields.fieldsInfo ?
 						<div>
@@ -65,7 +67,8 @@ function mapStateToProps(state, props) {
 	return {
 		insertTableValues: state.insertTableValues,
 		insertTableFields: state.insertTableFields,
-		createTable: state.createTable
+		createTable: state.createTable,
+		loading: state.loading
 	};
 }
 

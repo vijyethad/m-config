@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as tableActions from '../../actions/TableActions';
 import * as modalActions from '../../actions/ModalActions';
+import { Loader } from '../Loader';
 
 class EnterFieldInfoModal extends Component {
 	constructor(props) {
@@ -44,8 +45,6 @@ class EnterFieldInfoModal extends Component {
 			tableFieldsData: []
 		});
 		this.props.history.push("/")
-		// this.props.setFieldInfoModalState(false);
-		// this.props.recieveCreateTableResponse(false, '', '')
 	}
 
 	handleSubmitandRoute() {
@@ -70,13 +69,10 @@ class EnterFieldInfoModal extends Component {
 		)
 	}
 
-	// setFieldInfoModalStateHandler() {
-	// 	this.props.setFieldInfoModalState(false);
-	// }
-
 	render() {
 		return (
 			<div className="App">
+				{this.props.loading.isLoading ? <Loader /> : null}
 				{
 					this.props.createTable.isTableCreated && this.props.createTable.tableName ?
 						<div className="enter-fields-info">
@@ -117,7 +113,8 @@ function mapStateToProps(state, props) {
 		tableList: state.tableList,
 		createTable: state.createTable,
 		modalState: state.modalState,
-		insertTableFields: state.insertTableFields
+		insertTableFields: state.insertTableFields,
+		loading: state.loading
 	};
 }
 

@@ -5,6 +5,12 @@ export const RECIEVE_INSERT_TABLE_FIELDS_RESPONSE = 'RECIEVE_INSERT_TABLE_FIELDS
 export const SET_SELECTED_OPTIONS = 'SET_SELECTED_OPTIONS'
 export const RECIEVE_DELETE_TABLES_RESPONSE = 'RECIEVE_DELETE_TABLES_RESPONSE'
 export const INSERT_TABLE_VALUES_RESPONSE = 'INSERT_TABLE_VALUES_RESPONSE'
+export const IS_LOADING = 'IS_LOADING'
+
+export const setIsLoading = response => ({
+	type: IS_LOADING,
+	isLoading: response
+})
 
 export const setSelectedOptions = selectedOptions => ({
 	type: SET_SELECTED_OPTIONS,
@@ -17,6 +23,7 @@ export const recieveTableList = json => ({
 })
 
 export const fetchTableList = () => dispatch => {
+	dispatch(setIsLoading(true))
 	return fetch(`http://mxref-proxy.cloudhub.io/retrieve/`, {
 		method: 'post',
 		headers: {
@@ -33,7 +40,10 @@ export const fetchTableList = () => dispatch => {
 		})
 	})
 		.then(response => response.json())
-		.then(json => dispatch(recieveTableList(json)))
+		.then(json => {
+			dispatch(setIsLoading(false))
+			dispatch(recieveTableList(json))
+		})
 }
 
 export const recieveCreateTableResponse = (executionStatus, tableName, fieldCount) => ({
@@ -44,6 +54,7 @@ export const recieveCreateTableResponse = (executionStatus, tableName, fieldCoun
 })
 
 export const createNewTable = (tableName, tableDescription, fieldCount) => dispatch => {
+	dispatch(setIsLoading(true))
 	return fetch(`http://mxref-proxy.cloudhub.io/tables/`, {
 		method: 'post',
 		headers: {
@@ -72,14 +83,12 @@ export const createNewTable = (tableName, tableDescription, fieldCount) => dispa
 	})
 		.then(response => response.json())
 		.then(json => {
-			if(json.mXRefResponse.TblList.EXECUTION_STATUS) {
-				
-			}
 			dispatch(recieveCreateTableResponse(
 				json.mXRefResponse.TblList.EXECUTION_STATUS,
 				json.mXRefResponse.TblList.TBL_NAME,
 				json.mXRefResponse.TblList.FLD_COUNT
 			))
+			dispatch(setIsLoading(false))
 		})
 }
 
@@ -90,6 +99,7 @@ export const recieveInsertTableFieldsResponse = json => ({
 })
 
 export const insertTableFieldsData = (tableName, tableFieldsData) => dispatch => {
+	dispatch(setIsLoading(true))
 	const TblFieldsData = [];
 	tableFieldsData.map(fieldData => TblFieldsData.push({
 			"FLD_NAME": fieldData.fieldName,
@@ -121,7 +131,10 @@ export const insertTableFieldsData = (tableName, tableFieldsData) => dispatch =>
 		)
 	})
 		.then(response => response.json())
-		.then(json => dispatch(recieveInsertTableFieldsResponse(json)))
+		.then(json => {
+			dispatch(setIsLoading(false))
+			dispatch(recieveInsertTableFieldsResponse(json))
+		})
 }
 
 export const recieveDeleteTablesResponse = json => ({
@@ -130,6 +143,7 @@ export const recieveDeleteTablesResponse = json => ({
 })
 
 export const deleteTables = (tablesList) => dispatch => {
+	dispatch(setIsLoading(true))
 	const TblListData = [];
 	tablesList.map(tableName => TblListData.push({
 			"TBL_NAME": tableName.value,
@@ -155,7 +169,10 @@ export const deleteTables = (tablesList) => dispatch => {
 		)
 	})
 		.then(response => response.json())
-		.then(json => dispatch(recieveDeleteTablesResponse(json)))
+		.then(json => {
+			dispatch(setIsLoading(false))
+			dispatch(recieveDeleteTablesResponse(json))
+		})
 }
 
 export const insertTableValuesResponse = json => ({
@@ -164,6 +181,7 @@ export const insertTableValuesResponse = json => ({
 })
 
 export const insertTableValues = (newTableValues, createdTableName, createdFields) => dispatch => {
+	dispatch(setIsLoading(true))
 	const TblValuesData = [];
 	newTableValues.map(row =>
 		createdFields.map(fieldName =>
@@ -202,5 +220,8 @@ export const insertTableValues = (newTableValues, createdTableName, createdField
 		)
 	})
 		.then(response => response.json())
-		.then(json => dispatch(insertTableValuesResponse(json)))
+		.then(json => {
+			dispatch(setIsLoading(false))
+			dispatch(insertTableValuesResponse(json))
+		})
 }

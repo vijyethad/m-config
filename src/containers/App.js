@@ -9,6 +9,7 @@ import UpdateTable from '../components/updateTable/UpdateTable';
 import CreateTableModal from '../components/createTable/CreateTableModal';
 import EnterFieldInfoModal from '../components/createTable/EnterFieldInfoModal';
 import TableSelectSearch from '../components/tableSelectSearch/TableSelectSearch';
+import { Loader } from '../components/Loader';
 
 class App extends Component {
 	constructor(props) {
@@ -47,7 +48,7 @@ class App extends Component {
 	render() {
 		const {tableList} = this.props;
 		const tableListItems = tableList && tableList.mXRefResponse ? tableList.mXRefResponse.TblValues.TblValuesData : [];
-
+		
 		console.log('isTableCreated: ' + this.props.createTable.isTableCreated);
 		console.log('shouldShowCreateTableModal: ' + this.props.modalState.shouldShowCreateTableModal);
 		console.log('isFieldsInfoInserted: ' + this.props.insertTableFields.isFieldsInfoInserted);
@@ -55,6 +56,7 @@ class App extends Component {
 
 		return (
 			<div className="App">
+				{this.props.loading.isLoading ? <Loader /> : null}
 				{this.props.insertTableFields.isFieldsInfoInserted ? <p className="alert alert-success">Your table and fields are created successfully!</p> : null}
 				<TableSelectSearch
 					onClickUpdateModal={this.openUpdateTableModal}
@@ -73,7 +75,7 @@ class App extends Component {
 							insertTableFieldsData={this.props.tableActions.insertTableFieldsData}
 							tableName={this.props.createTable.tableName}
 							fieldCount={this.props.createTable.fieldCount}
-	
+
 						/>
 				}
 
@@ -103,7 +105,8 @@ function mapStateToProps(state, props) {
 		tableList: state.tableList,
 		createTable: state.createTable,
 		modalState: state.modalState,
-		insertTableFields: state.insertTableFields
+		insertTableFields: state.insertTableFields,
+		loading: state.loading
 	};
 }
 

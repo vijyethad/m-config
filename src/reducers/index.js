@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import { tableList, createTable, insertTableFields, insertTableValues } from './TableReducer'
+import { tableList, createTable, insertTableFields, insertTableValues, loading } from './TableReducer'
 import { modalState } from './ModalReducer'
 
 const rootReducer = combineReducers({
@@ -7,7 +7,8 @@ const rootReducer = combineReducers({
 	createTable,
 	modalState,
 	insertTableFields,
-	insertTableValues
+	insertTableValues,
+	loading
 })
 
 export default rootReducer
