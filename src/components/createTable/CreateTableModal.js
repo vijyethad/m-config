@@ -16,10 +16,10 @@ class CreateTableModal extends Component {
 		}
 		this.handleInputChange = this.handleInputChange.bind(this)
 		this.submitNewTableDetails = this.submitNewTableDetails.bind(this)
-		this.setCreateTableModalStateHandler = this.setCreateTableModalStateHandler.bind(this)
+		// this.setCreateTableModalStateHandler = this.setCreateTableModalStateHandler.bind(this)
 		this.submitNewTableDetailsWithRoute = this.submitNewTableDetailsWithRoute.bind(this)
 	}
-	
+
 	handleInputChange(event) {
 		const target = event.target;
 		const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -28,16 +28,16 @@ class CreateTableModal extends Component {
 			[name]: value
 		});
 	}
-	
-	setCreateTableModalStateHandler() {
-		this.props.setCreateTableModalState(false);
-		this.setState({
-			tableName: '',
-			tableDescription: '',
-			fieldCount: ''
-		});
-	}
-	
+
+	// setCreateTableModalStateHandler() {
+	// 	this.props.setCreateTableModalState(false);
+	// 	this.setState({
+	// 		tableName: '',
+	// 		tableDescription: '',
+	// 		fieldCount: ''
+	// 	});
+	// }
+
 	renderInput(fieldLabel, inputName, inputType, inputValue, placeholder) {
 		return(
 			<label className="modal-label">
@@ -52,7 +52,7 @@ class CreateTableModal extends Component {
 			</label>
 		)
 	}
-	
+
 	submitNewTableDetails() {
 		this.props.tableActions.createNewTable(this.state.tableName, this.state.tableDescription, this.state.fieldCount);
 		this.setState({
@@ -61,17 +61,12 @@ class CreateTableModal extends Component {
 			fieldCount: ''
 		});
 	}
-	
+
 	submitNewTableDetailsWithRoute() {
-		this.props.tableActions.createNewTable(this.state.tableName, this.state.tableDescription, this.state.fieldCount);
-		this.setState({
-			tableName: '',
-			tableDescription: '',
-			fieldCount: ''
-		});
+		this.submitNewTableDetails();
 		this.props.history.push("/enterFieldsInfo")
 	}
-	
+
 	render() {
 		const isButtonDisabled = this.state.tableName !== '' && this.state.tableDescription !== '' && this.state.fieldCount !== ''
 

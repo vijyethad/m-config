@@ -14,11 +14,10 @@ class EnterFieldInfoModal extends Component {
 			tableFieldsData: [],
 		};
 	}
-	
+
 	componentWillReceiveProps(nextProps) {
 		const isTableCreated = nextProps.createTable.isTableCreated
 		let stateCopies = []
-		
 		if(isTableCreated) {
 			for(var i=0; i < Number(nextProps.createTable.fieldCount); i++) {
 				stateCopies.push([{ fieldName: '', fieldType: '', fieldDescription: '', fieldKeyFlag: '' }])
@@ -26,7 +25,7 @@ class EnterFieldInfoModal extends Component {
 			this.setState({ tableFieldsData: this.state.tableFieldsData.concat(stateCopies) });
 		}
 	}
-	
+
 	handleShareholderNameChange = (index) => (event) => {
 		const target = event.target;
 		const value = target.value;
@@ -37,7 +36,7 @@ class EnterFieldInfoModal extends Component {
 		});
 		this.setState({ tableFieldsData: newFieldDetails });
 	}
-	
+
 	handleSubmit = (event) => {
 		const { tableFieldsData } = this.state;
 		this.props.tableActions.insertTableFieldsData(this.props.createTable.tableName, tableFieldsData)
@@ -48,7 +47,7 @@ class EnterFieldInfoModal extends Component {
 		// this.props.setFieldInfoModalState(false);
 		// this.props.recieveCreateTableResponse(false, '', '')
 	}
-	
+
 	handleSubmitandRoute() {
 		const { tableFieldsData } = this.state;
 		this.props.tableActions.insertTableFieldsData(this.props.createTable.tableName, tableFieldsData)
@@ -57,7 +56,7 @@ class EnterFieldInfoModal extends Component {
 		});
 		this.props.history.push("/enterTableValues")
 	}
-	
+
 	renderInput(inputName, inputPlaceholder, inputValue, index) {
 		return(
 			<input
@@ -70,11 +69,11 @@ class EnterFieldInfoModal extends Component {
 			/>
 		)
 	}
-	
+
 	// setFieldInfoModalStateHandler() {
 	// 	this.props.setFieldInfoModalState(false);
 	// }
-	
+
 	render() {
 		return (
 			<div className="App">
