@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as tableActions from '../../actions/TableActions';
 import * as modalActions from '../../actions/ModalActions';
+import { Loader } from '../Loader';
 
 class CreateTableModal extends Component {
 	constructor(props) {
@@ -16,7 +17,6 @@ class CreateTableModal extends Component {
 		}
 		this.handleInputChange = this.handleInputChange.bind(this)
 		this.submitNewTableDetails = this.submitNewTableDetails.bind(this)
-		// this.setCreateTableModalStateHandler = this.setCreateTableModalStateHandler.bind(this)
 		this.submitNewTableDetailsWithRoute = this.submitNewTableDetailsWithRoute.bind(this)
 	}
 
@@ -28,15 +28,6 @@ class CreateTableModal extends Component {
 			[name]: value
 		});
 	}
-
-	// setCreateTableModalStateHandler() {
-	// 	this.props.setCreateTableModalState(false);
-	// 	this.setState({
-	// 		tableName: '',
-	// 		tableDescription: '',
-	// 		fieldCount: ''
-	// 	});
-	// }
 
 	renderInput(fieldLabel, inputName, inputType, inputValue, placeholder) {
 		return(
@@ -72,6 +63,7 @@ class CreateTableModal extends Component {
 
 		return (
 			<div className="App">
+				{this.props.loading.isLoading ? <Loader /> : null}
 				{this.props.createTable.isTableCreated ? <p className="alert alert-success">Your table <strong>{this.props.createTable.tableName}</strong> is created successfully!</p> : null}
 				<h2>Create New Table</h2>
 				<div className="create-table">
@@ -101,7 +93,8 @@ function mapStateToProps(state, props) {
 		tableList: state.tableList,
 		createTable: state.createTable,
 		modalState: state.modalState,
-		insertTableFields: state.insertTableFields
+		insertTableFields: state.insertTableFields,
+		loading: state.loading
 	};
 }
 

@@ -4,8 +4,21 @@ import {
 	RECIEVE_INSERT_TABLE_FIELDS_RESPONSE,
 	SET_SELECTED_OPTIONS,
 	RECIEVE_DELETE_TABLES_RESPONSE,
-	INSERT_TABLE_VALUES_RESPONSE
+	INSERT_TABLE_VALUES_RESPONSE,
+	IS_LOADING
 } from '../actions/TableActions'
+
+export const loading = (state={}, action) => {
+	switch (action.type) {
+		case IS_LOADING:
+			return {
+				...state,
+				isLoading: action.isLoading
+			}
+		default:
+			return state
+	}
+}
 
 export const tableList = (state={}, action) => {
 	switch (action.type) {
