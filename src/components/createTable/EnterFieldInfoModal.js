@@ -72,7 +72,6 @@ class EnterFieldInfoModal extends Component {
 	render() {
 		return (
 			<div className="App">
-				{this.props.loading.isLoading ? <Loader /> : null}
 				{
 					this.props.createTable.isTableCreated && this.props.createTable.tableName ?
 						<div className="enter-fields-info">
@@ -113,8 +112,7 @@ function mapStateToProps(state, props) {
 		tableList: state.tableList,
 		createTable: state.createTable,
 		modalState: state.modalState,
-		insertTableFields: state.insertTableFields,
-		loading: state.loading
+		insertTableFields: state.insertTableFields
 	};
 }
 
