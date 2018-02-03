@@ -73,8 +73,8 @@ export const createNewTable = (tableName, tableDescription, fieldCount) => dispa
 		.then(response => response.json())
 		.then(json => {
 			if(json.mXRefResponse.TblList.EXECUTION_STATUS) {
-				dispatch(setCreateTableModalState(false))
-				dispatch(setFieldInfoModalState(true))
+				// dispatch(setCreateTableModalState(false))
+				// dispatch(setFieldInfoModalState(true))
 			}
 			dispatch(recieveCreateTableResponse(
 				json.mXRefResponse.TblList.EXECUTION_STATUS,
@@ -103,7 +103,7 @@ export const insertTableFieldsData = (tableName, tableFieldsData) => dispatch =>
 			"UPD_DTTM": "2017-07-15 04:34:33"
 		})
 	)
-	
+
 	return fetch(`http://mxref-proxy.cloudhub.io/fields/`, {
 		method: 'post',
 		headers: {
@@ -137,7 +137,7 @@ export const deleteTables = (tablesList) => dispatch => {
 			"TABLE_REC_NO": null
 		})
 	)
-	
+
 	return fetch(`http://mxref-proxy.cloudhub.io/delete/`, {
 		method: 'post',
 		headers: {
@@ -166,8 +166,8 @@ export const insertTableValuesResponse = json => ({
 
 export const insertTableValues = (newTableValues, createdTableName, createdFields) => dispatch => {
 	const TblValuesData = [];
-	newTableValues.map(row => 
-		createdFields.map(fieldName => 
+	newTableValues.map(row =>
+		createdFields.map(fieldName =>
 			TblValuesData.push({
 				"FLD_NAME": fieldName.split('$')[0],
 				"FLD_VALUE": row[fieldName.split('$')[0]],
@@ -177,13 +177,13 @@ export const insertTableValues = (newTableValues, createdTableName, createdField
 				"UPD_DTTM": "2017-07-15 04:34:33"
 		}))
 	)
-	
+
 	console.log(newTableValues);
 	console.log(typeof(createdTableName));
 	console.log(createdFields);
 	console.log('--------');
 	console.log(TblValuesData);
-	
+
 	return fetch(`http://mxref-proxy.cloudhub.io/values/`, {
 		method: 'post',
 		headers: {
