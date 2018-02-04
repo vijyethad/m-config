@@ -5,8 +5,8 @@ import * as tableActions from '../actions/TableActions';
 import './App.css';
 import { Button, Modal } from 'react-bootstrap';
 import UpdateTable from '../components/updateTable/UpdateTable';
-import CreateTableModal from '../components/createTable/CreateTableModal';
-import EnterFieldInfoModal from '../components/createTable/EnterFieldInfoModal';
+import CreateTable from '../components/createTable/CreateTable';
+import EnterFieldInfo from '../components/createTable/EnterFieldInfo';
 import TableSelectSearch from '../components/tableSelectSearch/TableSelectSearch';
 import { Loader } from '../components/Loader';
 
