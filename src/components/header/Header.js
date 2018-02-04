@@ -75,6 +75,19 @@ export default function Header(props) {
 										:
 										null
 								}
+								{
+									props.location.pathname === '/updateTable' ?
+										<Breadcrumb>
+											<Breadcrumb.Item href="/">
+												Home
+											</Breadcrumb.Item>
+											<Breadcrumb.Item active href="/updateTable">
+												View/Update Table
+											</Breadcrumb.Item>
+										</Breadcrumb>
+										:
+										null
+								}
 							</div>
 						</Col>
 					</Row>
