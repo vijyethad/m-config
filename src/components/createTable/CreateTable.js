@@ -19,6 +19,16 @@ class CreateTable extends Component {
 		this.submitNewTableDetailsWithRoute = this.submitNewTableDetailsWithRoute.bind(this)
 	}
 
+	componentWillReceiveProps(nextProps) {
+		if(nextProps.createTable.isTableCreated) {
+			this.setState({
+				tableName: '',
+				tableDescription: '',
+				fieldCount: ''
+			});
+		}
+	}
+
 	handleInputChange(event) {
 		const target = event.target;
 		const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -45,11 +55,6 @@ class CreateTable extends Component {
 
 	submitNewTableDetails() {
 		this.props.tableActions.createNewTable(this.state.tableName, this.state.tableDescription, this.state.fieldCount);
-		this.setState({
-			tableName: '',
-			tableDescription: '',
-			fieldCount: ''
-		});
 	}
 
 	submitNewTableDetailsWithRoute() {
