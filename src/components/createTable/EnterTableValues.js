@@ -15,9 +15,14 @@ class EnterTableValues extends Component {
 		this.handleValuesSubmit = this.handleValuesSubmit.bind(this)
 	}
 
+	componentWillReceiveProps(nextProps) {
+		if(nextProps.insertTableValues.isValuesInserted === "Successful") {
+			this.props.history.push("/")
+		}
+	}
+
 	onAfterInsertRow(row) {
 		newTableValues.push(row);
-		console.log(newTableValues);
 	}
 
 	handleValuesSubmit() {
@@ -40,7 +45,7 @@ class EnterTableValues extends Component {
 					? <Loader />
 					: this.props.insertTableFields.isFieldsInfoInserted && this.props.insertTableFields.fieldsInfo
 						?	<div>
-								<p className="alert alert-success">Your table <strong>{this.props.createTable.tableName}</strong> and its fields are created successfully!</p>
+								<p className="alert alert-success">Table <strong>{this.props.createTable.tableName}</strong> and its fields are created successfully!</p>
 								<h2>Enter values for table <strong>{this.props.insertTableFields.fieldsInfo.mXRefResponse.TblFields.TABLE_NAME}</strong></h2>
 								<div className="enter-table-values">
 									<BootstrapTable data={tableData} options={ options } keyField={this.props.insertTableFields.fieldsInfo.mXRefResponse.TblFields.FIELDS_INFO[0].split('$')[0]} insertRow={true}>
