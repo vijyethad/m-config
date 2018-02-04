@@ -49,7 +49,7 @@ class EnterTableValues extends Component {
 								<div className="enter-table-values">
 									<BootstrapTable data={tableData} options={ options } keyField={this.props.insertTableFields.fieldsInfo.mXRefResponse.TblFields.FIELDS_INFO[0].split('$')[0]} insertRow={true}>
 										{this.props.insertTableFields.fieldsInfo.mXRefResponse.TblFields.FIELDS_INFO.map(column =>
-											<TableHeaderColumn width={String(800 / this.props.insertTableFields.fieldsInfo.mXRefResponse.TblFields.FIELDS_INFO.length)} dataField={column.split('$')[0]}>{column.split('$')[0]}</TableHeaderColumn>
+											<TableHeaderColumn dataField={column.split('$')[0]}>{column.split('$')[0]}</TableHeaderColumn>
 										)}
 									</BootstrapTable>
 									<Button onClick={this.handleValuesSubmit}

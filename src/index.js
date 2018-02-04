@@ -13,6 +13,7 @@ import CreateTable from './components/createTable/CreateTable'
 import EnterFieldInfo from './components/createTable/EnterFieldInfo'
 import EnterTableValues from './components/createTable/EnterTableValues'
 import './index.css';
+import '../node_modules/react-bootstrap-table/dist/react-bootstrap-table.min.css'
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
 const middleware = [ thunk ]
