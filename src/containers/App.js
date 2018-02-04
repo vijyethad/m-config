@@ -19,8 +19,6 @@ class App extends Component {
 		const isTableDeleted = nextProps.tableList.deleteTablesResponse && nextProps.tableList.deleteTablesResponse.mXRefResponse.TblValues.EXECUTION_STATUS ? nextProps.tableList.deleteTablesResponse.mXRefResponse.TblValues.EXECUTION_STATUS : ''
 		const isFieldsInfoInserted = nextProps.insertTableFields.isFieldsInfoInserted
 		if(isTableDeleted === "false" || isFieldsInfoInserted === "true") window.location.reload();
-
-		// if(nextProps.insertTableFields.isFieldsInfoInserted) this.props.history.push("/enterTableValues")
 	}
 
 	render() {
@@ -30,8 +28,8 @@ class App extends Component {
 		return (
 			<div className="App">
 				{this.props.loading.isLoading ? <Loader /> : null}
-				{this.props.insertTableFields.isFieldsInfoInserted ? <p className="alert alert-success">Your table and fields are created successfully!</p> : null}
-				{this.props.insertTableValues.isValuesInserted ? <p className="alert alert-success">Your table, fields and values are all created successfully!</p> : null}
+				{this.props.insertTableFields.isFieldsInfoInserted === "success" && this.props.insertTableValues.isValuesInserted !== "Successful" ? <p className="alert alert-success">Table <strong>{this.props.insertTableFields.fieldsInfo.mXRefResponse.TblFields.TABLE_NAME}</strong> and it's fields are created successfully!</p> : null}
+				{this.props.insertTableValues.isValuesInserted ? <p className="alert alert-success">Table <strong>{this.props.insertTableFields.fieldsInfo.mXRefResponse.TblFields.TABLE_NAME}</strong>, it's fields and values are all created successfully!</p> : null}
 				<TableSelectSearch
 					setSelectedOptions={this.props.tableActions.setSelectedOptions}
 					selectedOptions={this.props.tableList.selectedOptions}

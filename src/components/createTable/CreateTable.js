@@ -63,7 +63,7 @@ class CreateTable extends Component {
 		return (
 			<div className="App">
 				{this.props.loading.isLoading ? <Loader /> : null}
-				{this.props.createTable.isTableCreated ? <p className="alert alert-success">Your table <strong>{this.props.createTable.tableName}</strong> is created successfully!</p> : null}
+				{this.props.createTable.isTableCreated ? <p className="alert alert-success">Table <strong>{this.props.createTable.tableName}</strong> is created successfully!</p> : null}
 				<h2>Create New Table</h2>
 				<div className="create-table">
 					<form className="modal-form">

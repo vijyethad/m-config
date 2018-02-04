@@ -15,7 +15,7 @@ class EnterFieldInfo extends Component {
 					? <Loader />
 					: this.props.createTable.isTableCreated && this.props.createTable.tableName ?
 						<div>
-								<p className="alert alert-success">Your table <strong>{this.props.createTable.tableName}</strong> is created successfully!</p>
+								<p className="alert alert-success">Table <strong>{this.props.createTable.tableName}</strong> is created successfully!</p>
 								<div className="enter-fields-info">
 									<h2>Enter Fields Information</h2>
 									<EnterFieldInfoComponent
