@@ -3,7 +3,6 @@ import { Button, Modal } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as tableActions from '../../actions/TableActions';
-import * as modalActions from '../../actions/ModalActions';
 import { Loader } from '../Loader';
 
 class EnterFieldInfoModal extends Component {
@@ -111,15 +110,13 @@ function mapStateToProps(state, props) {
 	return {
 		tableList: state.tableList,
 		createTable: state.createTable,
-		modalState: state.modalState,
 		insertTableFields: state.insertTableFields
 	};
 }
 
 function mapDispatchToProps(dispatch) {
 	return {
-		tableActions: bindActionCreators(tableActions, dispatch),
-		modalActions: bindActionCreators(modalActions, dispatch)
+		tableActions: bindActionCreators(tableActions, dispatch)
 	}
 }
 

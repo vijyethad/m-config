@@ -3,7 +3,6 @@ import { Button, Modal } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as tableActions from '../../actions/TableActions';
-import * as modalActions from '../../actions/ModalActions';
 import { Loader } from '../Loader';
 
 class CreateTableModal extends Component {
@@ -92,7 +91,6 @@ function mapStateToProps(state, props) {
 	return {
 		tableList: state.tableList,
 		createTable: state.createTable,
-		modalState: state.modalState,
 		insertTableFields: state.insertTableFields,
 		loading: state.loading
 	};
@@ -100,8 +98,7 @@ function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch) {
 	return {
-		tableActions: bindActionCreators(tableActions, dispatch),
-		modalActions: bindActionCreators(modalActions, dispatch)
+		tableActions: bindActionCreators(tableActions, dispatch)
 	}
 }
 
