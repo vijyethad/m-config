@@ -6,7 +6,7 @@ import * as tableActions from '../../actions/TableActions';
 import { Loader } from '../Loader';
 import EnterFieldInfoComponent from './EnterFieldInfoComponent';
 
-class EnterFieldInfoModal extends Component {
+class EnterFieldInfo extends Component {
 
 	render() {
 		return (
@@ -48,4 +48,4 @@ function mapDispatchToProps(dispatch) {
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(EnterFieldInfoModal);
+export default connect(mapStateToProps, mapDispatchToProps)(EnterFieldInfo);

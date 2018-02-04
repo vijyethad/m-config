@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import * as tableActions from '../../actions/TableActions';
 import { Loader } from '../Loader';
 
-class CreateTableModal extends Component {
+class CreateTable extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -102,4 +102,4 @@ function mapDispatchToProps(dispatch) {
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateTableModal);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateTable);

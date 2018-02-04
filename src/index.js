@@ -9,8 +9,8 @@ import reducer from './reducers'
 import App from './containers/App'
 import ScrollToTop from './containers/ScrollToTop'
 import Header from './components/header/Header';
-import CreateTableModal from './components/createTable/CreateTableModal'
-import EnterFieldInfoModal from './components/createTable/EnterFieldInfoModal'
+import CreateTable from './components/createTable/CreateTable'
+import EnterFieldInfo from './components/createTable/EnterFieldInfo'
 import EnterTableValues from './components/createTable/EnterTableValues'
 import './index.css';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
@@ -33,9 +33,9 @@ render(
 				<Route exact path='/' component={Header} />
 				<Route exact path='/' component={App} />
 				<Route path='/createTable' component={Header} />
-				<Route path='/createTable' component={CreateTableModal} />
+				<Route path='/createTable' component={CreateTable} />
 				<Route path='/enterFieldsInfo' component={Header} />
-				<Route path='/enterFieldsInfo' component={EnterFieldInfoModal} />
+				<Route path='/enterFieldsInfo' component={EnterFieldInfo} />
 				<Route path='/enterTableValues' component={Header} />
 				<Route path='/enterTableValues' component={EnterTableValues} />
 			</div>
