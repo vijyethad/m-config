@@ -1,4 +1,3 @@
-import { setCreateTableModalState, setFieldInfoModalState } from './ModalActions'
 export const RECIEVE_TABLE_LIST = 'RECIEVE_TABLE_LIST'
 export const RECIEVE_CREATE_TABLE_RESPONSE = 'RECIEVE_CREATE_TABLE_RESPONSE'
 export const RECIEVE_INSERT_TABLE_FIELDS_RESPONSE = 'RECIEVE_INSERT_TABLE_FIELDS_RESPONSE'
