@@ -47,7 +47,7 @@ body {
 .enter-fields-info {
   display: inline-block;
   margin: auto;
-  padding: 20px;
+  padding: 0px 20px 20px 20px;
 }
 
 .mega-menu-row.row {

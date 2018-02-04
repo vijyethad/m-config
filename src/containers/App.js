@@ -20,7 +20,7 @@ class App extends Component {
 		const isFieldsInfoInserted = nextProps.insertTableFields.isFieldsInfoInserted
 		if(isTableDeleted === "false" || isFieldsInfoInserted === "true") window.location.reload();
 
-		if(nextProps.insertTableFields.isFieldsInfoInserted) this.props.history.push("/enterTableValues")
+		// if(nextProps.insertTableFields.isFieldsInfoInserted) this.props.history.push("/enterTableValues")
 	}
 
 	render() {
@@ -31,6 +31,7 @@ class App extends Component {
 			<div className="App">
 				{this.props.loading.isLoading ? <Loader /> : null}
 				{this.props.insertTableFields.isFieldsInfoInserted ? <p className="alert alert-success">Your table and fields are created successfully!</p> : null}
+				{this.props.insertTableValues.isValuesInserted ? <p className="alert alert-success">Your table, fields and values are all created successfully!</p> : null}
 				<TableSelectSearch
 					setSelectedOptions={this.props.tableActions.setSelectedOptions}
 					selectedOptions={this.props.tableList.selectedOptions}
@@ -48,7 +49,8 @@ function mapStateToProps(state, props) {
 		tableList: state.tableList,
 		createTable: state.createTable,
 		insertTableFields: state.insertTableFields,
-		loading: state.loading
+		loading: state.loading,
+		insertTableValues: state.insertTableValues
 	};
 }
 
