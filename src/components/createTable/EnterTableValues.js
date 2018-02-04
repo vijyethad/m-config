@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { Button, Modal, Col } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
-import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as tableActions from '../../actions/TableActions';

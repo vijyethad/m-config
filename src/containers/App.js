@@ -3,10 +3,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as tableActions from '../actions/TableActions';
 import './App.css';
-import { Button, Modal } from 'react-bootstrap';
-import UpdateTable from '../components/updateTable/UpdateTable';
-import CreateTable from '../components/createTable/CreateTable';
-import EnterFieldInfo from '../components/createTable/EnterFieldInfo';
 import TableSelectSearch from '../components/tableSelectSearch/TableSelectSearch';
 import { Loader } from '../components/Loader';
 

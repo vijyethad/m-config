@@ -1,9 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Modal } from 'react-bootstrap';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import * as tableActions from '../../actions/TableActions';
-import { Loader } from '../Loader';
+import { Button } from 'react-bootstrap';
 
 export default class EnterFieldInfoComponent extends Component {
 	constructor(props) {
