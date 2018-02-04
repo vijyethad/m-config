@@ -11,21 +11,22 @@ export default class EnterFieldInfoComponent extends Component {
 		};
 	}
 
-	handleSubmit = (event) => {
+	componentWillReceiveProps(nextProps) {
+		if(this.props.insertTableFields.isFieldsInfoInserted) {
+			this.setState = {
+				tableFieldsData: [],
+			};
+		}
+	}
+
+	handleSubmit() {
 		const { tableFieldsData } = this.state;
 		this.props.tableActions.insertTableFieldsData(this.props.createTable.tableName, tableFieldsData)
-		this.setState({
-			tableFieldsData: []
-		});
 		this.props.history.push("/")
 	}
 
 	handleSubmitandRoute() {
-		const { tableFieldsData } = this.state;
-		this.props.tableActions.insertTableFieldsData(this.props.createTable.tableName, tableFieldsData)
-		this.setState({
-			tableFieldsData: []
-		});
+		this.handleSubmit();
 		this.props.history.push("/enterTableValues")
 	}
 
