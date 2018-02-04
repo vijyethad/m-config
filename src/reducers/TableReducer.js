@@ -74,7 +74,7 @@ export const insertTableValues = (state={isValuesInserted: false}, action) => {
 		case INSERT_TABLE_VALUES_RESPONSE:
 			return {
 				...state,
-				isValuesInserted: action.isValuesInserted
+				isValuesInserted: action.insertTableValuesResponse.mXRefResponse.TblValues.EXECUTION_STATUS
 			}
 		default:
 			return state

@@ -194,12 +194,6 @@ export const insertTableValues = (newTableValues, createdTableName, createdField
 		}))
 	)
 
-	console.log(newTableValues);
-	console.log(typeof(createdTableName));
-	console.log(createdFields);
-	console.log('--------');
-	console.log(TblValuesData);
-
 	return fetch(`http://mxref-proxy.cloudhub.io/values/`, {
 		method: 'post',
 		headers: {
