@@ -12,6 +12,7 @@ import Header from './components/header/Header';
 import CreateTable from './components/createTable/CreateTable'
 import EnterFieldInfo from './components/createTable/EnterFieldInfo'
 import EnterTableValues from './components/createTable/EnterTableValues'
+import UpdateTable from './components/updateTable/UpdateTable'
 import './index.css';
 import '../node_modules/react-bootstrap-table/dist/react-bootstrap-table.min.css'
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
@@ -39,6 +40,8 @@ render(
 				<Route path='/enterFieldsInfo' component={EnterFieldInfo} />
 				<Route path='/enterTableValues' component={Header} />
 				<Route path='/enterTableValues' component={EnterTableValues} />
+				<Route path='/updateTable' component={Header} />
+				<Route path='/updateTable' component={UpdateTable} />
 			</div>
 		</ScrollToTop>
 		</BrowserRouter>

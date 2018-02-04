@@ -10,13 +10,14 @@ class TableSelectSearch extends Component {
 		super(props);
 		this.onItemChange = this.onItemChange.bind(this)
 		this.createTableRouteHandler = this.createTableRouteHandler.bind(this)
+		this.updateTableRouteHandler = this.updateTableRouteHandler.bind(this)
 		this.deleteTableHandler = this.deleteTableHandler.bind(this)
 		this.onDeleteClick = this.onDeleteClick.bind(this)
 		this.state = {
 			selectedOptions: 0
 		}
 	}
-	
+
 	onItemChange(value, state, props) {
 		console.log('Change', value);
 		this.setState({
@@ -24,11 +25,15 @@ class TableSelectSearch extends Component {
 		});
 		this.props.setSelectedOptions(value)
 	}
-	
+
 	createTableRouteHandler() {
 		this.props.history.push("/createTable")
 	}
-	
+
+	updateTableRouteHandler() {
+		this.props.history.push("/updateTable")
+	}
+
 	onDeleteClick = () => {
 		confirmAlert({
 			title: 'Confirm to submit',
@@ -40,15 +45,15 @@ class TableSelectSearch extends Component {
 			onCancel: () => console.log('User canceled delete operation'),
 		})
 	}
-	
+
 	deleteTableHandler() {
 		this.props.deleteTables(this.props.selectedOptions);
 	}
-	
+
 	render() {
 		const tableList = [];
 		this.props.items.map(item => tableList.push({name: item.RecordInfo, value: item.RecordInfo}))
-		
+
 		return (
 			<div className="toolbar">
 				<br />
@@ -68,10 +73,10 @@ class TableSelectSearch extends Component {
 					<div className="btn-toolbar">
 						<Button
 							bsStyle="warning"
-							onClick={this.props.onClickUpdateModal}
+							onClick={this.updateTableRouteHandler}
 							disabled={this.state.selectedOptions !== 1}
 						>
-							Update
+							View/Update
 						</Button>
 						<Button
 							bsStyle="danger"
