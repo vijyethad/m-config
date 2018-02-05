@@ -1,36 +1,130 @@
 import React, { Component } from 'react';
-import { BootstrapTable, TableHeaderColumn, Button } from 'react-bootstrap-table';
-import { ButtonGroup } from 'react-bootstrap';
+import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
+import { ButtonGroup, Button, Modal, Form, FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as tableActions from '../../actions/TableActions';
-
-// function insertColumn() {
-// 	products.map(product => product[newColumn] = '')
-// }
 
 class UpdateTable extends Component {
 	constructor(props) {
 		super(props);
 			this.onAfterSaveCell = this.onAfterSaveCell.bind(this);
+			this.openNewColumnModal = this.openNewColumnModal.bind(this);
+			this.renderNewColumnModal = this.renderNewColumnModal.bind(this);
+			this.handleNewColumnModalShow = this.handleNewColumnModalShow.bind(this);
+			this.handleNewColumnModalClose = this.handleNewColumnModalClose.bind(this);
+			this.onNewColumnSubmit = this.onNewColumnSubmit.bind(this);
+			this.saveTable = this.saveTable.bind(this)
+
+			this.handleDeleteColumnModalClose = this.handleDeleteColumnModalClose.bind(this)
+			this.handleDeleteColumnModalShow = this.handleDeleteColumnModalShow.bind(this)
+			this.openDeleteColumnModal = this.openDeleteColumnModal.bind(this)
+			this.onDeleteColumnSubmit = this.onDeleteColumnSubmit.bind(this)
+			this.renderDeleteColumnModal = this.renderDeleteColumnModal.bind(this)
+
+
+			this.state = {
+				newColumnModalShow: false,
+				deleteColumnModalShow: true
+			};
 	}
+
 	componentDidMount() {
 		this.props.tableActions.fetchTableData([{"name":"Location_Info","value":"Location_Info"}]);
 		this.props.tableActions.shouldShowSaveChangesBtn(false);
 	}
+
+	// New Column Modal
+	handleNewColumnModalClose() {
+		this.setState({ newColumnModalShow: false });
+	}
+
+	handleNewColumnModalShow() {
+		this.setState({ newColumnModalShow: true });
+	}
+
+	openNewColumnModal() {
+		this.setState({ newColumnModalShow: true });
+	}
+
+	onNewColumnSubmit() {
+		const newColumn = this.input.value;
+		this.props.tableData && this.props.tableData.mXRefResponse ? this.props.tableData.mXRefResponse.TblData.DATA.map(row => row[newColumn] = '') : []
+
+		this.setState({ newColumnModalShow: false });
+		this.props.tableActions.shouldShowSaveChangesBtn(true);
+	}
+
+	renderNewColumnModal = (modalTitle) => {
+		return (
+			<Modal show={this.state.newColumnModalShow} onHide={this.handleNewColumnModalClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>{modalTitle}</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+						    <ControlLabel>Column</ControlLabel>{' '}
+						    <FormControl type="text" placeholder="New Colulmn" inputRef={(ref) => {this.input = ref}}/>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button onClick={this.handleNewColumnModalClose}>Close</Button>
+						<Button type="submit" bsStyle="primary" onClick={this.onNewColumnSubmit}>Submit</Button>
+          </Modal.Footer>
+        </Modal>
+		)
+	}
+
+	// Delete Column Modal
+	handleDeleteColumnModalClose() {
+		this.setState({ deleteColumnModalShow: false });
+	}
+
+	handleDeleteColumnModalShow() {
+		this.setState({ deleteColumnModalShow: true });
+	}
+
+	openDeleteColumnModal() {
+		this.setState({ deleteColumnModalShow: true });
+	}
+
+	onDeleteColumnSubmit() {
+		console.log('meowwww');
+		this.setState({ deleteColumnModalShow: false });
+	}
+
+	renderDeleteColumnModal = (modalTitle) => {
+		return (
+			<Modal show={this.state.deleteColumnModalShow} onHide={this.handleDeleteColumnModalClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>{modalTitle}</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+						    meow
+          </Modal.Body>
+          <Modal.Footer>
+            <Button onClick={this.handleDeleteColumnModalClose}>Close</Button>
+						<Button type="submit" bsStyle="primary" onClick={this.onDeleteColumnSubmit}>Submit</Button>
+          </Modal.Footer>
+        </Modal>
+		)
+	}
+
+	saveTable() {
+		    console.log(this.refs.table.getTableDataIgnorePaging());
+	}
+
+
+
 	createCustomButtonGroup = props => {
 		return (
 			<ButtonGroup className='my-custom-class' className='btn-group-md'>
 				{ props.insertBtn }
 				{ props.deleteBtn }
-				<button type='button'
-					className={ `btn btn-primary` }>
-					<span><i class="fa glyphicon glyphicon-plus fa-plus"></i> New Column</span>
-				</button>
-				<button type='button'
-					className={ `btn btn-warning` }>
-					<span><i class="fa glyphicon glyphicon-trash fa-trash"></i> Delete Column</span>
-				</button>
+				<Button bsStyle="info" onClick={this.openNewColumnModal}>
+					<span><i className="fa glyphicon glyphicon-plus fa-plus"></i> New Column</span>
+				</Button>
+				<Button bsStyle="warning" onClick={this.openDeleteColumnModal}>
+					<span><i className="fa glyphicon glyphicon-trash fa-trash"></i> Delete Column</span>
+				</Button>
 			</ButtonGroup>
 		);
 	}
@@ -54,7 +148,6 @@ class UpdateTable extends Component {
 		this.props.tableActions.shouldShowSaveChangesBtn(true);
 	  // console.log(this.refs.table.getTableDataIgnorePaging());
 	}
-
 
 	render() {
 		const selectRowProp = {
@@ -91,13 +184,15 @@ class UpdateTable extends Component {
 		return (
 			<div className="App">
 				<h2>Table</h2>
+				{this.renderNewColumnModal('Add New Column')}
+				{this.renderDeleteColumnModal('Delete Column')}
 					<BootstrapTable data={tableData} options={ options } keyField='ZjAWeei2Y34E' cellEdit={cellEditProp} search={true} options={options}
 													className="enter-table-values" deleteRow={true} insertRow={true} selectRow={selectRowProp}>
 													{columns.map(column =>
 														<TableHeaderColumn dataField={column}>{column}</TableHeaderColumn>
 													)}
 					</BootstrapTable>
-					{this.props.shouldShowSaveChangesBtn.value ? <button type="button" className="btn btn-success" hidden>Save Changes</button> : null}
+					{this.props.shouldShowSaveChangesBtn.value ? <Button bsStyle="success" onClick={this.saveTable} hidden>Save Changes</Button> : null}
 		</div>
 		);
 	}
