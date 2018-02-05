@@ -5,47 +5,9 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as tableActions from '../../actions/TableActions';
 
-const products = [];
-
-function addProducts(quantity) {
-	const startId = products.length;
-	for (let i = 0; i < quantity; i++) {
-		const id = startId + i;
-		products.push({
-			id: id,
-			id2: id,
-			name: 'Item name ' + id,
-			price: 2100 + i
-		});
-	}
-}
-
-addProducts(5);
-
-// Add column
-console.log(products);
-
-const newColumn = 'sri';
-
-function insertColumn() {
-	products.map(product => product[newColumn] = '')
-}
-insertColumn();
-console.log(products);
-
-function onAfterInsertRow(row) {
-	let newRowStr = '';
-	for (const prop in row) {
-		newRowStr += prop + ': ' + row[prop] + ' \n';
-	}
-	console.log('The new row is:\n ' + newRowStr);
-}
-
-function onAfterDeleteRow(rowKeys) {
-	console.log('The rowkey you drop: ' + rowKeys);
-}
-
-
+// function insertColumn() {
+// 	products.map(product => product[newColumn] = '')
+// }
 
 class UpdateTable extends Component {
 	constructor(props) {
@@ -57,29 +19,41 @@ class UpdateTable extends Component {
 		this.props.tableActions.shouldShowSaveChangesBtn(false);
 	}
 	createCustomButtonGroup = props => {
-	return (
-		<ButtonGroup className='my-custom-class' className='btn-group-md'>
-			{ props.insertBtn }
-			{ props.deleteBtn }
-			<button type='button'
-				className={ `btn btn-primary` }>
-				<span><i class="fa glyphicon glyphicon-plus fa-plus"></i> New Column</span>
-			</button>
-			<button type='button'
-				className={ `btn btn-warning` }>
-				<span><i class="fa glyphicon glyphicon-trash fa-trash"></i> Delete Column</span>
-			</button>
-		</ButtonGroup>
-	);
-}
+		return (
+			<ButtonGroup className='my-custom-class' className='btn-group-md'>
+				{ props.insertBtn }
+				{ props.deleteBtn }
+				<button type='button'
+					className={ `btn btn-primary` }>
+					<span><i class="fa glyphicon glyphicon-plus fa-plus"></i> New Column</span>
+				</button>
+				<button type='button'
+					className={ `btn btn-warning` }>
+					<span><i class="fa glyphicon glyphicon-trash fa-trash"></i> Delete Column</span>
+				</button>
+			</ButtonGroup>
+		);
+	}
 
-onAfterSaveCell(row, cellName, cellValue) {
-  console.log(`Save cell ${cellName} with value ${cellValue}`);
-  console.log('The whole row :');
-  console.log(row);
-	this.props.tableActions.shouldShowSaveChangesBtn(true);
-  // console.log(this.refs.table.getTableDataIgnorePaging());
-}
+	onAfterInsertRow(row) {
+		let newRowStr = '';
+		for (const prop in row) {
+			newRowStr += prop + ': ' + row[prop] + ' \n';
+		}
+		console.log('The new row is:\n ' + newRowStr);
+	}
+
+	onAfterDeleteRow(rowKeys) {
+		console.log('The rowkey you drop: ' + rowKeys);
+	}
+
+	onAfterSaveCell(row, cellName, cellValue) {
+	  console.log(`Save cell ${cellName} with value ${cellValue}`);
+	  console.log('The whole row :');
+	  console.log(row);
+		this.props.tableActions.shouldShowSaveChangesBtn(true);
+	  // console.log(this.refs.table.getTableDataIgnorePaging());
+	}
 
 
 	render() {
@@ -88,8 +62,8 @@ onAfterSaveCell(row, cellName, cellValue) {
 		};
 
 		const options = {
-			afterInsertRow: onAfterInsertRow,   // A hook for after insert rows
-			afterDeleteRow: onAfterDeleteRow,  // A hook for after droping rows.
+			afterInsertRow: this.onAfterInsertRow,   // A hook for after insert rows
+			afterDeleteRow: this.onAfterDeleteRow,  // A hook for after droping rows.
 			insertText: 'New Row',
 			deleteText: 'Delete Row',
 			btnGroup: this.createCustomButtonGroup
@@ -124,14 +98,6 @@ onAfterSaveCell(row, cellName, cellValue) {
 													)}
 					</BootstrapTable>
 					{this.props.shouldShowSaveChangesBtn.value ? <button type="button" className="btn btn-success" hidden>Save Changes</button> : null}
-
-					<BootstrapTable data={products} deleteRow={true} insertRow={true} selectRow={selectRowProp}
-					                cellEdit={cellEditProp} search={true} options={options} className="enter-table-values">
-						<TableHeaderColumn hiddenOnInsert isKey hidden dataField='id'>Product ID</TableHeaderColumn>
-						<TableHeaderColumn dataField='id2'>Product ID</TableHeaderColumn>
-						<TableHeaderColumn dataField='name'>Product Name</TableHeaderColumn>
-						<TableHeaderColumn dataField='price'>Product Price</TableHeaderColumn>
-					</BootstrapTable>
 		</div>
 		);
 	}
