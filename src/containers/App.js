@@ -32,6 +32,7 @@ class App extends Component {
 					deleteTables={this.props.tableActions.deleteTables}
 					items={tableListItems}
 					history={this.props.history}
+					fetchTableData={this.props.tableActions.fetchTableData}
 				/>
 			</div>
 		);

@@ -4,7 +4,9 @@ export const RECIEVE_INSERT_TABLE_FIELDS_RESPONSE = 'RECIEVE_INSERT_TABLE_FIELDS
 export const SET_SELECTED_OPTIONS = 'SET_SELECTED_OPTIONS'
 export const RECIEVE_DELETE_TABLES_RESPONSE = 'RECIEVE_DELETE_TABLES_RESPONSE'
 export const INSERT_TABLE_VALUES_RESPONSE = 'INSERT_TABLE_VALUES_RESPONSE'
+export const RECIEVE_TABLE_DATA_RESPONSE = 'RECIEVE_TABLE_DATA_RESPONSE'
 export const IS_LOADING = 'IS_LOADING'
+export const SHOULD_SHOW_SAVE_CHANGES_BUTTON = 'SHOULD_SHOW_SAVE_CHANGES_BUTTON'
 
 export const setIsLoading = response => ({
 	type: IS_LOADING,
@@ -218,3 +220,41 @@ export const insertTableValues = (newTableValues, createdTableName, createdField
 			dispatch(insertTableValuesResponse(json))
 		})
 }
+
+export const recieveTableDataResponse = json => ({
+	type: RECIEVE_TABLE_DATA_RESPONSE,
+	tableData: json
+})
+
+export const fetchTableData = (selectedTable) => dispatch => {
+	dispatch(setIsLoading(true))
+
+	return fetch(`http://mxref-proxy.cloudhub.io/retrieve/`, {
+		method: 'post',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(
+			{
+			  "mXRefRequest": {
+			    "TblValues": {
+			      "ACTION": "Retrieve",
+			      "ENTITY": "TableData",
+			      "TBL_NAME": selectedTable[0].name
+			    }
+			  }
+			}
+		)
+	})
+		.then(response => response.json())
+		.then(json => {
+			dispatch(setIsLoading(false))
+			dispatch(recieveTableDataResponse(json))
+		})
+}
+
+
+export const shouldShowSaveChangesBtn = response => ({
+	type: SHOULD_SHOW_SAVE_CHANGES_BUTTON,
+	shouldShowSaveChangesBtn: response
+})
