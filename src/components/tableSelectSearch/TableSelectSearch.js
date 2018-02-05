@@ -31,6 +31,9 @@ class TableSelectSearch extends Component {
 	}
 
 	updateTableRouteHandler() {
+		console.log('-------');
+		console.log(this.props.selectedOptions);
+		this.props.fetchTableData(this.props.selectedOptions);
 		this.props.history.push("/updateTable")
 	}
 

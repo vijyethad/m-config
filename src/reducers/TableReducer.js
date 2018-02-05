@@ -5,7 +5,9 @@ import {
 	SET_SELECTED_OPTIONS,
 	RECIEVE_DELETE_TABLES_RESPONSE,
 	INSERT_TABLE_VALUES_RESPONSE,
-	IS_LOADING
+	IS_LOADING,
+	RECIEVE_TABLE_DATA_RESPONSE,
+	SHOULD_SHOW_SAVE_CHANGES_BUTTON
 } from '../actions/TableActions'
 
 export const loading = (state={}, action) => {
@@ -14,6 +16,18 @@ export const loading = (state={}, action) => {
 			return {
 				...state,
 				isLoading: action.isLoading
+			}
+		default:
+			return state
+	}
+}
+
+export const shouldShowSaveChangesBtn = (state={}, action) => {
+	switch (action.type) {
+		case SHOULD_SHOW_SAVE_CHANGES_BUTTON:
+			return {
+				...state,
+				value: action.shouldShowSaveChangesBtn
 			}
 		default:
 			return state
@@ -75,6 +89,18 @@ export const insertTableValues = (state={isValuesInserted: false}, action) => {
 			return {
 				...state,
 				isValuesInserted: action.insertTableValuesResponse.mXRefResponse.TblValues.EXECUTION_STATUS
+			}
+		default:
+			return state
+	}
+}
+
+export const tableData = (state={}, action) => {
+	switch (action.type) {
+		case RECIEVE_TABLE_DATA_RESPONSE:
+			return {
+				...state,
+				...action.tableData
 			}
 		default:
 			return state

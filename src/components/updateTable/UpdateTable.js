@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
-import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
+import { BootstrapTable, TableHeaderColumn, Button } from 'react-bootstrap-table';
 import { ButtonGroup } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as tableActions from '../../actions/TableActions';
 
 const products = [];
 
@@ -44,7 +47,15 @@ function onAfterDeleteRow(rowKeys) {
 
 
 
-export default class UpdateTable extends Component {
+class UpdateTable extends Component {
+	constructor(props) {
+		super(props);
+			this.onAfterSaveCell = this.onAfterSaveCell.bind(this);
+	}
+	componentDidMount() {
+		this.props.tableActions.fetchTableData([{"name":"Location_Info","value":"Location_Info"}]);
+		this.props.tableActions.shouldShowSaveChangesBtn(false);
+	}
 	createCustomButtonGroup = props => {
 	return (
 		<ButtonGroup className='my-custom-class' className='btn-group-md'>
@@ -62,6 +73,14 @@ export default class UpdateTable extends Component {
 	);
 }
 
+onAfterSaveCell(row, cellName, cellValue) {
+  console.log(`Save cell ${cellName} with value ${cellValue}`);
+  console.log('The whole row :');
+  console.log(row);
+	this.props.tableActions.shouldShowSaveChangesBtn(true);
+  // console.log(this.refs.table.getTableDataIgnorePaging());
+}
+
 
 	render() {
 		const selectRowProp = {
@@ -77,20 +96,60 @@ export default class UpdateTable extends Component {
 		};
 
 		const cellEditProp = {
-			mode: 'click'
+			mode: 'click',
+			blurToSave: true,
+			afterSaveCell: this.onAfterSaveCell
 		};
+
+		let tableData = this.props.tableData && this.props.tableData.mXRefResponse ? this.props.tableData.mXRefResponse.TblData.DATA : []
+		let columns = [];
+
+		tableData.map(row => {
+			Object.keys(row).map(key => {
+				if(!columns.includes(key)) {
+					columns.push(key)
+				}
+			})
+		})
+
+		console.log(this.props.shouldShowSaveChangesBtn);
 
 		return (
 			<div className="App">
 				<h2>Table</h2>
-				<BootstrapTable data={products} deleteRow={true} insertRow={true} selectRow={selectRowProp}
-				                cellEdit={cellEditProp} search={true} options={options} className="enter-table-values">
-					<TableHeaderColumn hiddenOnInsert isKey hidden dataField='id'>Product ID</TableHeaderColumn>
-					<TableHeaderColumn dataField='id2'>Product ID</TableHeaderColumn>
-					<TableHeaderColumn dataField='name'>Product Name</TableHeaderColumn>
-					<TableHeaderColumn dataField='price'>Product Price</TableHeaderColumn>
-				</BootstrapTable>
+					<BootstrapTable data={tableData} options={ options } keyField='ZjAWeei2Y34E' cellEdit={cellEditProp} search={true} options={options}
+													className="enter-table-values" deleteRow={true} insertRow={true} selectRow={selectRowProp}>
+													{columns.map(column =>
+														<TableHeaderColumn dataField={column}>{column}</TableHeaderColumn>
+													)}
+					</BootstrapTable>
+					{this.props.shouldShowSaveChangesBtn.value ? <button type="button" className="btn btn-success" hidden>Save Changes</button> : null}
+
+					<BootstrapTable data={products} deleteRow={true} insertRow={true} selectRow={selectRowProp}
+					                cellEdit={cellEditProp} search={true} options={options} className="enter-table-values">
+						<TableHeaderColumn hiddenOnInsert isKey hidden dataField='id'>Product ID</TableHeaderColumn>
+						<TableHeaderColumn dataField='id2'>Product ID</TableHeaderColumn>
+						<TableHeaderColumn dataField='name'>Product Name</TableHeaderColumn>
+						<TableHeaderColumn dataField='price'>Product Price</TableHeaderColumn>
+					</BootstrapTable>
 		</div>
 		);
 	}
 }
+
+
+function mapStateToProps(state, props) {
+	return {
+		loading: state.loading,
+		tableData: state.tableData,
+		shouldShowSaveChangesBtn: state.shouldShowSaveChangesBtn
+	};
+}
+
+function mapDispatchToProps(dispatch) {
+	return {
+		tableActions: bindActionCreators(tableActions, dispatch),
+	}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(UpdateTable);
