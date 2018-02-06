@@ -4,6 +4,8 @@ import { ButtonGroup, Button, Modal, Form, FormGroup, ControlLabel, FormControl 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as tableActions from '../../actions/TableActions';
+import Select from 'react-select';
+import 'react-select/dist/react-select.css';
 
 class UpdateTable extends Component {
 	constructor(props) {
@@ -22,10 +24,11 @@ class UpdateTable extends Component {
 			this.onDeleteColumnSubmit = this.onDeleteColumnSubmit.bind(this)
 			this.renderDeleteColumnModal = this.renderDeleteColumnModal.bind(this)
 
-
+			this.handleSelectChange = this.handleSelectChange.bind(this)
 			this.state = {
 				newColumnModalShow: false,
-				deleteColumnModalShow: true
+				deleteColumnModalShow: true,
+				value: []
 			};
 	}
 
@@ -87,18 +90,48 @@ class UpdateTable extends Component {
 	}
 
 	onDeleteColumnSubmit() {
-		console.log('meowwww');
+		const deleteColumns = []
+		this.state.value.map(row => deleteColumns.push(row.value))
+		console.log(deleteColumns);
+
+		this.props.tableData && this.props.tableData.mXRefResponse
+		? this.props.tableData.mXRefResponse.TblData.DATA.map(row => {
+				deleteColumns.map(deleteColumn => delete row[deleteColumn])
+			})
+		: []
+
 		this.setState({ deleteColumnModalShow: false });
+		this.props.tableActions.shouldShowSaveChangesBtn(true);
 	}
 
-	renderDeleteColumnModal = (modalTitle) => {
+	handleSelectChange (value) {
+		console.log('You\'ve selected:', value);
+		this.setState({ value });
+	}
+
+	renderDeleteColumnModal = (columns) => {
+		const col = [];
+		let obj = {}
+		const options=columns.map(column => {
+			col.push({label: column, value: column})
+		})
+
 		return (
 			<Modal show={this.state.deleteColumnModalShow} onHide={this.handleDeleteColumnModalClose}>
           <Modal.Header closeButton>
-            <Modal.Title>{modalTitle}</Modal.Title>
+            <Modal.Title>Delete Column</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-						    meow
+						<Select
+							closeOnSelect={false}
+							multi
+							onChange={this.handleSelectChange}
+							options={col}
+							placeholder="Select columns to delete"
+							removeSelected={this.state.removeSelected}
+							rtl={this.state.rtl}
+							value={this.state.value}
+						/>
           </Modal.Body>
           <Modal.Footer>
             <Button onClick={this.handleDeleteColumnModalClose}>Close</Button>
@@ -107,6 +140,21 @@ class UpdateTable extends Component {
         </Modal>
 		)
 	}
+
+	// const selectedOptions = []
+  //   value.map(item => {
+  //     if ( item.label.split(':')[0] === 'productName' ) {
+  //       selectedOptions.push( { productName: item.label.split(':')[1] } )
+  //     } else if ( item.label.split(':')[0] === 'germplasm' ) {
+  //       selectedOptions.push( { germplasm: Number(item.label.split(':')[1]) } )
+  //     } else if ( item.label.split(':')[0] === 'trait' ) {
+  //       selectedOptions.push( { trait: Number(item.label.split(':')[1]) } )
+  //     } else if ( item.label.split(':')[0] === 'treatment' ) {
+  //       selectedOptions.push( { treatment: Number(item.label.split(':')[1]) } )
+  //     }
+  //
+  //     return selectedOptions
+  //   })
 
 	saveTable() {
 		    console.log(this.refs.table.getTableDataIgnorePaging());
@@ -185,7 +233,7 @@ class UpdateTable extends Component {
 			<div className="App">
 				<h2>Table</h2>
 				{this.renderNewColumnModal('Add New Column')}
-				{this.renderDeleteColumnModal('Delete Column')}
+				{this.renderDeleteColumnModal(columns, tableData)}
 					<BootstrapTable data={tableData} options={ options } keyField='ZjAWeei2Y34E' cellEdit={cellEditProp} search={true} options={options}
 													className="enter-table-values" deleteRow={true} insertRow={true} selectRow={selectRowProp}>
 													{columns.map(column =>

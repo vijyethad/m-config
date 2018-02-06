@@ -19,7 +19,6 @@ class TableSelectSearch extends Component {
 	}
 
 	onItemChange(value, state, props) {
-		console.log('Change', value);
 		this.setState({
 			selectedOptions: value.length
 		});
@@ -31,8 +30,6 @@ class TableSelectSearch extends Component {
 	}
 
 	updateTableRouteHandler() {
-		console.log('-------');
-		console.log(this.props.selectedOptions);
 		this.props.fetchTableData(this.props.selectedOptions);
 		this.props.history.push("/updateTable")
 	}
