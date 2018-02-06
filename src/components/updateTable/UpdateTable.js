@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux';
 import * as tableActions from '../../actions/TableActions';
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
+import uuidv4 from 'uuid/v4';
 
 class UpdateTable extends Component {
 	constructor(props) {
@@ -217,8 +218,10 @@ class UpdateTable extends Component {
 		};
 
 		let tableData = this.props.tableData && this.props.tableData.mXRefResponse ? this.props.tableData.mXRefResponse.TblData.DATA : []
-		let columns = [];
 
+		tableData.map(row => row.ZjAWeei2Y34E = uuidv4())
+
+		let columns = [];
 		tableData.map(row => {
 			Object.keys(row).map(key => {
 				if(!columns.includes(key)) {
@@ -237,7 +240,7 @@ class UpdateTable extends Component {
 					<BootstrapTable data={tableData} options={ options } keyField='ZjAWeei2Y34E' cellEdit={cellEditProp} search={true} options={options}
 													className="enter-table-values" deleteRow={true} insertRow={true} selectRow={selectRowProp}>
 													{columns.map(column =>
-														<TableHeaderColumn dataField={column}>{column}</TableHeaderColumn>
+														<TableHeaderColumn hidden={column === 'ZjAWeei2Y34E'} hiddenOnInsert={column === 'ZjAWeei2Y34E'} dataField={column}>{column}</TableHeaderColumn>
 													)}
 					</BootstrapTable>
 					{this.props.shouldShowSaveChangesBtn.value ? <Button bsStyle="success" onClick={this.saveTable} hidden>Save Changes</Button> : null}
