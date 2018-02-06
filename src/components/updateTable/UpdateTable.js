@@ -28,13 +28,12 @@ class UpdateTable extends Component {
 			this.handleSelectChange = this.handleSelectChange.bind(this)
 			this.state = {
 				newColumnModalShow: false,
-				deleteColumnModalShow: true,
+				deleteColumnModalShow: false,
 				value: []
 			};
 	}
 
 	componentDidMount() {
-		this.props.tableActions.fetchTableData([{"name":"Location_Info","value":"Location_Info"}]);
 		this.props.tableActions.shouldShowSaveChangesBtn(false);
 	}
 
@@ -114,7 +113,9 @@ class UpdateTable extends Component {
 		const col = [];
 		let obj = {}
 		const options=columns.map(column => {
-			col.push({label: column, value: column})
+			if(column !== 'ZjAWeei2Y34E') {
+				col.push({label: column, value: column})
+			}
 		})
 
 		return (
@@ -142,26 +143,9 @@ class UpdateTable extends Component {
 		)
 	}
 
-	// const selectedOptions = []
-  //   value.map(item => {
-  //     if ( item.label.split(':')[0] === 'productName' ) {
-  //       selectedOptions.push( { productName: item.label.split(':')[1] } )
-  //     } else if ( item.label.split(':')[0] === 'germplasm' ) {
-  //       selectedOptions.push( { germplasm: Number(item.label.split(':')[1]) } )
-  //     } else if ( item.label.split(':')[0] === 'trait' ) {
-  //       selectedOptions.push( { trait: Number(item.label.split(':')[1]) } )
-  //     } else if ( item.label.split(':')[0] === 'treatment' ) {
-  //       selectedOptions.push( { treatment: Number(item.label.split(':')[1]) } )
-  //     }
-  //
-  //     return selectedOptions
-  //   })
-
 	saveTable() {
-		    console.log(this.refs.table.getTableDataIgnorePaging());
+		console.log(this.refs.table.getTableDataIgnorePaging());
 	}
-
-
 
 	createCustomButtonGroup = props => {
 		return (
@@ -184,10 +168,12 @@ class UpdateTable extends Component {
 			newRowStr += prop + ': ' + row[prop] + ' \n';
 		}
 		console.log('The new row is:\n ' + newRowStr);
+		this.props.tableActions.shouldShowSaveChangesBtn(true);
 	}
 
 	onAfterDeleteRow(rowKeys) {
 		console.log('The rowkey you drop: ' + rowKeys);
+		this.props.tableActions.shouldShowSaveChangesBtn(true);
 	}
 
 	onAfterSaveCell(row, cellName, cellValue) {
@@ -240,7 +226,12 @@ class UpdateTable extends Component {
 					<BootstrapTable data={tableData} options={ options } keyField='ZjAWeei2Y34E' cellEdit={cellEditProp} search={true} options={options}
 													className="enter-table-values" deleteRow={true} insertRow={true} selectRow={selectRowProp}>
 													{columns.map(column =>
-														<TableHeaderColumn hidden={column === 'ZjAWeei2Y34E'} hiddenOnInsert={column === 'ZjAWeei2Y34E'} dataField={column}>{column}</TableHeaderColumn>
+														<TableHeaderColumn
+															hidden={column === 'ZjAWeei2Y34E'}
+															hiddenOnInsert={column === 'ZjAWeei2Y34E'}
+															dataField={column}>
+																{column}
+														</TableHeaderColumn>
 													)}
 					</BootstrapTable>
 					{this.props.shouldShowSaveChangesBtn.value ? <Button bsStyle="success" onClick={this.saveTable} hidden>Save Changes</Button> : null}
