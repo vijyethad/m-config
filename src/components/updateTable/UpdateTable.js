@@ -7,6 +7,7 @@ import * as tableActions from '../../actions/TableActions';
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
 import uuidv4 from 'uuid/v4';
+import { Loader } from '../Loader';
 
 class UpdateTable extends Component {
 	constructor(props) {
@@ -181,7 +182,6 @@ class UpdateTable extends Component {
 	  console.log('The whole row :');
 	  console.log(row);
 		this.props.tableActions.shouldShowSaveChangesBtn(true);
-	  // console.log(this.refs.table.getTableDataIgnorePaging());
 	}
 
 	render() {
@@ -205,7 +205,7 @@ class UpdateTable extends Component {
 
 		let tableData = this.props.tableData && this.props.tableData.mXRefResponse ? this.props.tableData.mXRefResponse.TblData.DATA : []
 
-		tableData.map(row => row.ZjAWeei2Y34E = uuidv4())
+		tableData.map(row => row.ZjAWeei2Y34E = 'uuidv4()')
 
 		let columns = [];
 		tableData.map(row => {
@@ -216,25 +216,34 @@ class UpdateTable extends Component {
 			})
 		})
 
-		console.log(this.props.shouldShowSaveChangesBtn);
-
 		return (
 			<div className="App">
 				<h2>Table</h2>
 				{this.renderNewColumnModal('Add New Column')}
 				{this.renderDeleteColumnModal(columns, tableData)}
-					<BootstrapTable data={tableData} options={ options } keyField='ZjAWeei2Y34E' cellEdit={cellEditProp} search={true} options={options}
-													className="enter-table-values" deleteRow={true} insertRow={true} selectRow={selectRowProp}>
-													{columns.map(column =>
-														<TableHeaderColumn
-															hidden={column === 'ZjAWeei2Y34E'}
-															hiddenOnInsert={column === 'ZjAWeei2Y34E'}
-															dataField={column}>
-																{column}
-														</TableHeaderColumn>
-													)}
+
+				{
+					this.props.loading.isLoading
+					? <Loader />
+					: <BootstrapTable
+							data={tableData} options={ options }
+							keyField='ZjAWeei2Y34E' cellEdit={cellEditProp}
+							search={true} options={options}
+							className="enter-table-values" deleteRow={true}
+							insertRow={true} selectRow={selectRowProp}
+						>
+							{columns.map(column =>
+								<TableHeaderColumn
+									hidden={column === 'ZjAWeei2Y34E'}
+									hiddenOnInsert={column === 'ZjAWeei2Y34E'}
+									dataField={column}>
+										{column}
+								</TableHeaderColumn>
+							)}
 					</BootstrapTable>
-					{this.props.shouldShowSaveChangesBtn.value ? <Button bsStyle="success" onClick={this.saveTable} hidden>Save Changes</Button> : null}
+				}
+
+				{this.props.shouldShowSaveChangesBtn.value ? <Button bsStyle="success" onClick={this.saveTable} hidden>Save Changes</Button> : null}
 		</div>
 		);
 	}
