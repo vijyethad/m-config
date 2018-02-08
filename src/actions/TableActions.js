@@ -9,10 +9,11 @@ export const IS_LOADING = 'IS_LOADING'
 export const SHOULD_SHOW_SAVE_CHANGES_BUTTON = 'SHOULD_SHOW_SAVE_CHANGES_BUTTON'
 export const UPDATE_TABLE = 'UPDATE_TABLE'
 
-export const updateTable = (newTableData, didColumnUpdate) => ({
+export const updateTable = (newTableData, shouldShowSaveChangesBtn, didColumnUpdate) => ({
 	type: UPDATE_TABLE,
 	newTableData,
-	didColumnUpdate
+	didColumnUpdate,
+	shouldShowSaveChangesBtn
 })
 
 export const setIsLoading = response => ({
