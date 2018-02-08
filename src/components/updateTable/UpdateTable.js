@@ -13,6 +13,8 @@ class UpdateTable extends Component {
 	constructor(props) {
 		super(props);
 			this.onAfterSaveCell = this.onAfterSaveCell.bind(this);
+			this.onAfterDeleteRow = this.onAfterDeleteRow.bind(this);
+			this.onAfterInsertRow = this.onAfterInsertRow.bind(this);
 			this.openNewColumnModal = this.openNewColumnModal.bind(this);
 			this.renderNewColumnModal = this.renderNewColumnModal.bind(this);
 			this.handleNewColumnModalShow = this.handleNewColumnModalShow.bind(this);
@@ -36,6 +38,7 @@ class UpdateTable extends Component {
 
 	componentDidMount() {
 		this.props.tableActions.shouldShowSaveChangesBtn(false);
+		this.props.tableActions.fetchTableData([{"name":"Location_Info","value":"Location_Info"}]);
 	}
 
 	// New Column Modal
@@ -205,7 +208,7 @@ class UpdateTable extends Component {
 
 		let tableData = this.props.tableData && this.props.tableData.mXRefResponse ? this.props.tableData.mXRefResponse.TblData.DATA : []
 
-		tableData.map(row => row.ZjAWeei2Y34E = 'uuidv4()')
+		tableData.map(row => row.ZjAWeei2Y34E = '')
 
 		let columns = [];
 		tableData.map(row => {
@@ -232,18 +235,19 @@ class UpdateTable extends Component {
 							className="enter-table-values" deleteRow={true}
 							insertRow={true} selectRow={selectRowProp}
 						>
-							{columns.map(column =>
-								<TableHeaderColumn
-									hidden={column === 'ZjAWeei2Y34E'}
-									hiddenOnInsert={column === 'ZjAWeei2Y34E'}
-									dataField={column}>
-										{column}
-								</TableHeaderColumn>
-							)}
+								{columns.map(column =>
+									<TableHeaderColumn
+										hidden={column === 'ZjAWeei2Y34E'}
+										hiddenOnInsert={column === 'ZjAWeei2Y34E'}
+										autoValue={column === 'ZjAWeei2Y34E'}
+										dataField={column}>
+											{column}
+									</TableHeaderColumn>
+								)}
 					</BootstrapTable>
 				}
 
-				{this.props.shouldShowSaveChangesBtn.value ? <Button bsStyle="success" onClick={this.saveTable} hidden>Save Changes</Button> : null}
+				{this.props.shouldShowSaveChangesBtn.value ? <Button bsStyle="success" onClick={this.saveTable}>Save Changes</Button> : null}
 		</div>
 		);
 	}
