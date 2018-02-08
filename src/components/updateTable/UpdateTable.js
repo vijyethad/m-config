@@ -212,7 +212,7 @@ class UpdateTable extends Component {
 
 		let tableData = this.props.tableData && this.props.tableData.mXRefResponse ? this.props.tableData.mXRefResponse.TblData.DATA : []
 
-		tableData.map(row => row.ZjAWeei2Y34E = '')
+		tableData.map(row => row.ZjAWeei2Y34E = uuidv4())
 
 		let columns = [];
 		tableData.map(row => {
