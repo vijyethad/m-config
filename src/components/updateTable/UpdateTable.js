@@ -12,23 +12,26 @@ import { Loader } from '../Loader';
 class UpdateTable extends Component {
 	constructor(props) {
 		super(props);
-			this.onAfterSaveCell = this.onAfterSaveCell.bind(this);
-			this.onAfterDeleteRow = this.onAfterDeleteRow.bind(this);
-			this.onAfterInsertRow = this.onAfterInsertRow.bind(this);
-			this.openNewColumnModal = this.openNewColumnModal.bind(this);
-			this.renderNewColumnModal = this.renderNewColumnModal.bind(this);
-			this.handleNewColumnModalShow = this.handleNewColumnModalShow.bind(this);
+			// Insert column bindings
 			this.handleNewColumnModalClose = this.handleNewColumnModalClose.bind(this);
+			this.handleNewColumnModalShow = this.handleNewColumnModalShow.bind(this);
+			this.openNewColumnModal = this.openNewColumnModal.bind(this);
 			this.onNewColumnSubmit = this.onNewColumnSubmit.bind(this);
-			this.saveTable = this.saveTable.bind(this)
+			this.renderNewColumnModal = this.renderNewColumnModal.bind(this);
+			this.onAfterInsertRow = this.onAfterInsertRow.bind(this);
 
+			// Delete column bindings
 			this.handleDeleteColumnModalClose = this.handleDeleteColumnModalClose.bind(this)
 			this.handleDeleteColumnModalShow = this.handleDeleteColumnModalShow.bind(this)
 			this.openDeleteColumnModal = this.openDeleteColumnModal.bind(this)
 			this.onDeleteColumnSubmit = this.onDeleteColumnSubmit.bind(this)
 			this.renderDeleteColumnModal = this.renderDeleteColumnModal.bind(this)
+			this.onAfterDeleteRow = this.onAfterDeleteRow.bind(this);
 
 			this.handleSelectChange = this.handleSelectChange.bind(this)
+			this.saveTable = this.saveTable.bind(this)
+			this.onAfterSaveCell = this.onAfterSaveCell.bind(this);
+
 			this.state = {
 				newColumnModalShow: false,
 				deleteColumnModalShow: false,
@@ -41,7 +44,7 @@ class UpdateTable extends Component {
 		this.props.tableActions.fetchTableData([{"name":"Location_Info","value":"Location_Info"}]);
 	}
 
-	// New Column Modal
+	// Insert column modal
 	handleNewColumnModalClose() {
 		this.setState({ newColumnModalShow: false });
 	}
@@ -80,7 +83,16 @@ class UpdateTable extends Component {
 		)
 	}
 
-	// Delete Column Modal
+	onAfterInsertRow(row) {
+		let newRowStr = '';
+		for (const prop in row) {
+			newRowStr += prop + ': ' + row[prop] + ' \n';
+		}
+		console.log('The new row is:\n ' + newRowStr);
+		this.props.tableActions.shouldShowSaveChangesBtn(true);
+	}
+
+	// Delete column Modal
 	handleDeleteColumnModalClose() {
 		this.setState({ deleteColumnModalShow: false });
 	}
@@ -106,11 +118,6 @@ class UpdateTable extends Component {
 
 		this.setState({ deleteColumnModalShow: false });
 		this.props.tableActions.shouldShowSaveChangesBtn(true);
-	}
-
-	handleSelectChange (value) {
-		console.log('You\'ve selected:', value);
-		this.setState({ value });
 	}
 
 	renderDeleteColumnModal = (columns) => {
@@ -147,8 +154,19 @@ class UpdateTable extends Component {
 		)
 	}
 
+	onAfterDeleteRow(rowKeys) {
+		console.log('The rowkey you drop: ' + rowKeys);
+		this.props.tableActions.shouldShowSaveChangesBtn(true);
+	}
+	// End delete column modal
+
 	saveTable() {
 		console.log(this.refs.table.getTableDataIgnorePaging());
+	}
+
+	handleSelectChange (value) {
+		console.log('You\'ve selected:', value);
+		this.setState({ value });
 	}
 
 	createCustomButtonGroup = props => {
@@ -164,20 +182,6 @@ class UpdateTable extends Component {
 				</Button>
 			</ButtonGroup>
 		);
-	}
-
-	onAfterInsertRow(row) {
-		let newRowStr = '';
-		for (const prop in row) {
-			newRowStr += prop + ': ' + row[prop] + ' \n';
-		}
-		console.log('The new row is:\n ' + newRowStr);
-		this.props.tableActions.shouldShowSaveChangesBtn(true);
-	}
-
-	onAfterDeleteRow(rowKeys) {
-		console.log('The rowkey you drop: ' + rowKeys);
-		this.props.tableActions.shouldShowSaveChangesBtn(true);
 	}
 
 	onAfterSaveCell(row, cellName, cellValue) {
