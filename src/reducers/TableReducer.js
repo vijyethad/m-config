@@ -7,8 +7,23 @@ import {
 	INSERT_TABLE_VALUES_RESPONSE,
 	IS_LOADING,
 	RECIEVE_TABLE_DATA_RESPONSE,
-	SHOULD_SHOW_SAVE_CHANGES_BUTTON
+	SHOULD_SHOW_SAVE_CHANGES_BUTTON,
+	UPDATE_TABLE
 } from '../actions/TableActions'
+
+export const updateTable = (state={shouldShowSaveChangesBtn: false, didColumnUpdate: false}, action) => {
+	switch (action.type) {
+		case UPDATE_TABLE:
+			return {
+				...state,
+				didColumnUpdate: action.didColumnUpdate,
+				newTableData: action.newTableData,
+				shouldShowSaveChangesBtn: true
+			}
+		default:
+			return state
+	}
+}
 
 export const loading = (state={}, action) => {
 	switch (action.type) {

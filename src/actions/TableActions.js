@@ -7,6 +7,13 @@ export const INSERT_TABLE_VALUES_RESPONSE = 'INSERT_TABLE_VALUES_RESPONSE'
 export const RECIEVE_TABLE_DATA_RESPONSE = 'RECIEVE_TABLE_DATA_RESPONSE'
 export const IS_LOADING = 'IS_LOADING'
 export const SHOULD_SHOW_SAVE_CHANGES_BUTTON = 'SHOULD_SHOW_SAVE_CHANGES_BUTTON'
+export const UPDATE_TABLE = 'UPDATE_TABLE'
+
+export const updateTable = (newTableData, didColumnUpdate) => ({
+	type: UPDATE_TABLE,
+	newTableData,
+	didColumnUpdate
+})
 
 export const setIsLoading = response => ({
 	type: IS_LOADING,

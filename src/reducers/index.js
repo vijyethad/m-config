@@ -1,6 +1,9 @@
 import { combineReducers } from 'redux'
-import { tableList, createTable, insertTableFields,
-					insertTableValues, loading, tableData, shouldShowSaveChangesBtn } from './TableReducer'
+import {
+	tableList, createTable, insertTableFields,
+	insertTableValues, loading, tableData,
+	shouldShowSaveChangesBtn, updateTable
+} from './TableReducer'
 
 const rootReducer = combineReducers({
 	tableList,
@@ -9,7 +12,8 @@ const rootReducer = combineReducers({
 	insertTableValues,
 	loading,
 	tableData,
-	shouldShowSaveChangesBtn
+	shouldShowSaveChangesBtn,
+	updateTable
 })
 
 export default rootReducer
