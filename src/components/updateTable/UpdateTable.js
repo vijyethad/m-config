@@ -44,6 +44,16 @@ class UpdateTable extends Component {
 		this.props.tableActions.fetchTableData([{"name":"Location_Info","value":"Location_Info"}]);
 	}
 
+	componentWillReceiveProps(nextProps) {
+		if(this.props.tableData.mXRefResponse !== nextProps.tableData.mXRefResponse) {
+			// Injecting a new column called ZjAWeei2Y34E to the API data which acts as PK for the table
+			const tableData = nextProps.tableData.mXRefResponse.TblData.DATA
+			tableData.map(row => row.ZjAWeei2Y34E = uuidv4())
+
+			this.props.tableActions.updateTable(tableData)
+		}
+	}
+
 	// Insert column modal
 	handleNewColumnModalClose() {
 		this.setState({ newColumnModalShow: false });
@@ -59,10 +69,13 @@ class UpdateTable extends Component {
 
 	onNewColumnSubmit() {
 		const newColumn = this.input.value;
-		this.props.tableData && this.props.tableData.mXRefResponse ? this.props.tableData.mXRefResponse.TblData.DATA.map(row => row[newColumn] = '') : []
+		const tableData = this.props.updateTable.newTableData;
+		const shouldShowSaveChangesBtn = true;
+		const didColumnUpdate = true;
 
 		this.setState({ newColumnModalShow: false });
-		this.props.tableActions.shouldShowSaveChangesBtn(true);
+		tableData.map(row => row[newColumn] = '')
+		this.props.tableActions.updateTable(tableData, shouldShowSaveChangesBtn, didColumnUpdate);
 	}
 
 	renderNewColumnModal = (modalTitle) => {
@@ -84,12 +97,16 @@ class UpdateTable extends Component {
 	}
 
 	onAfterInsertRow(row) {
-		let newRowStr = '';
-		for (const prop in row) {
-			newRowStr += prop + ': ' + row[prop] + ' \n';
-		}
-		console.log('The new row is:\n ' + newRowStr);
-		this.props.tableActions.shouldShowSaveChangesBtn(true);
+		// let newRowStr = '';
+		// for (const prop in row) {
+		// 	newRowStr += prop + ': ' + row[prop] + ' \n';
+		// }
+		// console.log('The new row is:\n ' + newRowStr);
+		const tableData = this.props.updateTable.newTableData;
+		tableData.push(row);
+
+		const shouldShowSaveChangesBtn = true;
+		this.props.tableActions.updateTable(tableData, shouldShowSaveChangesBtn);
 	}
 
 	// Delete column Modal
@@ -106,18 +123,16 @@ class UpdateTable extends Component {
 	}
 
 	onDeleteColumnSubmit() {
+		const shouldShowSaveChangesBtn = true;
+		const didColumnUpdate = true;
+		const tableData = this.props.updateTable.newTableData;
 		const deleteColumns = []
 		this.state.value.map(row => deleteColumns.push(row.value))
-		console.log(deleteColumns);
-
-		this.props.tableData && this.props.tableData.mXRefResponse
-		? this.props.tableData.mXRefResponse.TblData.DATA.map(row => {
+		tableData.map(row => {
 				deleteColumns.map(deleteColumn => delete row[deleteColumn])
-			})
-		: []
-
+		})
 		this.setState({ deleteColumnModalShow: false });
-		this.props.tableActions.shouldShowSaveChangesBtn(true);
+		this.props.tableActions.updateTable(tableData, shouldShowSaveChangesBtn, didColumnUpdate);
 	}
 
 	renderDeleteColumnModal = (columns) => {
@@ -155,13 +170,26 @@ class UpdateTable extends Component {
 	}
 
 	onAfterDeleteRow(rowKeys) {
-		console.log('The rowkey you drop: ' + rowKeys);
-		this.props.tableActions.shouldShowSaveChangesBtn(true);
+		// console.log('The rowkey you drop: ' + rowKeys);
+		// console.log(rowKeys);
+
+		const tableData = this.props.updateTable.newTableData;
+		rowKeys.map(rowKey => tableData.map((item, index) => {
+			if(item.ZjAWeei2Y34E === rowKey) {
+				tableData.splice(index, 1)
+			}
+		}))
+
+		const shouldShowSaveChangesBtn = true;
+		this.props.tableActions.updateTable(tableData, shouldShowSaveChangesBtn)
 	}
 	// End delete column modal
 
 	saveTable() {
-		console.log(this.refs.table.getTableDataIgnorePaging());
+		const tableData = this.props.updateTable.newTableData;
+		tableData.map(row => delete row.ZjAWeei2Y34E)
+
+		console.log(tableData);
 	}
 
 	handleSelectChange (value) {
@@ -185,10 +213,19 @@ class UpdateTable extends Component {
 	}
 
 	onAfterSaveCell(row, cellName, cellValue) {
-	  console.log(`Save cell ${cellName} with value ${cellValue}`);
-	  console.log('The whole row :');
-	  console.log(row);
-		this.props.tableActions.shouldShowSaveChangesBtn(true);
+	  // console.log(`Save cell ${cellName} with value ${cellValue}`);
+	  // console.log('The whole row :');
+	  // console.log(row);
+
+		const tableData = this.props.updateTable.newTableData;
+		tableData.map(item => {
+			if(item.ZjAWeei2Y34E === row.ZjAWeei2Y34E) {
+				item[cellName] = cellValue
+			}
+		})
+
+		const shouldShowSaveChangesBtn = true;
+		this.props.tableActions.updateTable(tableData, shouldShowSaveChangesBtn)
 	}
 
 	render() {
@@ -210,10 +247,9 @@ class UpdateTable extends Component {
 			afterSaveCell: this.onAfterSaveCell
 		};
 
-		let tableData = this.props.tableData && this.props.tableData.mXRefResponse ? this.props.tableData.mXRefResponse.TblData.DATA : []
+		let tableData = this.props.updateTable.newTableData ? this.props.updateTable.newTableData : []
 
-		tableData.map(row => row.ZjAWeei2Y34E = uuidv4())
-
+		// Generating all the column names from the data for Delete Column modal
 		let columns = [];
 		tableData.map(row => {
 			Object.keys(row).map(key => {
@@ -251,7 +287,7 @@ class UpdateTable extends Component {
 					</BootstrapTable>
 				}
 
-				{this.props.shouldShowSaveChangesBtn.value ? <Button bsStyle="success" onClick={this.saveTable}>Save Changes</Button> : null}
+				{this.props.updateTable.shouldShowSaveChangesBtn ? <Button bsStyle="success" onClick={this.saveTable}>Save Changes</Button> : null}
 		</div>
 		);
 	}
@@ -262,7 +298,8 @@ function mapStateToProps(state, props) {
 	return {
 		loading: state.loading,
 		tableData: state.tableData,
-		shouldShowSaveChangesBtn: state.shouldShowSaveChangesBtn
+		shouldShowSaveChangesBtn: state.shouldShowSaveChangesBtn,
+		updateTable: state.updateTable
 	};
 }
 

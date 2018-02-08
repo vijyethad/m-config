@@ -18,7 +18,7 @@ export const updateTable = (state={shouldShowSaveChangesBtn: false, didColumnUpd
 				...state,
 				didColumnUpdate: action.didColumnUpdate,
 				newTableData: action.newTableData,
-				shouldShowSaveChangesBtn: true
+				shouldShowSaveChangesBtn: action.shouldShowSaveChangesBtn
 			}
 		default:
 			return state
