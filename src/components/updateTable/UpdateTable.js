@@ -41,7 +41,7 @@ class UpdateTable extends Component {
 
 	componentDidMount() {
 		this.props.tableActions.shouldShowSaveChangesBtn(false);
-		this.props.tableActions.fetchTableData([{"name":"Location_Info","value":"Location_Info"}]);
+		this.props.tableActions.fetchTableData([{"name":"3","value":"3"}]);
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -172,24 +172,34 @@ class UpdateTable extends Component {
 	onAfterDeleteRow(rowKeys) {
 		// console.log('The rowkey you drop: ' + rowKeys);
 		// console.log(rowKeys);
-
 		const tableData = this.props.updateTable.newTableData;
+		// console.log(rowKeys);
+		// console.log(tableData);
+		let tableRecNo = [];
 		rowKeys.map(rowKey => tableData.map((item, index) => {
 			if(item.ZjAWeei2Y34E === rowKey) {
-				tableData.splice(index, 1)
+				tableRecNo.push(item.Tbl_Name_Rec_No);
+				tableData.splice(index, 1);
 			}
 		}))
 
 		const shouldShowSaveChangesBtn = true;
-		this.props.tableActions.updateTable(tableData, shouldShowSaveChangesBtn)
+		const didColumnUpdate = false;
+		const row = {didRowDelete: true, tableRecNo: tableRecNo}
+		this.props.tableActions.updateTable(tableData, shouldShowSaveChangesBtn, didColumnUpdate, row)
 	}
 	// End delete column modal
 
 	saveTable() {
 		const tableData = this.props.updateTable.newTableData;
 		tableData.map(row => delete row.ZjAWeei2Y34E)
-
-		console.log(tableData);
+		const tableName = [{
+			name: this.props.tableData.mXRefResponse.TblData.TABLE_NAME,
+			value: this.props.tableData.mXRefResponse.TblData.TABLE_NAME
+		}]
+		if(this.props.updateTable.row.didRowDelete) {
+			this.props.tableActions.deleteTables(tableName, this.props.updateTable.row.tableRecNo);
+		}
 	}
 
 	handleSelectChange (value) {
@@ -261,7 +271,7 @@ class UpdateTable extends Component {
 
 		return (
 			<div className="App">
-				<h2>Table</h2>
+				<h2>{this.props.tableData && this.props.tableData.mXRefResponse ? this.props.tableData.mXRefResponse.TblData.TABLE_NAME : null}</h2>
 				{this.renderNewColumnModal('Add New Column')}
 				{this.renderDeleteColumnModal(columns, tableData)}
 

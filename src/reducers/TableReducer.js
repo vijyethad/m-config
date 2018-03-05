@@ -11,14 +11,15 @@ import {
 	UPDATE_TABLE
 } from '../actions/TableActions'
 
-export const updateTable = (state={shouldShowSaveChangesBtn: false, didColumnUpdate: false}, action) => {
+export const updateTable = (state={shouldShowSaveChangesBtn: false, didColumnUpdate: false, row: {}}, action) => {
 	switch (action.type) {
 		case UPDATE_TABLE:
 			return {
 				...state,
 				didColumnUpdate: action.didColumnUpdate,
 				newTableData: action.newTableData,
-				shouldShowSaveChangesBtn: action.shouldShowSaveChangesBtn
+				shouldShowSaveChangesBtn: action.shouldShowSaveChangesBtn,
+				row: action.row,
 			}
 		default:
 			return state

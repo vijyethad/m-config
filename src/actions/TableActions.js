@@ -9,11 +9,12 @@ export const IS_LOADING = 'IS_LOADING'
 export const SHOULD_SHOW_SAVE_CHANGES_BUTTON = 'SHOULD_SHOW_SAVE_CHANGES_BUTTON'
 export const UPDATE_TABLE = 'UPDATE_TABLE'
 
-export const updateTable = (newTableData, shouldShowSaveChangesBtn, didColumnUpdate) => ({
+export const updateTable = (newTableData, shouldShowSaveChangesBtn, didColumnUpdate, row) => ({
 	type: UPDATE_TABLE,
 	newTableData,
 	didColumnUpdate,
-	shouldShowSaveChangesBtn
+	shouldShowSaveChangesBtn,
+	row
 })
 
 export const setIsLoading = response => ({
@@ -151,14 +152,16 @@ export const recieveDeleteTablesResponse = json => ({
 	deleteTablesResponse: json
 })
 
-export const deleteTables = (tablesList) => dispatch => {
+export const deleteTables = (tablesList, tableRecNo) => dispatch => {
+	console.log(tablesList);
 	dispatch(setIsLoading(true))
 	const TblListData = [];
-	tablesList.map(tableName => TblListData.push({
+	tablesList.map(tableName => {
+		tableRecNo.map(record => TblListData.push({
 			"TBL_NAME": tableName.value,
-			"TABLE_REC_NO": null
-		})
-	)
+			"TABLE_REC_NO": record
+		}))
+	})
 
 	return fetch(`http://mxref-proxy.cloudhub.io/delete/`, {
 		method: 'post',
