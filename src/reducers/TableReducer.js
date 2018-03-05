@@ -8,7 +8,8 @@ import {
 	IS_LOADING,
 	RECIEVE_TABLE_DATA_RESPONSE,
 	SHOULD_SHOW_SAVE_CHANGES_BUTTON,
-	UPDATE_TABLE
+	UPDATE_TABLE,
+	UPDATE_TABLE_ROWS_RESPONSE
 } from '../actions/TableActions'
 
 export const updateTable = (state={shouldShowSaveChangesBtn: false, didColumnUpdate: false, row: {}}, action) => {
@@ -105,6 +106,18 @@ export const insertTableValues = (state={isValuesInserted: false}, action) => {
 			return {
 				...state,
 				isValuesInserted: action.insertTableValuesResponse.mXRefResponse.TblValues.EXECUTION_STATUS
+			}
+		default:
+			return state
+	}
+}
+
+export const updateTableRows = (state={}, action) => {
+	switch (action.type) {
+		case UPDATE_TABLE_ROWS_RESPONSE:
+			return {
+				...state,
+				updateTableRowsResponse: action.updateTableRowsResponse
 			}
 		default:
 			return state

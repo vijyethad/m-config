@@ -2,7 +2,8 @@ import { combineReducers } from 'redux'
 import {
 	tableList, createTable, insertTableFields,
 	insertTableValues, loading, tableData,
-	shouldShowSaveChangesBtn, updateTable
+	shouldShowSaveChangesBtn, updateTable,
+	updateTableRows
 } from './TableReducer'
 
 const rootReducer = combineReducers({
@@ -13,7 +14,8 @@ const rootReducer = combineReducers({
 	loading,
 	tableData,
 	shouldShowSaveChangesBtn,
-	updateTable
+	updateTable,
+	updateTableRows
 })
 
 export default rootReducer

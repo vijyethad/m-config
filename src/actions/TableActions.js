@@ -8,6 +8,7 @@ export const RECIEVE_TABLE_DATA_RESPONSE = 'RECIEVE_TABLE_DATA_RESPONSE'
 export const IS_LOADING = 'IS_LOADING'
 export const SHOULD_SHOW_SAVE_CHANGES_BUTTON = 'SHOULD_SHOW_SAVE_CHANGES_BUTTON'
 export const UPDATE_TABLE = 'UPDATE_TABLE'
+export const UPDATE_TABLE_ROWS_RESPONSE = 'UPDATE_TABLE_ROWS_RESPONSE'
 
 export const updateTable = (newTableData, shouldShowSaveChangesBtn, didColumnUpdate, row) => ({
 	type: UPDATE_TABLE,
@@ -269,3 +270,36 @@ export const shouldShowSaveChangesBtn = response => ({
 	type: SHOULD_SHOW_SAVE_CHANGES_BUTTON,
 	shouldShowSaveChangesBtn: response
 })
+
+export const updateTableRowsResponse = json => ({
+	type: UPDATE_TABLE_ROWS_RESPONSE,
+	updateTableRowsResponse: json
+})
+
+export const updateTableRows = (tableName, rowsUpdateData) => dispatch => {
+	dispatch(setIsLoading(true))
+
+	return fetch(`http://mxref-proxy.cloudhub.io/update/`, {
+		method: 'post',
+		headers: {
+			'Content-Type': 'application/json',
+			'Accept': 'application/json'
+		},
+		body: JSON.stringify(
+			{
+				"mXRefRequest": {
+					"TblUpdate": {
+						"ACTION": "Update",
+						"TBL_NAME": tableName[0].value,
+						"TblUpdateData": rowsUpdateData
+					}
+				}
+			}
+		)
+	})
+		.then(response => response.json())
+		.then(json => {
+			dispatch(setIsLoading(false))
+			dispatch(updateTableRowsResponse(json))
+		})
+}

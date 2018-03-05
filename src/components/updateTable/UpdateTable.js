@@ -9,6 +9,8 @@ import 'react-select/dist/react-select.css';
 import uuidv4 from 'uuid/v4';
 import { Loader } from '../Loader';
 
+let rowsUpdateData = []
+
 class UpdateTable extends Component {
 	constructor(props) {
 		super(props);
@@ -41,7 +43,7 @@ class UpdateTable extends Component {
 
 	componentDidMount() {
 		this.props.tableActions.shouldShowSaveChangesBtn(false);
-		this.props.tableActions.fetchTableData([{"name":"3","value":"3"}]);
+		this.props.tableActions.fetchTableData([{"name":"1","value":"1"}]);
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -199,6 +201,8 @@ class UpdateTable extends Component {
 		}]
 		if(this.props.updateTable.row.didRowDelete) {
 			this.props.tableActions.deleteTables(tableName, this.props.updateTable.row.tableRecNo);
+		} else if(this.props.updateTable.row.didRowUpdate) {
+			this.props.tableActions.updateTableRows(tableName, this.props.updateTable.row.rowsUpdateData)
 		}
 	}
 
@@ -228,14 +232,21 @@ class UpdateTable extends Component {
 	  // console.log(row);
 
 		const tableData = this.props.updateTable.newTableData;
+		let tableRecNo;
 		tableData.map(item => {
 			if(item.ZjAWeei2Y34E === row.ZjAWeei2Y34E) {
+				tableRecNo = item.Tbl_Name_Rec_No;
 				item[cellName] = cellValue
 			}
 		})
 
+		rowsUpdateData.push({TABLE_REC_NO: tableRecNo, FLD_NAME: cellName, FLD_VALUE: cellValue, UPD_USER: "UI_Call"})
+
 		const shouldShowSaveChangesBtn = true;
-		this.props.tableActions.updateTable(tableData, shouldShowSaveChangesBtn)
+		const didColumnUpdate = false;
+		const rowData = {didRowUpdate: true, tableRecNo: tableRecNo, rowsUpdateData: rowsUpdateData}
+		console.log(rowData);
+		this.props.tableActions.updateTable(tableData, shouldShowSaveChangesBtn, didColumnUpdate, rowData)
 	}
 
 	render() {
@@ -271,6 +282,7 @@ class UpdateTable extends Component {
 
 		return (
 			<div className="App">
+				{ this.props.updateTableRows && this.props.updateTableRows.updateTableRowsResponse && this.props.updateTableRows.updateTableRowsResponse.mXRefResponse.TblUpdate.RECORDS_FAILED === 0 ? <p className="alert alert-success">All the row updates have been successfully saved.</p>: null }
 				<h2>{this.props.tableData && this.props.tableData.mXRefResponse ? this.props.tableData.mXRefResponse.TblData.TABLE_NAME : null}</h2>
 				{this.renderNewColumnModal('Add New Column')}
 				{this.renderDeleteColumnModal(columns, tableData)}
@@ -278,27 +290,28 @@ class UpdateTable extends Component {
 				{
 					this.props.loading.isLoading
 					? <Loader />
-					: <BootstrapTable
-							data={tableData} options={ options }
-							keyField='ZjAWeei2Y34E' cellEdit={cellEditProp}
-							search={true} options={options}
-							className="enter-table-values" deleteRow={true}
-							insertRow={true} selectRow={selectRowProp}
-						>
-								{columns.map(column =>
-									<TableHeaderColumn
-										hidden={column === 'ZjAWeei2Y34E'}
-										hiddenOnInsert={column === 'ZjAWeei2Y34E'}
-										autoValue={column === 'ZjAWeei2Y34E'}
-										dataField={column}>
-											{column}
-									</TableHeaderColumn>
-								)}
-					</BootstrapTable>
-				}
-
-				{this.props.updateTable.shouldShowSaveChangesBtn ? <Button bsStyle="success" onClick={this.saveTable}>Save Changes</Button> : null}
-		</div>
+					: <div>
+							<BootstrapTable
+									data={tableData} options={ options }
+									keyField='ZjAWeei2Y34E' cellEdit={cellEditProp}
+									search={true} options={options}
+									className="enter-table-values" deleteRow={true}
+									insertRow={true} selectRow={selectRowProp}
+								>
+										{columns.map(column =>
+											<TableHeaderColumn
+												hidden={column === 'ZjAWeei2Y34E' || column === 'Tbl_Name_Rec_No'}
+												hiddenOnInsert={column === 'ZjAWeei2Y34E' || column === 'Tbl_Name_Rec_No' }
+												autoValue={column === 'ZjAWeei2Y34E'}
+												dataField={column}>
+													{column}
+											</TableHeaderColumn>
+										)}
+							</BootstrapTable>
+							{this.props.updateTable.shouldShowSaveChangesBtn ? <Button bsStyle="success" onClick={this.saveTable}>Save Changes</Button> : null}
+						</div>
+					}
+				</div>
 		);
 	}
 }
@@ -309,7 +322,8 @@ function mapStateToProps(state, props) {
 		loading: state.loading,
 		tableData: state.tableData,
 		shouldShowSaveChangesBtn: state.shouldShowSaveChangesBtn,
-		updateTable: state.updateTable
+		updateTable: state.updateTable,
+		updateTableRows: state.updateTableRows,
 	};
 }
 
