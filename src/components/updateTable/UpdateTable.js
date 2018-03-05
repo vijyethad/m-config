@@ -10,6 +10,7 @@ import uuidv4 from 'uuid/v4';
 import { Loader } from '../Loader';
 
 let rowsUpdateData = []
+let newRows = []
 
 class UpdateTable extends Component {
 	constructor(props) {
@@ -108,7 +109,15 @@ class UpdateTable extends Component {
 		tableData.push(row);
 
 		const shouldShowSaveChangesBtn = true;
-		this.props.tableActions.updateTable(tableData, shouldShowSaveChangesBtn);
+		const didColumnUpdate = false;
+		delete row.ZjAWeei2Y34E
+		delete row.Tbl_Name_Rec_No
+		newRows.push(row);
+		let convertedFieldsName = Object.keys(row)
+		convertedFieldsName = convertedFieldsName.map(field => `${field}$String`)
+		const rowData = {isRowInserted: true, tableName: this.props.tableData.mXRefResponse.TblData.TABLE_NAME, newRows: newRows, fieldData: convertedFieldsName}
+
+		this.props.tableActions.updateTable(tableData, shouldShowSaveChangesBtn, didColumnUpdate, rowData);
 	}
 
 	// Delete column Modal
@@ -203,6 +212,8 @@ class UpdateTable extends Component {
 			this.props.tableActions.deleteTables(tableName, this.props.updateTable.row.tableRecNo);
 		} else if(this.props.updateTable.row.didRowUpdate) {
 			this.props.tableActions.updateTableRows(tableName, this.props.updateTable.row.rowsUpdateData)
+		} else if(this.props.updateTable.row.isRowInserted) {
+			this.props.tableActions.insertTableValues(this.props.updateTable.row.newRows, this.props.updateTable.row.tableName, this.props.updateTable.row.fieldData)
 		}
 	}
 
@@ -245,7 +256,6 @@ class UpdateTable extends Component {
 		const shouldShowSaveChangesBtn = true;
 		const didColumnUpdate = false;
 		const rowData = {didRowUpdate: true, tableRecNo: tableRecNo, rowsUpdateData: rowsUpdateData}
-		console.log(rowData);
 		this.props.tableActions.updateTable(tableData, shouldShowSaveChangesBtn, didColumnUpdate, rowData)
 	}
 
@@ -282,7 +292,8 @@ class UpdateTable extends Component {
 
 		return (
 			<div className="App">
-				{ this.props.updateTableRows && this.props.updateTableRows.updateTableRowsResponse && this.props.updateTableRows.updateTableRowsResponse.mXRefResponse.TblUpdate.RECORDS_FAILED === 0 ? <p className="alert alert-success">All the row updates have been successfully saved.</p>: null }
+				{ this.props.updateTableRows && this.props.updateTableRows.updateTableRowsResponse && this.props.updateTableRows.updateTableRowsResponse.mXRefResponse.TblUpdate.RECORDS_FAILED === 0 ? <p className="alert alert-success">Row updates are saved successfully</p>: null }
+				{ this.props.insertTableValues && this.props.insertTableValues.isValuesInserted && this.props.insertTableValues.isValuesInserted === "Successful" ? <p className="alert alert-success">Rows successfully inserted</p> : null }
 				<h2>{this.props.tableData && this.props.tableData.mXRefResponse ? this.props.tableData.mXRefResponse.TblData.TABLE_NAME : null}</h2>
 				{this.renderNewColumnModal('Add New Column')}
 				{this.renderDeleteColumnModal(columns, tableData)}
@@ -324,6 +335,7 @@ function mapStateToProps(state, props) {
 		shouldShowSaveChangesBtn: state.shouldShowSaveChangesBtn,
 		updateTable: state.updateTable,
 		updateTableRows: state.updateTableRows,
+		insertTableValues: state.insertTableValues
 	};
 }
 
