@@ -11,6 +11,7 @@ import { Loader } from '../Loader';
 
 let rowsUpdateData = []
 let newRows = []
+let rowData = {}
 
 class UpdateTable extends Component {
 	constructor(props) {
@@ -44,7 +45,7 @@ class UpdateTable extends Component {
 
 	componentDidMount() {
 		this.props.tableActions.shouldShowSaveChangesBtn(false);
-		this.props.tableActions.fetchTableData([{"name":"1","value":"1"}]);
+		// this.props.tableActions.fetchTableData([{"name":"1","value":"1"}]);
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -107,7 +108,6 @@ class UpdateTable extends Component {
 		// console.log('The new row is:\n ' + newRowStr);
 		const tableData = this.props.updateTable.newTableData;
 		tableData.push(row);
-
 		const shouldShowSaveChangesBtn = true;
 		const didColumnUpdate = false;
 		delete row.ZjAWeei2Y34E
@@ -115,8 +115,8 @@ class UpdateTable extends Component {
 		newRows.push(row);
 		let convertedFieldsName = Object.keys(row)
 		convertedFieldsName = convertedFieldsName.map(field => `${field}$String`)
-		const rowData = {isRowInserted: true, tableName: this.props.tableData.mXRefResponse.TblData.TABLE_NAME, newRows: newRows, fieldData: convertedFieldsName}
-
+		const data = {isRowInserted: true, tableName: this.props.tableData.mXRefResponse.TblData.TABLE_NAME, newRows: newRows, fieldData: convertedFieldsName}
+		rowData = Object.assign({},rowData, data);
 		this.props.tableActions.updateTable(tableData, shouldShowSaveChangesBtn, didColumnUpdate, rowData);
 	}
 
@@ -196,8 +196,9 @@ class UpdateTable extends Component {
 
 		const shouldShowSaveChangesBtn = true;
 		const didColumnUpdate = false;
-		const row = {didRowDelete: true, tableRecNo: tableRecNo}
-		this.props.tableActions.updateTable(tableData, shouldShowSaveChangesBtn, didColumnUpdate, row)
+		const data = {didRowDelete: true, tableRecNo: tableRecNo}
+		rowData = Object.assign({},rowData, data);
+		this.props.tableActions.updateTable(tableData, shouldShowSaveChangesBtn, didColumnUpdate, rowData)
 	}
 	// End delete column modal
 
@@ -210,9 +211,11 @@ class UpdateTable extends Component {
 		}]
 		if(this.props.updateTable.row.didRowDelete) {
 			this.props.tableActions.deleteTables(tableName, this.props.updateTable.row.tableRecNo);
-		} else if(this.props.updateTable.row.didRowUpdate) {
+		}
+		if(this.props.updateTable.row.didRowUpdate) {
 			this.props.tableActions.updateTableRows(tableName, this.props.updateTable.row.rowsUpdateData)
-		} else if(this.props.updateTable.row.isRowInserted) {
+		}
+		if(this.props.updateTable.row.isRowInserted) {
 			this.props.tableActions.insertTableValues(this.props.updateTable.row.newRows, this.props.updateTable.row.tableName, this.props.updateTable.row.fieldData)
 		}
 	}
@@ -255,7 +258,8 @@ class UpdateTable extends Component {
 
 		const shouldShowSaveChangesBtn = true;
 		const didColumnUpdate = false;
-		const rowData = {didRowUpdate: true, tableRecNo: tableRecNo, rowsUpdateData: rowsUpdateData}
+		const data = {didRowUpdate: true, tableRecNo: tableRecNo, rowsUpdateData: rowsUpdateData}
+		rowData = Object.assign({},rowData, data);
 		this.props.tableActions.updateTable(tableData, shouldShowSaveChangesBtn, didColumnUpdate, rowData)
 	}
 
@@ -301,7 +305,8 @@ class UpdateTable extends Component {
 				{
 					this.props.loading.isLoading
 					? <Loader />
-					: <div>
+					: this.props.tableData && this.props.tableData.mXRefResponse ?
+						<div>
 							<BootstrapTable
 									data={tableData} options={ options }
 									keyField='ZjAWeei2Y34E' cellEdit={cellEditProp}
@@ -309,11 +314,11 @@ class UpdateTable extends Component {
 									className="enter-table-values" deleteRow={true}
 									insertRow={true} selectRow={selectRowProp}
 								>
-										{columns.map(column =>
-											<TableHeaderColumn
+										{columns.map((column,i) =>
+											<TableHeaderColumn key={i}
 												hidden={column === 'ZjAWeei2Y34E' || column === 'Tbl_Name_Rec_No'}
 												hiddenOnInsert={column === 'ZjAWeei2Y34E' || column === 'Tbl_Name_Rec_No' }
-												autoValue={column === 'ZjAWeei2Y34E'}
+												autoValue={column === 'ZjAWeei2Y34E' || column == 'Tbl_Name_Rec_No'}
 												dataField={column}>
 													{column}
 											</TableHeaderColumn>
@@ -321,6 +326,7 @@ class UpdateTable extends Component {
 							</BootstrapTable>
 							{this.props.updateTable.shouldShowSaveChangesBtn ? <Button bsStyle="success" onClick={this.saveTable}>Save Changes</Button> : null}
 						</div>
+						: <p>Somethings broke!! Please go back to the home page and try again.</p>
 					}
 				</div>
 		);

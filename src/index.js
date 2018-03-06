@@ -29,7 +29,7 @@ const store = createStore(
 
 render(
 	<Provider store={store}>
-		<BrowserRouter>
+		<BrowserRouter basename={process.env.PUBLIC_URL}>
 		<ScrollToTop>
 			<div>
 				<Route exact path='/' component={Header} />
