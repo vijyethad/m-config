@@ -33,6 +33,7 @@ class App extends Component {
 					items={tableListItems}
 					history={this.props.history}
 					fetchTableData={this.props.tableActions.fetchTableData}
+					isLoading={this.props.loading.isLoading}
 				/>
 			</div>
 		);

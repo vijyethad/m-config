@@ -62,28 +62,30 @@ class TableSelectSearch extends Component {
 					<div className="list-heading">Tables</div>
 					<div className="list-heading-hr"><hr /></div>
 					<div className="btn-toolbar">
-						<div className="buttons">
-							<Button
-								bsStyle="warning"
-								onClick={this.updateTableRouteHandler}
-								disabled={this.state.selectedOptions !== 1}
-							>
-								View/Update
-							</Button>
-							<Button
-								bsStyle="danger"
-								disabled={this.state.selectedOptions === 0}
-								onClick={this.onDeleteClick}
-							>
-								Delete
-							</Button>
-							<Button
-								bsStyle="primary"
-								onClick={this.createTableRouteHandler}
-							>
-								+ Create new Table
-							</Button>
-						</div>
+						{!this.props.isLoading &&
+							<div className="buttons">
+								<Button
+									bsStyle="warning"
+									onClick={this.updateTableRouteHandler}
+									disabled={this.state.selectedOptions !== 1}
+								>
+									View/Update
+								</Button>
+								<Button
+									bsStyle="danger"
+									disabled={this.state.selectedOptions === 0}
+									onClick={this.onDeleteClick}
+								>
+									Delete
+								</Button>
+								<Button
+									bsStyle="primary"
+									onClick={this.createTableRouteHandler}
+								>
+									+ Create new Table
+								</Button>
+							</div>
+						}
 					</div>
 					<SelectSearch
 						options={tableList}
