@@ -6,10 +6,14 @@ export default function Header(props) {
 	return (
 		<div className="header">
 			<Col md={3}>
-				<div className="cts-logo"/>
+				<a href={`${process.env.PUBLIC_URL}/`}>
+					<div className="cts-logo"/>
+				</a>
 			</Col>
 			<Col md={6} className="mxref-title">
-				<h1>mConfig</h1>
+				<a className="title" href={`${process.env.PUBLIC_URL}/`}>
+					<h1>mConfig</h1>
+				</a>
 			</Col>
 			<Col md={3}/>
 			<header className="global-header-wrapper">
