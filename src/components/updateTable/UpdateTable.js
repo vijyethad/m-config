@@ -45,7 +45,7 @@ class UpdateTable extends Component {
 
 	componentDidMount() {
 		this.props.tableActions.shouldShowSaveChangesBtn(false);
-		this.props.tableActions.fetchTableData([{"name":"1","value":"1"}]);
+		// this.props.tableActions.fetchTableData([{"name":"1","value":"1"}]);
 	}
 
 	componentWillReceiveProps(nextProps) {

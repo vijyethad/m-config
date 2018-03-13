@@ -56,43 +56,45 @@ class TableSelectSearch extends Component {
 
 		return (
 			<div className="toolbar">
-				<br />
-				<div className="list-heading">Tables</div>
-				<div className="list-heading-hr"><hr /></div>
+				<Col md={2} />
 				<Col md={8}>
+					<br />
+					<div className="list-heading">Tables</div>
+					<div className="list-heading-hr"><hr /></div>
+					<div className="btn-toolbar">
+						<div className="buttons">
+							<Button
+								bsStyle="warning"
+								onClick={this.updateTableRouteHandler}
+								disabled={this.state.selectedOptions !== 1}
+							>
+								View/Update
+							</Button>
+							<Button
+								bsStyle="danger"
+								disabled={this.state.selectedOptions === 0}
+								onClick={this.onDeleteClick}
+							>
+								Delete
+							</Button>
+							<Button
+								bsStyle="primary"
+								onClick={this.createTableRouteHandler}
+							>
+								+ Create new Table
+							</Button>
+						</div>
+					</div>
 					<SelectSearch
 						options={tableList}
 						name="language"
 						multiple
-						height={500}
+						height="auto"
 						placeholder="Filter the tables"
 						onChange={this.onItemChange}
 					/>
 				</Col>
-				<Col md={4}>
-					<div className="btn-toolbar">
-						<Button
-							bsStyle="warning"
-							onClick={this.updateTableRouteHandler}
-							disabled={this.state.selectedOptions !== 1}
-						>
-							View/Update
-						</Button>
-						<Button
-							bsStyle="danger"
-							disabled={this.state.selectedOptions === 0}
-							onClick={this.onDeleteClick}
-						>
-							Delete
-						</Button>
-						<Button
-							bsStyle="primary"
-							onClick={this.createTableRouteHandler}
-						>
-							+ Create new Table
-						</Button>
-					</div>
-				</Col>
+				<Col md={2} />
 			</div>
 		);
 	}
