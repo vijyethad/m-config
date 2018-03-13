@@ -57,6 +57,8 @@ class EnterTableValues extends Component {
 									>
 										Submit Values
 									</Button>
+									<br />
+									<br />
 								</div>
 							</div>
 						: <p>Somethings broke!! Please go back to the home page and create a new table.</p>

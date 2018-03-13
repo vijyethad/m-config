@@ -98,7 +98,7 @@ input[type=search] {
     padding-left: 60px;
     text-align: left;
     font-size: large;
-    z-index: 999;
+    z-index: 98;
     width: 87%;
 }
 
@@ -116,7 +116,7 @@ input[type=search] {
   margin-top: 92px;
   font-size: large;
   left: 50%;
-  z-index: 999;
+  z-index: 99;
 }
 
 .buttons {

@@ -81,10 +81,11 @@ export default class EnterFieldInfoComponent extends Component {
 				</form>
 				<div className="field-info-buttons">
 					<br />
+					{/*
 					<Button onClick={this.handleSubmit} bsStyle="primary">
 						Submit Fields Info & Return Home
 					</Button>
-					<br /><br />
+					*/}
 					<Button onClick={this.handleSubmitandRoute} bsStyle="info">
 						Submit Fields Info & Next Step
 					</Button>

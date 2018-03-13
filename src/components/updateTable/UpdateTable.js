@@ -333,6 +333,8 @@ class UpdateTable extends Component {
 										)}
 							</BootstrapTable>
 							{this.props.updateTable.shouldShowSaveChangesBtn ? <Button bsStyle="success" onClick={this.saveTable}>Save Changes</Button> : null}
+							<br />
+							<br />
 						</div>
 						: <p>Somethings broke!! Please go back to the home page and try again.</p>
 					}

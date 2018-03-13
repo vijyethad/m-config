@@ -79,13 +79,15 @@ class CreateTable extends Component {
 						{this.renderInput("Field Count:", "fieldCount", "number", this.state.fieldCount, "Enter nunber of fields...")}
 					</form>
 					<br />
+					{/*
 					<Button onClick={this.submitNewTableDetails} disabled={!isButtonDisabled} bsStyle="primary">
 						Create Table
 					</Button>
-					<br /><br />
+					*/}
 					<Button onClick={this.submitNewTableDetailsWithRoute} disabled={!isButtonDisabled} bsStyle="info">
 						Create Table & Next Step
 					</Button>
+					<br /><br />
 				</div>
 			</div>
 		);
