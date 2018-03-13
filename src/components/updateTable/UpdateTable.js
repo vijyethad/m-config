@@ -45,7 +45,7 @@ class UpdateTable extends Component {
 
 	componentDidMount() {
 		this.props.tableActions.shouldShowSaveChangesBtn(false);
-		// this.props.tableActions.fetchTableData([{"name":"1","value":"1"}]);
+		this.props.tableActions.fetchTableData([{"name":"1","value":"1"}]);
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -238,12 +238,14 @@ class UpdateTable extends Component {
 			<ButtonGroup className='my-custom-class' className='btn-group-md'>
 				{ props.insertBtn }
 				{ props.deleteBtn }
-				<Button bsStyle="info" onClick={this.openNewColumnModal}>
-					<span><i className="fa glyphicon glyphicon-plus fa-plus"></i> New Column</span>
-				</Button>
-				<Button bsStyle="warning" onClick={this.openDeleteColumnModal}>
-					<span><i className="fa glyphicon glyphicon-trash fa-trash"></i> Delete Column</span>
-				</Button>
+				{/*
+					<Button bsStyle="info" onClick={this.openNewColumnModal}>
+						<span><i className="fa glyphicon glyphicon-plus fa-plus"></i> New Column</span>
+					</Button>
+					<Button bsStyle="warning" onClick={this.openDeleteColumnModal}>
+						<span><i className="fa glyphicon glyphicon-trash fa-trash"></i> Delete Column</span>
+					</Button>
+				*/}
 			</ButtonGroup>
 		);
 	}
