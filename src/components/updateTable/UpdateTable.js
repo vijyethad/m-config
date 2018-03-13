@@ -45,7 +45,7 @@ class UpdateTable extends Component {
 
 	componentDidMount() {
 		this.props.tableActions.shouldShowSaveChangesBtn(false);
-		// this.props.tableActions.fetchTableData([{"name":"1","value":"1"}]);
+		this.props.tableActions.fetchTableData([{"name":"1","value":"1"}]);
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -110,11 +110,15 @@ class UpdateTable extends Component {
 		tableData.push(row);
 		const shouldShowSaveChangesBtn = true;
 		const didColumnUpdate = false;
-		delete row.ZjAWeei2Y34E
+		// delete row.ZjAWeei2Y34E
 		delete row.Tbl_Name_Rec_No
 		newRows.push(row);
 		let convertedFieldsName = Object.keys(row)
-		convertedFieldsName = convertedFieldsName.map(field => `${field}$String`)
+		convertedFieldsName.splice(convertedFieldsName.indexOf('ZjAWeei2Y34E'), 1);
+
+		convertedFieldsName = convertedFieldsName.map(field => {
+			return `${field}$String`;
+		})
 		const data = {isRowInserted: true, tableName: this.props.tableData.mXRefResponse.TblData.TABLE_NAME, newRows: newRows, fieldData: convertedFieldsName}
 		rowData = Object.assign({},rowData, data);
 		this.props.tableActions.updateTable(tableData, shouldShowSaveChangesBtn, didColumnUpdate, rowData);
@@ -209,19 +213,23 @@ class UpdateTable extends Component {
 			name: this.props.tableData.mXRefResponse.TblData.TABLE_NAME,
 			value: this.props.tableData.mXRefResponse.TblData.TABLE_NAME
 		}]
-		if(this.props.updateTable.row.didRowDelete) {
-			this.props.tableActions.deleteTables(tableName, this.props.updateTable.row.tableRecNo);
+		const shouldFetchNewTblData = true;
+		if(this.props.updateTable.row.didRowDelete === true) {
+			this.props.tableActions.deleteTables(tableName, this.props.updateTable.row.tableRecNo, 'Record');
 		}
-		if(this.props.updateTable.row.didRowUpdate) {
-			this.props.tableActions.updateTableRows(tableName, this.props.updateTable.row.rowsUpdateData)
+		if(this.props.updateTable.row.didRowUpdate === true) {
+			this.props.tableActions.updateTableRows(tableName, this.props.updateTable.row.rowsUpdateData, shouldFetchNewTblData)
 		}
-		if(this.props.updateTable.row.isRowInserted) {
-			this.props.tableActions.insertTableValues(this.props.updateTable.row.newRows, this.props.updateTable.row.tableName, this.props.updateTable.row.fieldData)
+		if(this.props.updateTable.row.isRowInserted === true) {
+			this.props.tableActions.insertTableValues(this.props.updateTable.row.newRows, this.props.updateTable.row.tableName, this.props.updateTable.row.fieldData, shouldFetchNewTblData, tableName)
 		}
+		rowsUpdateData = []
+		newRows = []
+		rowData = {}
 	}
 
 	handleSelectChange (value) {
-		console.log('You\'ve selected:', value);
+		// console.log('You\'ve selected:', value);
 		this.setState({ value });
 	}
 
@@ -244,7 +252,6 @@ class UpdateTable extends Component {
 	  // console.log(`Save cell ${cellName} with value ${cellValue}`);
 	  // console.log('The whole row :');
 	  // console.log(row);
-
 		const tableData = this.props.updateTable.newTableData;
 		let tableRecNo;
 		tableData.map(item => {
@@ -296,8 +303,9 @@ class UpdateTable extends Component {
 
 		return (
 			<div className="App">
-				{ this.props.updateTableRows && this.props.updateTableRows.updateTableRowsResponse && this.props.updateTableRows.updateTableRowsResponse.mXRefResponse.TblUpdate.RECORDS_FAILED === 0 ? <p className="alert alert-success">Row updates are saved successfully</p>: null }
-				{ this.props.insertTableValues && this.props.insertTableValues.isValuesInserted && this.props.insertTableValues.isValuesInserted === "Successful" ? <p className="alert alert-success">Rows successfully inserted</p> : null }
+				{ !this.props.updateTable.row && ((this.props.updateTableRows && this.props.updateTableRows.updateTableRowsResponse && this.props.updateTableRows.updateTableRowsResponse.mXRefResponse.TblUpdate.RECORDS_FAILED === 0) || (this.props.insertTableValues && this.props.insertTableValues.isValuesInserted && this.props.insertTableValues.isValuesInserted === "Successful") ||
+					(this.props.tableList && this.props.tableList.deleteTablesResponse && this.props.tableList.deleteTablesResponse.mXRefResponse.TblValues.EXECUTION_STATUS)) ? <p className="alert alert-success">Row updates are saved successfully</p>: null }
+
 				<h2>{this.props.tableData && this.props.tableData.mXRefResponse ? this.props.tableData.mXRefResponse.TblData.TABLE_NAME : null}</h2>
 				{this.renderNewColumnModal('Add New Column')}
 				{this.renderDeleteColumnModal(columns, tableData)}
@@ -336,6 +344,7 @@ class UpdateTable extends Component {
 
 function mapStateToProps(state, props) {
 	return {
+		tableList: state.tableList,
 		loading: state.loading,
 		tableData: state.tableData,
 		shouldShowSaveChangesBtn: state.shouldShowSaveChangesBtn,

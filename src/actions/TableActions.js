@@ -153,16 +153,26 @@ export const recieveDeleteTablesResponse = json => ({
 	deleteTablesResponse: json
 })
 
-export const deleteTables = (tablesList, tableRecNo) => dispatch => {
+export const deleteTables = (tablesList, tableRecNo, tblEntity) => dispatch => {
 	console.log(tablesList);
+	console.log(tableRecNo);
 	dispatch(setIsLoading(true))
 	const TblListData = [];
-	tablesList.map(tableName => {
-		tableRecNo.map(record => TblListData.push({
-			"TBL_NAME": tableName.value,
-			"TABLE_REC_NO": record
-		}))
-	})
+	if(tableRecNo) {
+		tablesList.map(tableName => {
+			tableRecNo.map(record => TblListData.push({
+				"TBL_NAME": tableName.value,
+				"TABLE_REC_NO": record
+			}))
+		})
+	} else {
+		tablesList.map(tableName => TblListData.push({
+				"TBL_NAME": tableName.value,
+				"TABLE_REC_NO": null
+			})
+		)
+	}
+	const entity = tblEntity || 'Table';
 
 	return fetch(`http://mxref-proxy.cloudhub.io/delete/`, {
 		method: 'post',
@@ -174,7 +184,7 @@ export const deleteTables = (tablesList, tableRecNo) => dispatch => {
 				"mXRefRequest": {
 					"TblValues": {
 						"ACTION": "Delete",
-						"ENTITY": "Table",
+						"ENTITY": entity,
 						"TblListData": TblListData
 					}
 				}
@@ -185,6 +195,10 @@ export const deleteTables = (tablesList, tableRecNo) => dispatch => {
 		.then(json => {
 			dispatch(setIsLoading(false))
 			dispatch(recieveDeleteTablesResponse(json))
+			if(tblEntity === 'Record') {
+				dispatch(fetchTableData(tablesList))
+				dispatch(updateTable())
+			}
 		})
 }
 
@@ -193,7 +207,7 @@ export const insertTableValuesResponse = json => ({
 	insertTableValuesResponse: json
 })
 
-export const insertTableValues = (newTableValues, createdTableName, createdFields) => dispatch => {
+export const insertTableValues = (newTableValues, createdTableName, createdFields, shouldFetchNewTblData, tableName) => dispatch => {
 	dispatch(setIsLoading(true))
 	const TblValuesData = [];
 	newTableValues.map(row =>
@@ -230,6 +244,10 @@ export const insertTableValues = (newTableValues, createdTableName, createdField
 		.then(json => {
 			dispatch(setIsLoading(false))
 			dispatch(insertTableValuesResponse(json))
+			if(shouldFetchNewTblData) {
+				dispatch(fetchTableData(tableName))
+				dispatch(updateTable())
+			}
 		})
 }
 
@@ -276,9 +294,8 @@ export const updateTableRowsResponse = json => ({
 	updateTableRowsResponse: json
 })
 
-export const updateTableRows = (tableName, rowsUpdateData) => dispatch => {
+export const updateTableRows = (tableName, rowsUpdateData, shouldFetchNewTblData) => dispatch => {
 	dispatch(setIsLoading(true))
-
 	return fetch(`http://mxref-proxy.cloudhub.io/update/`, {
 		method: 'post',
 		headers: {
@@ -301,5 +318,9 @@ export const updateTableRows = (tableName, rowsUpdateData) => dispatch => {
 		.then(json => {
 			dispatch(setIsLoading(false))
 			dispatch(updateTableRowsResponse(json))
+			if(shouldFetchNewTblData) {
+				dispatch(fetchTableData(tableName))
+				dispatch(updateTable())
+			}
 		})
 }
