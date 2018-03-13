@@ -22,6 +22,10 @@ div.mega-menu-wrapper {
   }
 }
 
+.mega-menu-row.row {
+  margin-left: 20px !important;
+}
+
 .header {
   text-align: center;
   border-image-repeat: initial;
