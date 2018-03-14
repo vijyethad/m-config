@@ -115,13 +115,26 @@ input[type=search] {
   position: absolute;
   margin-top: 92px;
   font-size: large;
-  left: 50%;
+  /* left: 50%; */
+  background-color: white;
+  padding-right: 26% !important;
+  padding-left: 26% !important;
   z-index: 99;
 }
 
+.btn-toolbar.stick {
+  margin-top: 0;
+  position: fixed;
+  /* box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
+  padding-top: 10px;
+  top: 0;
+  padding-right: 14% !important;
+  padding-left: 14% !important;
+}
+
 .buttons {
-  position: relative;
-  left: -50%;
+  /* position: relative; */
+  /* left: -50%; */
 }
 
 .btn {

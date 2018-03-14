@@ -61,6 +61,7 @@ class TableSelectSearch extends Component {
 					<br />
 					<div className="list-heading">Tables</div>
 					<div className="list-heading-hr"><hr /></div>
+					<div className="sticky-buttons" />
 					<div className="btn-toolbar">
 						{!this.props.isLoading &&
 							<div className="buttons">

@@ -20,6 +20,24 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>React App</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script>
+      function sticktothetop() {
+          var window_top = $(window).scrollTop();
+          var top = $('.sticky-buttons').offset().top;
+          if (window_top > top) {
+              $('.btn-toolbar').addClass('stick');
+              $('.sticky-buttons').height($('.btn-toolbar').outerHeight());
+          } else {
+              $('.btn-toolbar').removeClass('stick');
+              $('.sticky-buttons').height(0);
+          }
+      }
+      $(function() {
+          $(window).scroll(sticktothetop);
+          sticktothetop();
+      });
+    </script>
   </head>
   <body>
     <noscript>

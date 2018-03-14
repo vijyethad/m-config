@@ -197,6 +197,7 @@ class UpdateTable extends Component {
 				tableData.splice(index, 1);
 			}
 		}))
+		console.log(newRows);
 
 		const shouldShowSaveChangesBtn = true;
 		const didColumnUpdate = false;
